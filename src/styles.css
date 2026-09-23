@@ -1452,3 +1452,34 @@ button:focus-visible {
     opacity: .92;
   }
 }
+
+
+/* Transparent mobile nav surface: no black bar. */
+.bausqo-liquid-nav {
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.22);
+  box-shadow:
+    0 12px 34px rgba(15,23,42,.14),
+    0 1px 0 rgba(255,255,255,.20) inset;
+}
+
+.bausqo-liquid-nav::before {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.02)),
+    linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+  opacity: .8;
+}
+
+.bausqo-liquid-tab {
+  color: rgba(71,85,105,.72);
+}
+
+.bausqo-liquid-label {
+  color: rgba(71,85,105,.72);
+}
+
+.bausqo-liquid-light-core {
+  background:
+    linear-gradient(180deg, rgba(148,163,184,.13), rgba(148,163,184,.06)),
+    rgba(255,255,255,.04);
+}
