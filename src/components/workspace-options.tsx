@@ -69,7 +69,6 @@ export function WorkspaceOptions() {
                 <Link
                   key={label}
                   to={to}
-                  search={to === "/auftrag/erstellen" ? { draft: undefined } : undefined}
                   className="group flex min-h-28 items-center gap-4 rounded-2xl border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-lg"
                 >
                   <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-slate-100 text-teal-700 transition-colors group-hover:bg-teal-50">
