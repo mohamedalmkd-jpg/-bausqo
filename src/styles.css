@@ -1261,3 +1261,145 @@ button:focus-visible {
     display: none !important;
   }
 }
+
+
+/* 60 FPS pass: keep moving layers on compositor-friendly transform/opacity only. */
+.bausqo-route-stage,
+.bausqo-route-content,
+.bausqo-route-impact,
+.bausqo-route-impact-ring,
+.bausqo-route-impact-beam,
+.bausqo-liquid-nav,
+.bausqo-liquid-light,
+.bausqo-liquid-light-core,
+.bausqo-liquid-icon {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.bausqo-route-content {
+  animation: bausqo-route-60fps-enter .46s cubic-bezier(.16,.84,.25,1) both;
+  will-change: transform, opacity;
+}
+
+.bausqo-route-impact-beam {
+  filter: none;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,225,145,.05) 20%,
+      rgba(45,212,191,.42) 44%,
+      rgba(255,255,255,.86) 50%,
+      rgba(125,211,252,.30) 57%,
+      transparent 100%
+    );
+}
+
+.bausqo-route-impact-ring {
+  will-change: transform, opacity;
+}
+
+.bausqo-liquid-nav {
+  contain: layout paint style;
+  transform: translateZ(0);
+  background:
+    linear-gradient(180deg, rgba(11,18,25,.985), rgba(7,13,20,.99)),
+    radial-gradient(circle at 50% -10%, color-mix(in srgb, var(--nav-accent) 16%, transparent), transparent 58%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.bausqo-liquid-light {
+  will-change: transform, opacity;
+  animation: bausqo-liquid-travel-60 .56s cubic-bezier(.16,.84,.25,1) both;
+}
+
+.bausqo-liquid-light-core::before {
+  filter: none;
+}
+
+.bausqo-liquid-light-core::after {
+  filter: none;
+  opacity: .22;
+  transform: translateX(-50%) scale(1.7);
+}
+
+.bausqo-liquid-icon {
+  will-change: transform;
+}
+
+.bausqo-liquid-tab.is-active .bausqo-liquid-icon {
+  filter: none;
+  text-shadow: none;
+}
+
+.bausqo-liquid-tab.is-active .bausqo-liquid-label {
+  text-shadow: none;
+}
+
+@keyframes bausqo-route-60fps-enter {
+  0% {
+    opacity: .18;
+    transform: translate3d(0, 10px, 0) scale(.988);
+  }
+  48% {
+    opacity: .86;
+    transform: translate3d(0, 3px, 0) scale(.997);
+  }
+  76% {
+    opacity: 1;
+    transform: translate3d(0, -1px, 0) scale(1.001);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes bausqo-liquid-travel-60 {
+  0% {
+    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1);
+    opacity: .88;
+  }
+  24% {
+    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1.1);
+    opacity: 1;
+  }
+  58% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch));
+    opacity: 1;
+  }
+  80% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(.92);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(94px + env(safe-area-inset-bottom));
+  }
+
+  .bausqo-ambient-one,
+  .bausqo-ambient-two {
+    animation: none !important;
+    opacity: .10;
+  }
+
+  .plan-badge {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-content,
+  .bausqo-liquid-light {
+    animation: none !important;
+  }
+}
