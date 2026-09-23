@@ -1,207 +1,54 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Building2,
-  Check,
-  Search,
-  Sparkles,
-  Users,
-} from "lucide-react";
+import { ArrowRight, BadgeCheck, Building2, Check, HardHat, Map, Search, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { PublicHeader } from "@/components/public-header";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { featuredItem } from "@/lib/demo-data";
 import { MarketCard } from "@/components/market-card";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "BAUSQO – Der passende Auftrag. Das richtige Team." },
-      {
-        name: "description",
-        content:
-          "BAUSQO verbindet Bauunternehmen, Fachkräfte, Teams und Auftraggeber in Deutschland.",
-      },
-      { property: "og:title", content: "BAUSQO – Bau. Match. Business." },
-      {
-        property: "og:description",
-        content: "Bauaufträge, Firmen und Teams intelligent verbinden.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: HomePage,
+  head: () => ({ meta: [
+    { title: "BauMatch – Bauen. Finden. Verbinden." },
+    { name: "description", content: "Finde passende Mitarbeiter, Teams, Subunternehmer und Bauaufträge – deutschlandweit." },
+    { property: "og:title", content: "BauMatch – Die Plattform für die Bauwirtschaft" },
+    { property: "og:description", content: "Fachkräfte, Teams, Unternehmen und Projekte gezielt zusammenbringen." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ]}), component: HomePage,
 });
 
-const searchTabs = ["Aufträge", "Fachkräfte", "Unternehmen"] as const;
-
-function MobileSwipeHint() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (!localStorage.getItem("bausqo-swipe-hint-seen")) {
-        setVisible(true);
-        const timer = window.setTimeout(() => {
-          setVisible(false);
-          localStorage.setItem("bausqo-swipe-hint-seen", "1");
-        }, 7000);
-        return () => window.clearTimeout(timer);
-      }
-    } catch {
-      setVisible(true);
-    }
-  }, []);
-
-  if (!visible) return null;
-
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        setVisible(false);
-        try { localStorage.setItem("bausqo-swipe-hint-seen", "1"); } catch {}
-      }}
-      className="fixed inset-x-6 bottom-[92px] z-40 mx-auto max-w-sm rounded-[1.7rem] border border-white/10 bg-[#103744]/96 px-4 py-4 text-white shadow-2xl backdrop-blur-xl md:hidden"
-    >
-      <span className="flex items-center justify-between">
-        <span className="grid size-11 place-items-center rounded-2xl bg-white/5 text-teal-300"><ArrowLeft className="size-5" /></span>
-        <span className="px-3 text-center">
-          <span className="block text-[11px] text-white/55">← Wischen zum Wechseln →</span>
-          <span className="mt-1 block text-base font-black">Home</span>
-          <span className="mx-auto mt-2 block h-1 w-14 rounded-full bg-gradient-to-r from-teal-300 to-slate-600" />
-        </span>
-        <span className="grid size-11 place-items-center rounded-2xl bg-white/5 text-teal-300"><ArrowRight className="size-5" /></span>
-      </span>
-    </button>
-  );
-}
+const audiences = [
+  { icon: HardHat, title: "Für Fachkräfte", text: "Passende Jobs finden, Profil zeigen und direkt auf Projekte bewerben." },
+  { icon: Users, title: "Für Teams", text: "Kapazitäten sichtbar machen und als eingespieltes Team neue Einsätze sichern." },
+  { icon: Building2, title: "Für Unternehmen", text: "Mitarbeiter, Subunternehmer und Aufträge zentral und effizient finden." },
+];
 
 function HomePage() {
-  const [activeTab, setActiveTab] = useState<(typeof searchTabs)[number]>("Aufträge");
-
-  return (
-    <div className="min-h-screen bg-[#f7fafb]">
-      <PublicHeader />
-      <MobileSwipeHint />
-
-      <main className="pb-24 md:pb-0">
-        <div className="border-b bg-gradient-to-r from-teal-50 via-white to-sky-50 py-2 text-center text-xs text-muted-foreground md:hidden">
-          Aufträge · Keine echten Transaktionen
+  return <div className="min-h-screen bg-background"><PublicHeader />
+    <main>
+      <section className="blueprint-grid relative overflow-hidden border-b bg-brand-dark text-primary-foreground">
+        <div className="absolute inset-y-0 right-0 hidden w-[46%] border-l border-primary-foreground/10 bg-primary/10 lg:block" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:py-32">
+          <div><div className="mb-6 inline-flex items-center gap-2 rounded border border-primary-foreground/15 bg-primary-foreground/5 px-3 py-2 text-xs font-bold uppercase text-primary-foreground/75"><span className="size-2 bg-brand-orange" /> Digitale Bauwirtschaft · Deutschland</div>
+            <h1 className="max-w-3xl text-balance text-5xl font-extrabold leading-[1.06] sm:text-6xl lg:text-7xl">Bauen. Finden. <span className="text-brand-orange">Verbinden.</span></h1>
+            <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-primary-foreground/70 sm:text-xl">Die Plattform für Bauunternehmen, Fachkräfte und Subunternehmer. Finde passende Mitarbeiter, Teams und Bauaufträge – schnell, transparent und deutschlandweit.</p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button asChild size="lg" className="h-12 px-6"><Link to="/registrieren">Jetzt kostenlos starten <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline" className="h-12 border-primary-foreground/25 bg-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/marketplace">Passenden Auftrag finden</Link></Button></div>
+            <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-primary-foreground/60">{["Kostenlos starten", "Deutschlandweite Suche", "Für alle Gewerke"].map((x) => <span key={x} className="flex items-center gap-2"><Check className="size-4 text-brand-orange" />{x}</span>)}</div>
+          </div>
+          <div className="relative hidden lg:block"><div className="rounded-lg border border-primary-foreground/15 bg-background p-3 text-foreground shadow-2xl"><div className="flex items-center justify-between border-b p-4"><div><p className="text-xs font-bold uppercase text-primary">Aktuelle Empfehlung</p><p className="mt-1 font-extrabold">Ihr BauMatch</p></div><span className="rounded bg-brand-orange/10 px-2 py-1 text-xs font-bold text-brand-orange">Demo</span></div><div className="p-2"><MarketCard item={featuredItem} /></div></div><div className="absolute -bottom-5 -left-8 flex items-center gap-3 rounded-md bg-primary px-4 py-3 shadow-xl"><Sparkles className="size-5" /><div><p className="text-xs text-primary-foreground/70">Transparenter Score</p><p className="text-sm font-extrabold">94 % Übereinstimmung</p></div></div></div>
         </div>
+      </section>
 
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0b2b38] via-[#0d3542] to-[#165160] text-white lg:mx-auto lg:mt-6 lg:max-w-7xl lg:rounded-[2rem]">
-          <div className="pointer-events-none absolute -left-32 top-16 size-80 rounded-full border border-white/5" />
-          <div className="pointer-events-none absolute -right-28 -top-24 size-[28rem] rounded-full bg-teal-300/10 blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <section className="border-b bg-background py-20 sm:py-24"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="max-w-2xl"><p className="text-sm font-extrabold uppercase text-primary">Eine Plattform. Klare Wege.</p><h2 className="mt-3 text-balance text-3xl font-extrabold sm:text-4xl">Für jeden Einsatz die richtigen Partner.</h2><p className="mt-4 text-muted-foreground">BauMatch verbindet Angebot und Bedarf entlang der gesamten Projektkette.</p></div><div className="mt-12 grid gap-5 md:grid-cols-3">{audiences.map(({ icon: Icon, title, text }, i) => <article key={title} className="border-t-4 border-primary bg-card p-7 shadow-sm transition-shadow hover:shadow-lg"><span className="grid size-12 place-items-center rounded-md bg-primary/10 text-primary"><Icon /></span><p className="mt-7 text-xs font-bold text-muted-foreground">0{i + 1}</p><h3 className="mt-2 text-xl font-extrabold">{title}</h3><p className="mt-3 text-sm leading-6 text-muted-foreground">{text}</p><Link to="/marketplace" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-primary">Möglichkeiten ansehen <ArrowRight className="size-4" /></Link></article>)}</div></div></section>
 
-          <div className="relative mx-auto max-w-7xl px-7 pb-10 pt-14 sm:px-10 sm:pb-14 sm:pt-16 lg:px-14 lg:pb-16 lg:pt-20">
-            <div className="max-w-4xl">
-              <div className="flex items-start gap-4">
-                <span className="mt-3 h-[3px] w-9 shrink-0 rounded-full bg-teal-300" />
-                <p className="max-w-xl text-xs font-black uppercase tracking-[0.18em] text-white/75 sm:text-sm">
-                  Das Netzwerk für Deutschlands Bauwirtschaft
-                </p>
-              </div>
+      <section className="bg-muted/50 py-20 sm:py-24"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="grid gap-12 lg:grid-cols-2 lg:items-center"><div><p className="text-sm font-extrabold uppercase text-brand-orange">So funktioniert BauMatch</p><h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Vom Bedarf zur passenden Besetzung.</h2><div className="mt-8 space-y-6">{[[Search,"Bedarf festlegen","Gewerk, Standort, Zeitraum und Kapazität angeben."],[Sparkles,"Vorschläge vergleichen","Transparente Übereinstimmungen nach relevanten Kriterien sehen."],[Users,"Direkt verbinden","Details prüfen und den nächsten Schritt gemeinsam abstimmen."]].map(([Icon,title,text], i) => { const StepIcon = Icon as typeof Search; return <div key={String(title)} className="flex gap-4"><span className="grid size-11 shrink-0 place-items-center rounded-md bg-foreground text-background"><StepIcon className="size-5" /></span><div><p className="text-xs font-bold text-primary">SCHRITT {i+1}</p><h3 className="mt-1 font-extrabold">{String(title)}</h3><p className="mt-1 text-sm leading-6 text-muted-foreground">{String(text)}</p></div></div>})}</div></div><div className="rounded-lg bg-brand-dark p-6 text-primary-foreground shadow-xl sm:p-9"><div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase text-primary-foreground/50">Beispiel-Match</p><h3 className="mt-2 text-xl font-extrabold">Elektriker · Köln</h3></div><div className="text-right"><p className="text-4xl font-extrabold text-brand-orange">94%</p><p className="text-xs text-primary-foreground/50">Demo-Score</p></div></div><div className="mt-8 space-y-3">{["Fachgebiet passt", "Entfernung 24 km", "Verfügbar zum Projektstart", "Erfahrung passt"].map((x) => <div key={x} className="flex items-center gap-3 border-b border-primary-foreground/10 pb-3 text-sm"><Check className="size-4 text-brand-orange" />{x}</div>)}</div><p className="mt-6 text-xs leading-5 text-primary-foreground/45">Der Score erklärt fachliche und organisatorische Übereinstimmungen. Er ist keine Aussage über Verifizierung oder Vertrauenswürdigkeit.</p></div></div></div></section>
 
-              <div className="relative mt-7 inline-block">
-                <div className="pointer-events-none absolute -inset-x-1 -inset-y-4 border-2 border-sky-500/60 [clip-path:polygon(0_0,63%_0,63%_5%,100%_5%,100%_100%,85%_100%,85%_97%,0_97%)]" />
-                <h1 className="relative max-w-4xl text-5xl font-black leading-[1.03] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
-                  Der passende
-                  <br />
-                  <span className="text-teal-300">Auftrag.</span>
-                  <br />
-                  Das richtige <span className="text-teal-300">Team.</span>
-                </h1>
-              </div>
+      <section className="border-y bg-background py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-3 lg:px-8">{[[ShieldCheck,"Geprüft, nicht behauptet","Ein Verifiziert-Status wird erst nach tatsächlicher Prüfung vergeben."],[BadgeCheck,"Klare Profile","Qualifikationen, Kapazitäten und Verfügbarkeit auf einen Blick."],[Map,"Deutschlandweit suchen","Regionale Ergebnisse mit Standort und Einsatzradius vergleichen."]].map(([Icon,title,text]) => { const C=Icon as typeof ShieldCheck; return <div key={String(title)} className="flex gap-4"><C className="size-7 shrink-0 text-primary"/><div><h3 className="font-extrabold">{String(title)}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{String(text)}</p></div></div>})}</div></section>
 
-              <p className="mt-9 max-w-3xl text-lg leading-8 text-white/68 sm:text-xl">
-                Finde geprüfte Partner, qualifizierte Fachkräfte und neue Bauprojekte – zentral,
-                transparent und ohne Umwege.
-              </p>
-            </div>
+      <section className="py-20 sm:py-24"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="text-center"><p className="text-sm font-extrabold uppercase text-primary">Preisübersicht</p><h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Einfach starten. Gezielt wachsen.</h2><p className="mt-4 text-muted-foreground">Tarife sind in Phase 1 nur als Vorschau dargestellt.</p></div><div className="mt-12 grid gap-5 lg:grid-cols-3">{[{n:"Free",p:"0 €",f:["Professionelles Profil","Grundlegende Suche","Begrenzte Bewerbungen"]},{n:"Pro",p:"29 €",f:["Erweiterte Suche","Gespeicherte Suchen","Mehr Sichtbarkeit"],hot:true},{n:"Business",p:"79 €",f:["Mehrere Benutzer","Erweitertes Matching","Business-Statistiken"]}].map((plan) => <article key={plan.n} className={`relative rounded-lg border bg-card p-7 ${plan.hot ? "border-primary shadow-xl" : "shadow-sm"}`}>{plan.hot && <span className="absolute right-4 top-4 rounded bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">Beliebt</span>}<h3 className="text-xl font-extrabold">{plan.n}</h3><p className="mt-5 text-4xl font-extrabold">{plan.p}<span className="text-sm font-medium text-muted-foreground"> / Monat</span></p><div className="my-7 h-px bg-border"/><ul className="space-y-3">{plan.f.map((f)=><li key={f} className="flex gap-2 text-sm"><Check className="size-4 text-primary" />{f}</li>)}</ul><Button className="mt-8 w-full" variant={plan.hot ? "default" : "outline"} disabled>Später verfügbar</Button></article>)}</div></div></section>
 
-            <div className="mt-10 rounded-[1.6rem] bg-white p-5 text-slate-900 shadow-[0_24px_70px_rgba(2,12,27,.28)] sm:p-7">
-              <div className="flex gap-1 overflow-x-auto border-b">
-                {searchTabs.map((tab) => (
-                  <button
-                    key={tab}
-                    type="button"
-                    onClick={() => setActiveTab(tab)}
-                    className={`relative min-w-max flex-1 px-4 pb-4 pt-1 text-base font-black transition-colors sm:text-lg ${activeTab === tab ? "text-slate-900" : "text-slate-500"}`}
-                  >
-                    {tab}
-                    {activeTab === tab && <span className="absolute inset-x-0 bottom-0 h-[3px] rounded-full bg-teal-300" />}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-5 grid gap-3 md:grid-cols-[1.2fr_.8fr_auto]">
-                <label className="rounded-2xl border bg-white p-4">
-                  <span className="block text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">Was suchst du?</span>
-                  <span className="mt-2 flex items-center gap-2 text-base text-slate-400">
-                    <Search className="size-4" />
-                    z. B. Elektro, Trockenbau
-                  </span>
-                </label>
-                <label className="rounded-2xl border bg-white p-4">
-                  <span className="block text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">Wo?</span>
-                  <span className="mt-2 block text-base text-slate-400">z. B. Köln</span>
-                </label>
-                <Button asChild className="h-auto min-h-16 rounded-2xl bg-teal-400 px-6 text-slate-950 hover:bg-teal-300">
-                  <Link to="/marketplace">
-                    <Search className="size-5" />
-                    Suchen
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500">
-                {["Deutschlandweit", "Direkte Kontakte", "Alle Gewerke"].map((item) => (
-                  <span key={item} className="flex items-center gap-2">
-                    <Check className="size-4 text-teal-500" />
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-teal-600">Aktuelle Chancen</p>
-              <h2 className="mt-1 text-2xl font-black tracking-tight sm:text-3xl">Passende Aufträge für dich</h2>
-            </div>
-            <Link to="/marketplace" className="hidden items-center gap-2 text-sm font-bold text-teal-700 sm:inline-flex">
-              Alle ansehen <ArrowRight className="size-4" />
-            </Link>
-          </div>
-          <MarketCard item={featuredItem} />
-        </section>
-
-        <section className="mx-auto grid max-w-7xl gap-4 px-4 pb-12 sm:grid-cols-3 sm:px-6 lg:px-8">
-          {[
-            [Building2, "Unternehmen", "Partner und Auftraggeber gezielt entdecken."],
-            [Users, "Fachkräfte & Teams", "Kapazitäten und Kompetenzen schneller finden."],
-            [Sparkles, "Smart Matches", "Relevante Geschäftschancen priorisiert sehen."],
-          ].map(([Icon, title, text]) => {
-            const FeatureIcon = Icon as typeof Building2;
-            return (
-              <article key={String(title)} className="rounded-2xl border bg-white p-5 shadow-sm">
-                <span className="grid size-11 place-items-center rounded-xl bg-teal-50 text-teal-700">
-                  <FeatureIcon className="size-5" />
-                </span>
-                <h3 className="mt-4 font-black">{String(title)}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{String(text)}</p>
-              </article>
-            );
-          })}
-        </section>
-      </main>
-    </div>
-  );
+      <section className="bg-muted/50 py-20"><div className="mx-auto max-w-3xl px-4 sm:px-6"><h2 className="text-center text-3xl font-extrabold">Häufige Fragen</h2><Accordion type="single" collapsible className="mt-9 border-t">{[["Für wen ist BauMatch gedacht?","Für Fachkräfte, Selbstständige, Teams, Subunternehmer, Bauunternehmen, Generalunternehmer und Projektleiter in Deutschland."],["Sind die angezeigten Profile echt?","In dieser ersten visuellen Phase sind sämtliche Einträge deutlich gekennzeichnete Demo-Daten."],["Wie entsteht der Match Score?","Später aus Fachgebiet, Entfernung, Verfügbarkeit, Erfahrung, Teamgröße, Budget und weiteren Projektkriterien. Aktuell ist er eine visuelle Vorschau."],["Kann ich BauMatch bereits buchen?","Nein. Tarife und Zahlungen sind noch nicht aktiviert und werden erst in einer späteren Phase verbunden."]].map(([q,a],i)=><AccordionItem key={q} value={`faq-${i}`}><AccordionTrigger className="text-base">{q}</AccordionTrigger><AccordionContent className="leading-6 text-muted-foreground">{a}</AccordionContent></AccordionItem>)}</Accordion></div></section>
+    </main>
+    <footer className="bg-brand-dark text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-12 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8"><div><p className="text-2xl font-extrabold">BauMatch</p><p className="mt-2 text-sm text-primary-foreground/55">Die digitale Plattform für die Bauwirtschaft.</p></div><div className="flex flex-wrap gap-6 text-sm text-primary-foreground/55"><Link to="/marketplace">Marketplace</Link><Link to="/login">Anmelden</Link><span>Impressum · vorbereitet</span><span>Datenschutz · vorbereitet</span></div></div></footer>
+  </div>;
 }
