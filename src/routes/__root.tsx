@@ -131,6 +131,15 @@ function RootComponent() {
           <div key={pathname} className="bausqo-route-stage">
             <div className="bausqo-ambient bausqo-ambient-one" aria-hidden="true" />
             <div className="bausqo-ambient bausqo-ambient-two" aria-hidden="true" />
+            <div className="bausqo-route-cinematic" aria-hidden="true">
+              <div className="bausqo-route-curtain bausqo-route-curtain-left" />
+              <div className="bausqo-route-curtain bausqo-route-curtain-right" />
+              <div className="bausqo-route-flash" />
+              <div className="bausqo-route-brand">
+                <span className="bausqo-route-brand-mark" />
+                <span>BAUSQO</span>
+              </div>
+            </div>
             <div className="bausqo-route-wipe" aria-hidden="true" />
             <div className="bausqo-route-progress" aria-hidden="true" />
             <div className="bausqo-route-content">
