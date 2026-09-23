@@ -21,9 +21,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "Marketplace – BauMatch" },
+      { title: "Marketplace – BAUSQO" },
       { name: "description", content: "Demo-Jobs, Fachkräfte, Teams, Aufträge und Unternehmen durchsuchen – als Liste oder auf der Karte." },
-      { property: "og:title", content: "BauMatch Marketplace" },
+      { property: "og:title", content: "BAUSQO Marketplace" },
       { property: "og:description", content: "Angebot und Bedarf in der Bauwirtschaft zusammenbringen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -55,16 +55,16 @@ type FilterProps = {
 
 function FilterPanel(p: FilterProps) {
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <div>
         <label htmlFor="f-cat" className="text-sm font-bold">Fachgebiet</label>
-        <select id="f-cat" value={p.category} onChange={(e) => p.setCategory(e.target.value)} className="mt-2 h-11 w-full rounded-md border bg-background px-3 text-sm">
+        <select id="f-cat" value={p.category} onChange={(e) => p.setCategory(e.target.value)} className="mt-2 h-11 w-full rounded-xl border bg-background/90 px-3 text-sm shadow-sm">
           {categoryOptions.map((c) => <option key={c}>{c}</option>)}
         </select>
       </div>
       <div>
         <label htmlFor="f-loc" className="text-sm font-bold">Standort / Stadt</label>
-        <Input id="f-loc" value={p.location} onChange={(e) => p.setLocation(e.target.value)} className="mt-2 h-11" placeholder="z. B. Köln" />
+        <Input id="f-loc" value={p.location} onChange={(e) => p.setLocation(e.target.value)} className="mt-2 h-11 rounded-xl" placeholder="z. B. Köln" />
       </div>
       <div>
         <label htmlFor="f-radius" className="text-sm font-bold">Umkreis: {p.radius} km</label>
@@ -81,7 +81,7 @@ function FilterPanel(p: FilterProps) {
           ))}
         </div>
       </div>
-      <Button variant="outline" className="w-full" onClick={p.reset}><RotateCcw /> Filter zurücksetzen</Button>
+      <Button variant="outline" className="w-full rounded-xl" onClick={p.reset}><RotateCcw /> Filter zurücksetzen</Button>
     </div>
   );
 }
@@ -89,7 +89,7 @@ function FilterPanel(p: FilterProps) {
 function MapPreviewCard({ item, onClose }: { item: MarketItem; onClose: () => void }) {
   const link = itemLink(item);
   return (
-    <div className="rounded-lg border bg-card p-5 shadow-lg">
+    <div className="premium-panel rounded-2xl p-5 shadow-xl">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase text-muted-foreground">{item.category}</p>
@@ -173,31 +173,31 @@ function MarketplacePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div className="bausqo-page mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <div className="surface-noise relative overflow-hidden rounded-[1.6rem] bg-brand-dark p-6 text-primary-foreground shadow-2xl sm:p-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="rounded bg-brand-orange/10 px-2 py-1 text-xs font-bold text-brand-orange">DEMO-MARKTPLATZ</span>
-            <h1 className="mt-3 text-3xl font-extrabold">Finden, was Ihr Projekt braucht.</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Beispieldaten sind als „Demo“ gekennzeichnet. Echte Aufträge von Mitgliedern finden Sie unter „Aufträge finden“.</p>
+            <span className="rounded-full border border-primary-foreground/10 bg-primary-foreground/[0.07] px-3 py-1 text-[10px] font-black tracking-[0.14em] text-blue-300">UNIVERSAL SEARCH</span>
+            <h1 className="mt-4 text-3xl font-black tracking-[-0.04em] sm:text-4xl">Finde genau, was dein Projekt braucht.</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-primary-foreground/60">Aufträge, Mitarbeiter, Teams und Unternehmen in einer Suche – intern, extern und auf der Karte.</p><div className="mt-4 flex flex-wrap gap-2 text-[11px] text-primary-foreground/45"><span>✓ Gewerk</span><span>✓ Standort</span><span>✓ Radius</span><span>✓ Verfügbarkeit</span></div><p className="hidden"></p>
           </div>
-          <div className="inline-flex flex-wrap rounded-md border p-1" role="group" aria-label="Ansicht">
+          <div className="inline-flex flex-wrap rounded-2xl border border-primary-foreground/10 bg-primary-foreground/[0.06] p-1.5 backdrop-blur" role="group" aria-label="Ansicht">
             <Button size="sm" variant={view === "alle" ? "default" : "ghost"} onClick={() => setView("alle")}><List /> Alle ({totalCount})</Button>
-            <Button size="sm" variant={view === "baumatch" ? "default" : "ghost"} onClick={() => setView("baumatch")}>BauMatch ({internalCount})</Button>
+            <Button size="sm" variant={view === "baumatch" ? "default" : "ghost"} onClick={() => setView("baumatch")}>BAUSQO ({internalCount})</Button>
             <Button size="sm" variant={view === "extern" ? "default" : "ghost"} onClick={() => setView("extern")}>Extern ({externalCount})</Button>
             <Button size="sm" variant={view === "karte" ? "default" : "ghost"} onClick={() => setView("karte")}><MapIcon /> Karte</Button>
           </div>
         </div>
 
-        <div className="mt-8 flex overflow-x-auto border-b" role="tablist">
+        <div className="mt-5 flex overflow-x-auto rounded-2xl border bg-card p-1 shadow-sm" role="tablist">
           {kinds.map((k) => (
             <button key={k.key} role="tab" aria-selected={kind === k.key} onClick={() => { setKind(k.key); setSelectedId(null); }}
-              className={`min-w-40 shrink-0 border-b-2 px-4 py-4 text-sm font-bold ${kind === k.key ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
+              className={`min-w-40 shrink-0 rounded-xl px-4 py-3 text-sm font-bold transition-all ${kind === k.key ? "bg-brand-dark text-white shadow-lg" : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"}`}>
               {k.label}
             </button>
           ))}
         </div>
 
-        <div className="mt-6 rounded-lg border bg-card p-4">
+        <div className="premium-panel mt-4 rounded-2xl p-5">
           <span className="text-sm font-extrabold">Was suchst du?</span>
           <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Was suchst du?">
             <Button size="sm" variant={intent === "ALLE" ? "default" : "outline"} onClick={() => setIntent("ALLE")} title="Alles durchsuchen">
@@ -221,10 +221,10 @@ function MarketplacePage() {
           </p>
         </div>
 
-        <div className="mt-4 flex gap-3">
+        <div className="mt-4 flex gap-3 rounded-2xl border bg-card p-2 shadow-sm">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3.5 size-4 text-muted-foreground" />
-            <Input value={query} onChange={(e) => setQuery(e.target.value)} className="h-11 pl-10" placeholder="z. B. „Trockenbauer Köln“" aria-label="Suche" />
+            <Input value={query} onChange={(e) => setQuery(e.target.value)} className="h-12 rounded-xl border-0 bg-muted/45 pl-10 shadow-none focus-visible:ring-1" placeholder="z. B. „Trockenbauer Köln“" aria-label="Suche" />
           </div>
           <Sheet>
             <SheetTrigger asChild><Button className="lg:hidden" variant="outline"><Filter /> Filter</Button></SheetTrigger>
@@ -244,12 +244,12 @@ function MarketplacePage() {
         )}
 
         {searchTerm.length >= 3 && (
-          <section aria-label="Suchergebnis-Übersicht" className="mt-5 rounded-lg border bg-card p-5 shadow-sm">
+          <section aria-label="Suchergebnis-Übersicht" className="premium-panel mt-5 rounded-2xl p-5">
             <h2 className="flex items-center gap-2 text-base font-extrabold">
               <Search className="size-4" aria-hidden /> Suchergebnisse für „{searchTerm}“
             </h2>
             <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              <div><dt className="inline font-bold">BauMatch: </dt><dd className="inline">{internalCount} Ergebnisse</dd></div>
+              <div><dt className="inline font-bold">BAUSQO: </dt><dd className="inline">{internalCount} Ergebnisse</dd></div>
               <div>
                 <dt className="inline font-bold">Externe Quellen: </dt>
                 <dd className="inline">
@@ -280,7 +280,7 @@ function MarketplacePage() {
 
             {external.loading && (
               <p className="mt-3 flex items-center gap-2 text-sm text-muted-foreground" role="status">
-                <Loader2 className="size-4 animate-spin" aria-hidden /> Suche in BauMatch … · Durchsuche verbundene externe Quellen …
+                <Loader2 className="size-4 animate-spin" aria-hidden /> Suche in BAUSQO … · Durchsuche verbundene externe Quellen …
               </p>
             )}
 
@@ -290,7 +290,7 @@ function MarketplacePage() {
                   <Globe className="size-4" aria-hidden /> Externe Suche: {externalCount} relevante Ergebnisse
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">Wir haben zusätzlich externe Quellen durchsucht.</p>
-                {internalCount === 0 && <p className="mt-1 text-sm font-semibold">Keine passenden BauMatch-Einträge gefunden.</p>}
+                {internalCount === 0 && <p className="mt-1 text-sm font-semibold">Keine passenden BAUSQO-Einträge gefunden.</p>}
                 <Button className="mt-3 w-full sm:w-auto" size="sm" onClick={jumpToExternal}>
                   Externe Ergebnisse ansehen <ArrowDown />
                 </Button>
@@ -315,8 +315,8 @@ function MarketplacePage() {
           </section>
         )}
 
-        <div className="mt-7 grid gap-7 lg:grid-cols-[250px_1fr]">
-          <aside className="hidden self-start rounded-lg border bg-card p-5 lg:block">
+        <div className="mt-6 grid gap-5 lg:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="premium-panel sticky top-24 hidden self-start rounded-2xl p-5 lg:block">
             <div className="mb-6 flex items-center gap-2 font-extrabold"><SlidersHorizontal className="size-4" /> Filter</div>
             <FilterPanel {...filterProps} />
           </aside>
@@ -324,21 +324,21 @@ function MarketplacePage() {
           <section>
             <div className={`mb-4 items-center justify-between gap-3 ${view === "extern" ? "hidden" : "flex"}`}>
               <p className="text-sm font-semibold">{visible.length} Demo-Ergebnisse{result.exact.length === 0 && result.nearby.length > 0 ? ` im erweiterten Umkreis (${result.nearbyRadius} km)` : result.similar.length > 0 ? " · ähnliche Ergebnisse" : ""}</p>
-              <select aria-label="Sortierung" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="h-9 rounded-md border bg-background px-3 text-sm">
+              <select aria-label="Sortierung" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="h-10 rounded-xl border bg-background px-3 text-sm">
                 {sortOptions.map((s) => <option key={s}>{s}</option>)}
               </select>
             </div>
 
             {result.exact.length === 0 && result.similar.length > 0 && (
-              <div className="mb-5 rounded-lg border border-brand-orange/40 bg-brand-orange/5 p-5">
+              <div className="mb-5 rounded-2xl border border-amber-300/60 bg-amber-50/70 p-5">
                 <p className="text-sm font-extrabold">Keine Treffer für diesen Ort.</p>
-                <p className="mt-1 text-sm text-muted-foreground">Noch keine passenden BauMatch-Einträge in dieser Region – hier sind ähnliche Ergebnisse aus anderen Regionen.</p>
+                <p className="mt-1 text-sm text-muted-foreground">Noch keine passenden BAUSQO-Einträge in dieser Region – hier sind ähnliche Ergebnisse aus anderen Regionen.</p>
                 <Button className="mt-4" size="sm" variant="secondary" onClick={saveSearch}><BellPlus /> Suchauftrag speichern</Button>
               </div>
             )}
 
             {result.exact.length === 0 && result.nearby.length > 0 && (
-              <div className="mb-5 rounded-lg border border-brand-orange/40 bg-brand-orange/5 p-5">
+              <div className="mb-5 rounded-2xl border border-amber-300/60 bg-amber-50/70 p-5">
                 <p className="text-sm font-extrabold">Keine exakten Treffer innerhalb von {radius} km.</p>
                 <p className="mt-1 text-sm text-muted-foreground">Wir zeigen Ergebnisse im erweiterten Umkreis von {result.nearbyRadius} km.</p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -368,15 +368,15 @@ function MarketplacePage() {
                 {visible.length > 0 ? (
                   visible.map((item) => <MarketCard key={item.id} item={item} selected={item.id === selectedId} onSelect={setSelectedId} />)
                 ) : (
-                  <div className="rounded-lg border bg-card p-8 text-center">
-                    <h3 className="text-lg font-extrabold">Keine passenden BauMatch-Einträge gefunden.</h3>
+                  <div className="premium-panel rounded-2xl p-8 text-center">
+                    <h3 className="text-lg font-extrabold">Keine passenden BAUSQO-Einträge gefunden.</h3>
                     {externalCount > 0 ? (
                       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
                         Wir haben zusätzlich externe Quellen durchsucht. {externalCount} relevante externe Ergebnisse gefunden.
                       </p>
                     ) : (
                       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-                        Auch im erweiterten Umkreis gibt es aktuell keine passenden BauMatch-Einträge in dieser Region. Speichern Sie die Suche – Sie sehen neue passende Einträge dann unter „Gespeichert“.
+                        Auch im erweiterten Umkreis gibt es aktuell keine passenden BAUSQO-Einträge in dieser Region. Speichern Sie die Suche – Sie sehen neue passende Einträge dann unter „Gespeichert“.
                       </p>
                     )}
                     <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -394,10 +394,10 @@ function MarketplacePage() {
         </div>
 
         {searchTerm.length >= 3 && (
-          <div className="sticky bottom-20 z-30 mt-6 rounded-lg border bg-card/95 p-3 shadow-lg backdrop-blur lg:hidden" aria-label="Kurzübersicht der Suche">
+          <div className="sticky bottom-20 z-30 mt-6 rounded-2xl border bg-card/95 p-3 shadow-2xl backdrop-blur-xl lg:hidden" aria-label="Kurzübersicht der Suche">
             <p className="truncate text-sm font-bold">🔎 {searchTerm}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              {internalCount} BauMatch · {externalCount} Extern · {totalCount} relevante Ergebnisse
+              {internalCount} BAUSQO · {externalCount} Extern · {totalCount} relevante Ergebnisse
             </p>
             {externalCount > 0 && (
               <Button size="sm" variant="outline" className="mt-2 w-full" onClick={jumpToExternal}>
