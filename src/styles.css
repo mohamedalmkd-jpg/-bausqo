@@ -1791,3 +1791,192 @@ button:focus-visible {
     animation: none !important;
   }
 }
+
+
+/* Section identity for top controls. */
+.bausqo-section-shell {
+  --section-accent: #49e58b;
+}
+
+.bausqo-section-header {
+  isolation: isolate;
+}
+
+.bausqo-section-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--section-accent) 52%, transparent) 22%,
+    var(--section-accent) 50%,
+    color-mix(in srgb, var(--section-accent) 52%, transparent) 78%,
+    transparent
+  );
+  opacity: .68;
+}
+
+.bausqo-section-icon {
+  color: var(--section-accent);
+}
+
+.bausqo-section-search,
+.bausqo-section-control,
+.bausqo-section-avatar,
+.bausqo-section-primary {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--section-accent) 34%, var(--border)) !important;
+  transition:
+    background-color .2s linear,
+    border-color .2s linear,
+    color .2s linear,
+    transform .22s cubic-bezier(.2,.8,.2,1);
+}
+
+.bausqo-section-search {
+  background: color-mix(in srgb, var(--section-accent) 5%, var(--card));
+}
+
+.bausqo-section-control {
+  background: color-mix(in srgb, var(--section-accent) 8%, var(--card)) !important;
+  color: color-mix(in srgb, var(--section-accent) 82%, #334155) !important;
+}
+
+.bausqo-section-avatar {
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--section-accent) 16%, white),
+      color-mix(in srgb, var(--section-accent) 6%, var(--card))
+    );
+  color: color-mix(in srgb, var(--section-accent) 84%, #334155);
+  box-shadow: 0 8px 18px rgba(15,23,42,.08);
+}
+
+.bausqo-section-primary {
+  background: color-mix(in srgb, var(--section-accent) 76%, white) !important;
+  color: #17212b !important;
+}
+
+.bausqo-section-dot {
+  background: var(--section-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--section-accent) 16%, transparent);
+}
+
+.bausqo-section-search::after,
+.bausqo-section-control::after,
+.bausqo-section-avatar::after,
+.bausqo-section-primary::after {
+  content: "";
+  position: absolute;
+  top: -55%;
+  bottom: -55%;
+  left: -34%;
+  width: 22%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--section-accent) 18%, white),
+    rgba(255,255,255,.78),
+    color-mix(in srgb, var(--section-accent) 18%, white),
+    transparent
+  );
+  opacity: 0;
+  transform: translate3d(-160%,0,0) skewX(-18deg);
+  animation: bausqo-control-shine 4.8s cubic-bezier(.2,.8,.2,1) infinite;
+}
+
+.bausqo-section-control::after { animation-delay: .6s; }
+.bausqo-section-avatar::after { animation-delay: 1.2s; }
+.bausqo-section-primary::after { animation-delay: 1.8s; }
+
+/* Every mobile option gets the same premium frame principle in its own color. */
+.bausqo-liquid-tab {
+  margin: 8px 3px;
+  border: 1px solid color-mix(in srgb, var(--tab-accent) 20%, transparent);
+  border-radius: 18px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--tab-accent) 3.5%, transparent);
+}
+
+.bausqo-liquid-tab::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -45%;
+  bottom: -45%;
+  left: -38%;
+  width: 24%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--tab-accent) 34%, white),
+    rgba(255,255,255,.88),
+    color-mix(in srgb, var(--tab-accent) 34%, white),
+    transparent
+  );
+  opacity: .26;
+  transform: translate3d(-160%,0,0) skewX(-18deg);
+  animation: bausqo-tab-shine 5.6s linear infinite;
+}
+
+.bausqo-liquid-tab:nth-child(2)::after { animation-delay: .7s; }
+.bausqo-liquid-tab:nth-child(3)::after { animation-delay: 1.4s; }
+.bausqo-liquid-tab:nth-child(4)::after { animation-delay: 2.1s; }
+.bausqo-liquid-tab:nth-child(5)::after { animation-delay: 2.8s; }
+
+.bausqo-liquid-tab.is-active {
+  border-color: color-mix(in srgb, var(--tab-accent) 68%, rgba(255,255,255,.34));
+  background: color-mix(in srgb, var(--tab-accent) 10%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tab-accent) 12%, transparent) inset,
+    0 4px 14px rgba(15,23,42,.08);
+}
+
+.bausqo-liquid-tab.is-active::after {
+  opacity: .58;
+  animation-duration: 3.8s;
+}
+
+@keyframes bausqo-control-shine {
+  0%, 62% {
+    opacity: 0;
+    transform: translate3d(-160%,0,0) skewX(-18deg);
+  }
+  69% { opacity: .55; }
+  84% { opacity: .30; }
+  100% {
+    opacity: 0;
+    transform: translate3d(760%,0,0) skewX(-18deg);
+  }
+}
+
+@keyframes bausqo-tab-shine {
+  0%, 70% {
+    opacity: 0;
+    transform: translate3d(-160%,0,0) skewX(-18deg);
+  }
+  76% { opacity: .45; }
+  91% { opacity: .24; }
+  100% {
+    opacity: 0;
+    transform: translate3d(700%,0,0) skewX(-18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-section-search::after,
+  .bausqo-section-control::after,
+  .bausqo-section-avatar::after,
+  .bausqo-section-primary::after,
+  .bausqo-liquid-tab::after {
+    animation: none !important;
+    display: none !important;
+  }
+}
