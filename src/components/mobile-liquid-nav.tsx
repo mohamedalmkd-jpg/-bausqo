@@ -29,28 +29,30 @@ function routeIndex(pathname: string) {
 export function MobileLiquidNav() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const navigate = useNavigate();
-  const currentIndex = useMemo(() => routeIndex(pathname), [pathname]);
-  const [fromIndex, setFromIndex] = useState(currentIndex);
+  const routeActiveIndex = useMemo(() => routeIndex(pathname), [pathname]);
+  const [activeIndex, setActiveIndex] = useState(routeActiveIndex);
+  const [fromIndex, setFromIndex] = useState(routeActiveIndex);
   const audioRef = useRef<AudioContext | null>(null);
+  const pendingIndexRef = useRef<number | null>(null);
 
   useEffect(() => {
-    try {
-      const stored = Number(window.sessionStorage.getItem("bausqo-mobile-tab"));
-      const safeStored = Number.isInteger(stored) && stored >= 0 && stored < tabs.length ? stored : currentIndex;
-      setFromIndex(safeStored);
-      window.sessionStorage.setItem("bausqo-mobile-tab", String(currentIndex));
-    } catch {
-      setFromIndex(currentIndex);
+    if (pendingIndexRef.current !== null && routeActiveIndex === pendingIndexRef.current) {
+      pendingIndexRef.current = null;
     }
-  }, [currentIndex]);
 
-  const activeTab = tabs[currentIndex];
-  const distance = Math.abs(currentIndex - fromIndex);
+    if (pendingIndexRef.current === null && activeIndex !== routeActiveIndex) {
+      setFromIndex(activeIndex);
+      setActiveIndex(routeActiveIndex);
+    }
+  }, [routeActiveIndex, activeIndex]);
+
+  const activeTab = tabs[activeIndex];
+  const distance = Math.abs(activeIndex - fromIndex);
 
   const navStyle = {
     "--nav-accent": activeTab.color,
     "--nav-from-x": `${fromIndex * 100}%`,
-    "--nav-to-x": `${currentIndex * 100}%`,
+    "--nav-to-x": `${activeIndex * 100}%`,
     "--nav-stretch": String(1 + Math.min(distance, 4) * 0.48),
   } as CSSProperties;
 
@@ -73,19 +75,21 @@ export function MobileLiquidNav() {
       const oscillator = ctx.createOscillator();
 
       oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(frequency, now);
-      oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.045, now + 0.09);
+      oscillator.frequency.setValueAtTime(frequency * 0.94, now);
+      oscillator.frequency.exponentialRampToValueAtTime(frequency, now + 0.045);
+      oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.06, now + 0.13);
 
       gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.026, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.022, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.008, now + 0.07);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
 
       oscillator.connect(gain);
       gain.connect(ctx.destination);
       oscillator.start(now);
-      oscillator.stop(now + 0.13);
+      oscillator.stop(now + 0.16);
 
-      if ("vibrate" in navigator) navigator.vibrate(6);
+      if ("vibrate" in navigator) navigator.vibrate(5);
     } catch {
       // Sound is enhancement-only.
     }
@@ -93,15 +97,12 @@ export function MobileLiquidNav() {
 
   function go(to: (typeof tabs)[number]["to"], tone: number, index: number) {
     playNavigationTone(tone);
-    setFromIndex(currentIndex);
 
-    try {
-      window.sessionStorage.setItem("bausqo-mobile-tab", String(currentIndex));
-    } catch {
-      // sessionStorage can be disabled; the visual still works.
-    }
+    if (index === activeIndex && pathname === to) return;
 
-    if (index === currentIndex && pathname === to) return;
+    setFromIndex(activeIndex);
+    setActiveIndex(index);
+    pendingIndexRef.current = index;
 
     if (to === "/auftrag/erstellen") {
       void navigate({ to, search: { draft: undefined } });
@@ -113,14 +114,14 @@ export function MobileLiquidNav() {
 
   return (
     <nav className="bausqo-liquid-nav lg:hidden" style={navStyle} aria-label="Mobile Hauptnavigation">
-      <span key={`${fromIndex}-${currentIndex}-${pathname}`} className="bausqo-liquid-light" aria-hidden="true">
+      <span key={`${fromIndex}-${activeIndex}`} className="bausqo-liquid-light" aria-hidden="true">
         <span className="bausqo-liquid-light-core" />
       </span>
 
       <div className="bausqo-liquid-nav-grid">
         {tabs.map((tab, index) => {
           const Icon = tab.icon;
-          const active = index === currentIndex;
+          const active = index === activeIndex;
 
           return (
             <button
