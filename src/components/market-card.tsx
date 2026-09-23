@@ -19,7 +19,7 @@ import { isExternal, sourceNotice } from "@/lib/data-sources";
 export function MatchBadge({ score }: { score: number }) {
   const tone = score >= 90 ? "text-emerald-600" : score >= 80 ? "text-primary" : "text-amber-600";
   return (
-    <div className="relative grid size-[72px] shrink-0 place-items-center rounded-full bg-[conic-gradient(var(--color-primary)_0deg,var(--color-primary)_var(--match),color-mix(in_oklab,var(--border)_75%,transparent)_var(--match))] p-[4px]" style={{ ["--match" as string]: `${score * 3.6}deg` }}>
+    <div className="relative grid size-[72px] shrink-0 place-items-center rounded-full p-[4px]" style={{ background: `conic-gradient(var(--color-primary) 0deg ${score * 3.6}deg, color-mix(in oklab, var(--border) 75%, transparent) ${score * 3.6}deg 360deg)` }}>
       <div className="grid size-full place-items-center rounded-full bg-card text-center shadow-inner">
         <span className={`text-sm font-black ${tone}`}>
           {score}%
