@@ -886,3 +886,233 @@ button:focus-visible {
     display: none !important;
   }
 }
+
+
+/* Liquid light mobile navigation inspired by a moving neon tab rail. */
+.bausqo-liquid-nav {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 80;
+  height: 78px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(11,18,25,.94), rgba(7,13,20,.97)),
+    radial-gradient(circle at 50% -10%, color-mix(in srgb, var(--nav-accent) 18%, transparent), transparent 58%);
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.35),
+    0 1px 0 rgba(255,255,255,.08) inset,
+    0 -1px 0 rgba(0,0,0,.38) inset;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+}
+
+.bausqo-liquid-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,255,255,.035), transparent),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 34%);
+  opacity: .9;
+}
+
+.bausqo-liquid-nav-grid {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.bausqo-liquid-tab {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.46);
+  font: inherit;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.bausqo-liquid-tab::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 38px;
+  height: 38px;
+  border-radius: 15px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tab-accent) 22%, transparent), transparent 70%);
+  opacity: 0;
+  transform: translateX(-50%) scale(.72);
+  transition: opacity .28s ease, transform .4s cubic-bezier(.16,.84,.25,1);
+  filter: blur(4px);
+}
+
+.bausqo-liquid-tab.is-active::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.18);
+}
+
+.bausqo-liquid-icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 12px;
+  transform: translateY(1px) scale(.96);
+  transition:
+    color .32s ease,
+    transform .48s cubic-bezier(.16,.84,.25,1),
+    filter .32s ease;
+}
+
+.bausqo-liquid-tab.is-active .bausqo-liquid-icon {
+  color: var(--tab-accent);
+  transform: translateY(-3px) scale(1.08);
+  filter:
+    drop-shadow(0 0 6px color-mix(in srgb, var(--tab-accent) 72%, transparent))
+    drop-shadow(0 0 16px color-mix(in srgb, var(--tab-accent) 42%, transparent));
+}
+
+.bausqo-liquid-label {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  overflow: hidden;
+  color: rgba(255,255,255,.4);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition:
+    color .3s ease,
+    transform .42s cubic-bezier(.16,.84,.25,1),
+    text-shadow .3s ease;
+}
+
+.bausqo-liquid-tab.is-active .bausqo-liquid-label {
+  color: color-mix(in srgb, var(--tab-accent) 78%, white);
+  transform: translateY(-1px);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--tab-accent) 44%, transparent);
+}
+
+.bausqo-liquid-light {
+  position: absolute;
+  z-index: 1;
+  top: 7px;
+  left: 0;
+  width: 20%;
+  height: 46px;
+  padding-inline: 8px;
+  transform: translateX(var(--nav-to-x));
+  transform-origin: center;
+  will-change: transform, filter;
+  animation: bausqo-liquid-travel .72s cubic-bezier(.16,.84,.25,1) both;
+}
+
+.bausqo-liquid-light-core {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid color-mix(in srgb, var(--nav-accent) 92%, white);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--nav-accent) 17%, transparent), transparent 62%),
+    rgba(255,255,255,.018);
+  box-shadow:
+    0 0 5px color-mix(in srgb, var(--nav-accent) 95%, transparent),
+    0 0 16px color-mix(in srgb, var(--nav-accent) 76%, transparent),
+    0 0 34px color-mix(in srgb, var(--nav-accent) 42%, transparent),
+    0 0 0 1px rgba(255,255,255,.08) inset;
+}
+
+.bausqo-liquid-light-core::before,
+.bausqo-liquid-light-core::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.bausqo-liquid-light-core::before {
+  inset: 5px 7px auto;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  opacity: .72;
+  filter: blur(.3px);
+}
+
+.bausqo-liquid-light-core::after {
+  left: 50%;
+  bottom: -14px;
+  width: 54px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--nav-accent) 40%, transparent);
+  filter: blur(12px);
+  opacity: .72;
+}
+
+@keyframes bausqo-liquid-travel {
+  0% {
+    transform: translateX(var(--nav-from-x)) scaleX(1);
+    filter: brightness(.9) saturate(.9);
+  }
+  24% {
+    transform: translateX(var(--nav-from-x)) scaleX(1.08);
+  }
+  56% {
+    transform: translateX(var(--nav-to-x)) scaleX(var(--nav-stretch));
+    filter: brightness(1.24) saturate(1.28);
+  }
+  78% {
+    transform: translateX(var(--nav-to-x)) scaleX(.9);
+  }
+  100% {
+    transform: translateX(var(--nav-to-x)) scaleX(1);
+    filter: brightness(1) saturate(1);
+  }
+}
+
+@media (max-width: 390px) {
+  .bausqo-liquid-nav {
+    left: 8px;
+    right: 8px;
+    border-radius: 21px;
+  }
+
+  .bausqo-liquid-label {
+    font-size: 9px;
+  }
+
+  .bausqo-liquid-light {
+    padding-inline: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-liquid-light,
+  .bausqo-liquid-tab::before,
+  .bausqo-liquid-icon,
+  .bausqo-liquid-label {
+    animation: none !important;
+    transition-duration: .001ms !important;
+  }
+}
