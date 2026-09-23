@@ -9,6 +9,7 @@ const nav = [
   { label: "Suche", to: "/marketplace" as const },
   { label: "Matches", to: "/matches" as const },
   { label: "Dashboard", to: "/dashboard" as const },
+  { label: "Mitgliedschaft", to: "/mitgliedschaft" as const },
 ];
 
 export function PublicHeader() {
