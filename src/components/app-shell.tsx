@@ -26,7 +26,6 @@ import { PlanBadge } from "@/components/plan-badge";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useWorkspace } from "@/lib/workspace-state";
 import { useAuth } from "@/lib/auth";
-import { MobileLiquidNav } from "@/components/mobile-liquid-nav";
 
 const primaryItems = [
   { label: "Dashboard", to: "/dashboard" as const, icon: LayoutDashboard },
@@ -243,8 +242,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="pb-28 lg:ml-[18rem] lg:pb-8">{children}</main>
-
-      <MobileLiquidNav />
     </div>
   );
 }
