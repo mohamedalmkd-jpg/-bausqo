@@ -684,3 +684,205 @@ button:focus-visible {
     animation: none !important;
   }
 }
+
+
+/* Cinematic full-page navigation transition. The entire destination page appears as one scene. */
+.bausqo-route-stage {
+  perspective: 1400px;
+  overflow-x: clip;
+}
+
+.bausqo-route-content {
+  animation: bausqo-route-scene-enter .78s cubic-bezier(.16,.84,.25,1) both;
+  transform-origin: 50% 18%;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
+.bausqo-route-cinematic {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bausqo-route-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 56vw;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(45,212,191,.16), transparent 42%),
+    linear-gradient(135deg, rgba(12,36,42,.995), rgba(16,55,59,.985) 58%, rgba(18,69,69,.96));
+  box-shadow: 0 0 90px rgba(0,0,0,.24);
+  will-change: transform;
+}
+
+.bausqo-route-curtain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 38px 38px;
+  opacity: .38;
+}
+
+.bausqo-route-curtain-left {
+  left: -6vw;
+  transform-origin: left center;
+  animation: bausqo-curtain-left .82s cubic-bezier(.76,0,.24,1) both;
+}
+
+.bausqo-route-curtain-right {
+  right: -6vw;
+  transform-origin: right center;
+  animation: bausqo-curtain-right .82s cubic-bezier(.76,0,.24,1) both;
+}
+
+.bausqo-route-flash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,236,178,.48), transparent 15%),
+    radial-gradient(circle at 50% 50%, rgba(45,212,191,.24), transparent 38%);
+  mix-blend-mode: screen;
+  animation: bausqo-route-flash .72s ease-out both;
+}
+
+.bausqo-route-brand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 900;
+  letter-spacing: .18em;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 8px 30px rgba(0,0,0,.3);
+  animation: bausqo-route-brand-pop .72s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.bausqo-route-brand-mark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 4px solid rgba(45,212,191,.96);
+  border-top-color: rgba(255,225,142,.98);
+  border-radius: 6px;
+  transform: rotate(45deg);
+  box-shadow:
+    0 0 18px rgba(45,212,191,.42),
+    0 0 26px rgba(255,218,124,.22);
+}
+
+.bausqo-route-wipe::before {
+  width: 76vw;
+  left: -48vw;
+  background:
+    linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(255,222,132,.08) 18%,
+      rgba(45,212,191,.26) 43%,
+      rgba(255,255,255,.54) 50%,
+      rgba(125,211,252,.24) 58%,
+      transparent 100%
+    );
+  filter: blur(10px);
+  animation-duration: .82s;
+}
+
+.bausqo-route-progress {
+  height: 2px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,222,132,.95) 22%, rgba(45,212,191,.98) 58%, rgba(125,211,252,.96) 82%, transparent);
+  animation-duration: .82s;
+}
+
+@keyframes bausqo-route-scene-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, -90px) scale(.965);
+    filter: blur(12px) saturate(.88);
+  }
+  24% {
+    opacity: .2;
+  }
+  46% {
+    opacity: .72;
+    transform: translate3d(0, 10px, -28px) scale(.986);
+    filter: blur(4px) saturate(.95);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0, -2px, 0) scale(1.003);
+    filter: blur(0) saturate(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0) saturate(1);
+  }
+}
+
+@keyframes bausqo-curtain-left {
+  0% { transform: translateX(0) skewX(-2deg); opacity: 1; }
+  22% { transform: translateX(3vw) skewX(-1deg); opacity: 1; }
+  100% { transform: translateX(-118%) skewX(-7deg); opacity: .98; }
+}
+
+@keyframes bausqo-curtain-right {
+  0% { transform: translateX(0) skewX(2deg); opacity: 1; }
+  22% { transform: translateX(-3vw) skewX(1deg); opacity: 1; }
+  100% { transform: translateX(118%) skewX(7deg); opacity: .98; }
+}
+
+@keyframes bausqo-route-flash {
+  0%, 16% { opacity: 0; transform: scale(.86); }
+  32% { opacity: .92; transform: scale(1); }
+  54% { opacity: .28; }
+  100% { opacity: 0; transform: scale(1.16); }
+}
+
+@keyframes bausqo-route-brand-pop {
+  0% { opacity: 0; transform: translate(-50%, -46%) scale(.82); filter: blur(8px); }
+  20% { opacity: 0; }
+  36% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); filter: blur(0); }
+  58% { opacity: .96; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -54%) scale(.96); filter: blur(3px); }
+}
+
+@media (max-width: 640px) {
+  .bausqo-route-curtain {
+    width: 62vw;
+  }
+
+  .bausqo-route-content {
+    animation-duration: .7s;
+  }
+
+  .bausqo-route-brand {
+    font-size: 17px;
+    letter-spacing: .14em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-cinematic,
+  .bausqo-route-curtain,
+  .bausqo-route-flash,
+  .bausqo-route-brand,
+  .bausqo-route-content {
+    animation: none !important;
+  }
+
+  .bausqo-route-cinematic {
+    display: none !important;
+  }
+}
