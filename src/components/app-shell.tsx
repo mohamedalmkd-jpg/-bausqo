@@ -95,9 +95,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Link
         key={to}
         to={to}
-        className={`group flex h-11 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition-all ${active ? "bg-white text-brand-dark shadow-lg shadow-black/10" : "text-white/58 hover:bg-white/8 hover:text-white"}`}
+        className={`group flex h-11 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition-all ${active ? "bausqo-section-side-active text-white" : "text-white/58 hover:bg-white/8 hover:text-white"}`}
       >
-        <span className={`grid size-8 place-items-center rounded-lg transition-all ${active ? "bg-primary/12 text-primary" : "bg-white/[0.04] text-white/55 group-hover:-rotate-3 group-hover:scale-105 group-hover:text-white"}`}>
+        <span className={`grid size-8 place-items-center rounded-lg transition-all ${active ? "bausqo-section-side-icon" : "bg-white/[0.04] text-white/55 group-hover:-rotate-3 group-hover:scale-105 group-hover:text-white"}`}>
           <Icon className="size-4" />
         </span>
         <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -119,9 +119,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Brand inverse />
         </div>
 
-        <div className="relative mx-4 mt-4 rounded-2xl border border-white/10 bg-white/[0.055] p-4 backdrop-blur">
+        <div className="bausqo-section-workspace relative mx-4 mt-4 rounded-2xl border border-white/10 bg-white/[0.055] p-4 backdrop-blur">
           <div className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-xl bg-primary/15 text-primary">
+            <span className="bausqo-section-workspace-icon grid size-10 place-items-center rounded-xl">
               <Building2 className="size-5" />
             </span>
             <div className="min-w-0 flex-1">
@@ -257,7 +257,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link
             to="/profil"
             aria-label="Profil"
-            className="bausqo-section-avatar grid size-10 place-items-center rounded-xl border bg-card text-xs font-black shadow-sm"
+            className="bausqo-section-avatar grid size-10 place-items-center rounded-full border bg-card text-xs font-black shadow-sm"
           >
             RB
           </Link>
