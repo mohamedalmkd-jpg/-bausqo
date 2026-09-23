@@ -1483,3 +1483,33 @@ button:focus-visible {
     linear-gradient(180deg, rgba(148,163,184,.13), rgba(148,163,184,.06)),
     rgba(255,255,255,.04);
 }
+
+
+/* Slightly clearer transparent navigation surface. */
+.bausqo-liquid-nav {
+  background: rgba(255,255,255,.14) !important;
+  border-color: rgba(255,255,255,.30);
+  box-shadow:
+    0 14px 36px rgba(15,23,42,.16),
+    0 1px 0 rgba(255,255,255,.28) inset,
+    0 -1px 0 rgba(255,255,255,.08) inset;
+}
+
+.bausqo-liquid-nav::before {
+  opacity: .95;
+}
+
+.bausqo-liquid-tab {
+  color: rgba(51,65,85,.78);
+}
+
+.bausqo-liquid-label {
+  color: rgba(51,65,85,.78);
+}
+
+.bausqo-liquid-light-core {
+  border-color: rgba(226,232,240,.62);
+  background:
+    linear-gradient(180deg, rgba(148,163,184,.18), rgba(148,163,184,.08)),
+    rgba(255,255,255,.07);
+}
