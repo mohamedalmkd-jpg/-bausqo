@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceProvider } from "@/lib/workspace-state";
 import { AuthProvider } from "@/lib/auth";
 import { GlobalBackButton } from "@/components/global-back-button";
+import { MobileLiquidNav } from "@/components/mobile-liquid-nav";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -140,6 +141,7 @@ function RootComponent() {
               <Outlet />
             </div>
           </div>
+          <MobileLiquidNav />
         </WorkspaceProvider>
       </AuthProvider>
       <Toaster richColors position="top-right" />
