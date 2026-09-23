@@ -1403,3 +1403,52 @@ button:focus-visible {
     animation: none !important;
   }
 }
+
+
+/* Neutral moving rail: visible translucent gray, while the active tab keeps its own accent color. */
+.bausqo-liquid-light-core {
+  border-color: rgba(226,232,240,.48);
+  background:
+    linear-gradient(180deg, rgba(148,163,184,.16), rgba(100,116,139,.09)),
+    rgba(255,255,255,.018);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 8px 22px rgba(15,23,42,.18);
+}
+
+.bausqo-liquid-light-core::before {
+  background: linear-gradient(90deg, transparent, rgba(241,245,249,.72), transparent);
+  opacity: .62;
+}
+
+.bausqo-liquid-light-core::after {
+  background: rgba(148,163,184,.22);
+  opacity: .26;
+}
+
+.bausqo-liquid-light {
+  opacity: .96;
+}
+
+@keyframes bausqo-liquid-travel-60 {
+  0% {
+    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1);
+    opacity: .72;
+  }
+  24% {
+    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1.1);
+    opacity: .9;
+  }
+  58% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch));
+    opacity: .96;
+  }
+  80% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(.92);
+    opacity: .94;
+  }
+  100% {
+    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1);
+    opacity: .92;
+  }
+}
