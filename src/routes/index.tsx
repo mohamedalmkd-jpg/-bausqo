@@ -186,18 +186,39 @@ function HomePage() {
               </div>
 
               <div className="grid grid-cols-3 gap-2 sm:min-w-[420px]">
-                <div className="rounded-2xl border bg-emerald-50/40 p-3 text-center">
+                <Link
+                  to="/mitgliedschaft"
+                  aria-label="FREE Mitgliedschaft ansehen"
+                  className="group rounded-2xl border bg-emerald-50/40 p-3 text-center transition-all hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg"
+                >
                   <PlanBadge plan="FREE" />
                   <p className="mt-2 text-[10px] font-semibold text-emerald-800/70">Basis</p>
-                </div>
-                <div className="rounded-2xl border bg-amber-50/40 p-3 text-center">
+                  <span className="mt-2 inline-flex items-center gap-1 text-[9px] font-black text-emerald-700 opacity-70 group-hover:opacity-100">
+                    Details <ArrowRight className="size-3" />
+                  </span>
+                </Link>
+                <Link
+                  to="/mitgliedschaft"
+                  aria-label="PRO Mitgliedschaft ansehen"
+                  className="group rounded-2xl border bg-amber-50/40 p-3 text-center transition-all hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg"
+                >
                   <PlanBadge plan="PRO" />
                   <p className="mt-2 text-[10px] font-semibold text-amber-800/70">Premium</p>
-                </div>
-                <div className="rounded-2xl border bg-red-50/40 p-3 text-center">
+                  <span className="mt-2 inline-flex items-center gap-1 text-[9px] font-black text-amber-700 opacity-70 group-hover:opacity-100">
+                    Details <ArrowRight className="size-3" />
+                  </span>
+                </Link>
+                <Link
+                  to="/mitgliedschaft"
+                  aria-label="BUSINESS Mitgliedschaft ansehen"
+                  className="group rounded-2xl border bg-red-50/40 p-3 text-center transition-all hover:-translate-y-1 hover:border-red-300 hover:shadow-lg"
+                >
                   <PlanBadge plan="BUSINESS" />
                   <p className="mt-2 text-[10px] font-semibold text-red-800/70">Firma</p>
-                </div>
+                  <span className="mt-2 inline-flex items-center gap-1 text-[9px] font-black text-red-700 opacity-70 group-hover:opacity-100">
+                    Details <ArrowRight className="size-3" />
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
