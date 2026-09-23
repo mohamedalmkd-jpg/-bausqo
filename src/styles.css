@@ -2075,3 +2075,77 @@ button:focus-visible {
     transition: none !important;
   }
 }
+
+
+/* Interaction safety: decorative layers must never block taps/clicks. */
+.bausqo-route-impact,
+.bausqo-route-impact *,
+.bausqo-route-progress,
+.bausqo-ambient,
+.bausqo-section-header::after,
+.bausqo-section-search::before,
+.bausqo-section-search::after,
+.bausqo-section-control::before,
+.bausqo-section-control::after,
+.bausqo-section-avatar::before,
+.bausqo-section-avatar::after,
+.bausqo-section-primary::before,
+.bausqo-section-primary::after,
+.bausqo-section-side-active::before,
+.bausqo-section-side-active::after,
+.bausqo-liquid-nav::before,
+.bausqo-liquid-light,
+.bausqo-liquid-light *,
+.bausqo-liquid-tab::before,
+.bausqo-liquid-tab::after {
+  pointer-events: none !important;
+}
+
+.bausqo-section-header a,
+.bausqo-section-header button,
+.bausqo-section-search,
+.bausqo-section-control,
+.bausqo-section-avatar,
+.bausqo-section-primary,
+.bausqo-liquid-nav-grid,
+.bausqo-liquid-tab {
+  pointer-events: auto !important;
+}
+
+.bausqo-section-header > * {
+  position: relative;
+  z-index: 2;
+}
+
+.bausqo-liquid-nav {
+  contain: none;
+}
+
+.bausqo-liquid-nav-grid {
+  z-index: 20;
+}
+
+.bausqo-liquid-tab {
+  z-index: 2;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Keep premium frames, but avoid five constant shimmer animations fighting mobile input. */
+.bausqo-liquid-tab::after {
+  animation: none;
+  opacity: 0;
+}
+
+.bausqo-liquid-tab.is-active::after {
+  opacity: .48;
+  animation: bausqo-tab-shine 4.2s linear infinite;
+}
+
+@media (hover: hover) {
+  .bausqo-liquid-tab:hover::after {
+    opacity: .34;
+    animation: bausqo-tab-shine 1.2s linear both;
+  }
+}
