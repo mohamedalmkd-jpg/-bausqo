@@ -48,8 +48,8 @@ type AuthApi = {
     password: string,
     meta: { display_name: string; account_type: AccountType; company_name?: string },
   ) => Promise<{ error: string | null; needsConfirmation: boolean }>;
-  signInWithGoogle: () => Promise<{ error: string | null }>;
-  signInWithProvider: (provider: OAuthProviderId) => Promise<{ error: string | null }>;
+  signInWithGoogle: (redirect?: string) => Promise<{ error: string | null }>;
+  signInWithProvider: (provider: OAuthProviderId, redirect?: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
@@ -89,11 +89,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [loadProfile]);
 
   const signInWithProvider = useCallback(
-  async (provider: OAuthProviderId) => {
+  async (provider: OAuthProviderId, redirect?: string) => {
+    const safeRedirect = redirect && redirect.startsWith("/") && !redirect.startsWith("//")
+      ? redirect
+      : "/dashboard";
+    const callback = new URL("/auth", window.location.origin);
+    callback.searchParams.set("redirect", safeRedirect);
+    callback.searchParams.set("mode", "signin");
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth`,
+        redirectTo: callback.toString(),
+        skipBrowserRedirect: false,
       },
     });
 
@@ -127,8 +135,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: error?.message ?? null, needsConfirmation: !error && !data.session };
       },
       signInWithProvider,
-      async signInWithGoogle() {
-        return signInWithProvider("google");
+      async signInWithGoogle(redirect) {
+        return signInWithProvider("google", redirect);
       },
       async signOut() {
         await supabase.auth.signOut();
