@@ -1603,3 +1603,75 @@ button:focus-visible {
 .bausqo-liquid-light-core::after {
   background: color-mix(in srgb, var(--nav-accent) 24%, rgba(100,116,139,.16));
 }
+
+
+/* Final mobile-nav performance tuning: smooth accent changes, GPU-only travel. */
+.bausqo-liquid-nav {
+  background: none !important;
+  background-color: color-mix(in srgb, var(--nav-accent) 18%, rgba(100,116,139,.16)) !important;
+  border-color: color-mix(in srgb, var(--nav-accent) 34%, rgba(148,163,184,.34));
+  box-shadow:
+    0 12px 28px rgba(15,23,42,.12),
+    0 1px 0 rgba(255,255,255,.18) inset;
+  transition:
+    background-color .24s linear,
+    border-color .24s linear;
+  touch-action: manipulation;
+}
+
+.bausqo-liquid-nav::before {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.015));
+  opacity: .82;
+}
+
+.bausqo-liquid-tab::before {
+  filter: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tab-accent) 18%, transparent), transparent 72%);
+  transition: opacity .18s ease, transform .26s cubic-bezier(.2,.8,.2,1);
+}
+
+.bausqo-liquid-icon {
+  transition:
+    color .18s linear,
+    transform .26s cubic-bezier(.2,.8,.2,1);
+}
+
+.bausqo-liquid-label {
+  transition:
+    color .18s linear,
+    transform .24s cubic-bezier(.2,.8,.2,1);
+}
+
+.bausqo-liquid-light {
+  animation-duration: .46s;
+  transform: translate3d(var(--nav-to-x),0,0);
+}
+
+.bausqo-liquid-light-core {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 6px 14px rgba(15,23,42,.12);
+}
+
+@keyframes bausqo-liquid-travel-60 {
+  0% {
+    transform: translate3d(var(--nav-from-x),0,0) scaleX(1);
+    opacity: .68;
+  }
+  38% {
+    transform: translate3d(var(--nav-from-x),0,0) scaleX(1.08);
+    opacity: .9;
+  }
+  72% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(var(--nav-stretch));
+    opacity: .96;
+  }
+  88% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(.96);
+    opacity: .94;
+  }
+  100% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
+    opacity: .92;
+  }
+}
