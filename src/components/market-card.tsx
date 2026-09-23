@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import {
-  ArrowRight,
+  ArrowUpRight,
   Bookmark,
-  BriefcaseBusiness,
-  CalendarDays,
+  Building2,
+  CalendarClock,
+  Clock3,
   MapPin,
   MessageSquare,
-  Sparkles,
   Users,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -17,16 +17,10 @@ import { itemLink, mapLabel } from "@/lib/market-utils";
 import { isExternal, sourceNotice } from "@/lib/data-sources";
 
 export function MatchBadge({ score }: { score: number }) {
-  const tone = score >= 90 ? "text-emerald-600" : score >= 80 ? "text-primary" : "text-amber-600";
   return (
-    <div className="relative grid size-[72px] shrink-0 place-items-center rounded-full p-[4px]" style={{ background: `conic-gradient(var(--color-primary) 0deg ${score * 3.6}deg, color-mix(in oklab, var(--border) 75%, transparent) ${score * 3.6}deg 360deg)` }}>
-      <div className="grid size-full place-items-center rounded-full bg-card text-center shadow-inner">
-        <span className={`text-sm font-black ${tone}`}>
-          {score}%
-          <span className="block text-[8px] font-black uppercase tracking-[0.12em] text-muted-foreground">Match</span>
-        </span>
-      </div>
-    </div>
+    <span className="inline-flex items-center rounded-xl border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-black text-teal-700">
+      {score}% Match
+    </span>
   );
 }
 
@@ -37,9 +31,10 @@ export function SaveButton({ item, className }: { item: MarketItem; className?: 
   return (
     <Button
       type="button"
-      variant={saved ? "secondary" : "ghost"}
-      size="sm"
-      className={`rounded-xl ${className ?? ""}`}
+      variant="ghost"
+      size="icon"
+      className={`rounded-full border bg-white/85 text-slate-500 shadow-sm hover:bg-white hover:text-teal-700 ${className ?? ""}`}
+      aria-label={saved ? "Gespeichert" : "Speichern"}
       aria-pressed={saved}
       onClick={(event) => {
         event.stopPropagation();
@@ -48,7 +43,6 @@ export function SaveButton({ item, className }: { item: MarketItem; className?: 
       }}
     >
       <Bookmark className={saved ? "fill-current" : ""} />
-      <span className="hidden sm:inline">{saved ? "Gespeichert" : "Speichern"}</span>
     </Button>
   );
 }
@@ -63,86 +57,96 @@ export function MarketCard({
   onSelect?: (id: number) => void;
 }) {
   const link = itemLink(item);
+  const memberPlan = item.id % 3 === 0 ? "BUSINESS" : item.id % 3 === 1 ? "PRO" : "FREE";
+  const memberClass =
+    memberPlan === "BUSINESS"
+      ? "border-rose-200 bg-rose-50 text-rose-700"
+      : memberPlan === "PRO"
+        ? "border-amber-200 bg-amber-50 text-amber-700"
+        : "border-slate-200 bg-slate-50 text-slate-600";
 
   return (
     <article
       id={`card-${item.id}`}
       onClick={() => onSelect?.(item.id)}
-      className={`group premium-panel interaction-lift relative overflow-hidden rounded-[1.35rem] p-5 sm:p-6 ${selected ? "border-primary ring-2 ring-primary/20" : ""}`}
+      className={`group relative overflow-hidden rounded-[1.7rem] border bg-white p-5 shadow-[0_16px_45px_rgba(15,23,42,.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,.11)] sm:p-7 ${selected ? "border-teal-400 ring-4 ring-teal-100" : ""}`}
     >
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-sky-400 to-cyan-300 opacity-80" />
+      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-300 via-sky-400 to-teal-300 opacity-90" />
+      <div className="pointer-events-none absolute -right-20 -top-20 size-48 rounded-full bg-teal-100/60 blur-3xl" />
 
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-primary">
-              {item.category}
-            </span>
-            <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-amber-700">
-              Demo
-            </span>
-            {isExternal(item.source) && (
-              <span className="rounded-full border bg-muted/70 px-2.5 py-1 text-[10px] font-bold text-muted-foreground">
-                Externe Quelle
-              </span>
-            )}
+      <div className="relative">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            <span className="rounded-lg bg-teal-50 px-2.5 py-1 font-black text-teal-700">Neu</span>
+            <span className="text-muted-foreground">Vor kurzem</span>
+            <span className="rounded-lg border bg-slate-50 px-2 py-1 text-[10px] font-bold text-slate-500">Demo</span>
           </div>
-
-          <h3 className="max-w-2xl text-lg font-black leading-snug tracking-tight text-card-foreground sm:text-xl">
-            <Link to={link.to} params={link.params} className="transition-colors hover:text-primary">
-              {item.title}
-            </Link>
-          </h3>
-          <p className="mt-1.5 text-sm font-semibold text-muted-foreground">{item.provider}</p>
-        </div>
-        <MatchBadge score={item.match} />
-      </div>
-
-      <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {[
-          [MapPin, mapLabel(item)],
-          [CalendarDays, item.start],
-          [BriefcaseBusiness, item.duration],
-          [Users, item.people],
-        ].map(([Icon, value]) => {
-          const MetaIcon = Icon as typeof MapPin;
-          return (
-            <div key={String(value)} className="rounded-xl border bg-muted/35 px-3 py-2.5">
-              <MetaIcon className="mb-1 size-4 text-primary" />
-              <span className="block truncate text-xs font-semibold text-foreground/80">{String(value)}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      <p className="mt-5 line-clamp-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
-      <p className="mt-2 text-[11px] text-muted-foreground/80">{sourceNotice(item.source)}</p>
-
-      <div className="mt-5 flex flex-col gap-4 border-t pt-5 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground">Budget</p>
-          <p className="mt-1 text-xl font-black tracking-tight">{item.budget}</p>
-        </div>
-
-        <div className="flex items-center gap-2">
           <SaveButton item={item} />
-          <Button asChild variant="outline" className="rounded-xl">
-            <Link to="/nachrichten">
-              <MessageSquare className="size-4" />
-              <span className="hidden md:inline">Nachricht</span>
-            </Link>
-          </Button>
-          <Button asChild className="rounded-xl">
-            <Link to={link.to} params={link.params}>
-              Details
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </Button>
         </div>
-      </div>
 
-      <div className="pointer-events-none absolute -right-14 -top-14 size-32 rounded-full bg-primary/5 blur-2xl transition-all group-hover:bg-primary/10" />
-      <Sparkles className="pointer-events-none absolute bottom-5 right-5 size-4 text-primary/10" />
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <span className="text-sm font-black text-slate-800">Auftragsklasse</span>
+          <span className="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-black text-emerald-700">
+            <span className="size-2 rounded-full bg-emerald-600" />
+            FREE
+          </span>
+        </div>
+        <p className="mt-2 text-sm text-muted-foreground">Bis {item.budget} · Zugang ab FREE</p>
+
+        <h3 className="mt-6 max-w-3xl text-2xl font-black leading-tight tracking-[-0.035em] text-slate-900 sm:text-3xl">
+          <Link to={link.to} params={link.params} className="transition-colors hover:text-teal-700">
+            {item.title}
+          </Link>
+        </h3>
+
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <span className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Building2 className="size-4 text-teal-700" />
+            {item.provider}
+          </span>
+          <span className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-black ${memberClass}`}>
+            <span className="size-2 rotate-45 bg-current opacity-85" />
+            Mitglied · {memberPlan}
+          </span>
+          {isExternal(item.source) && (
+            <span className="rounded-xl border bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500">Externe Quelle</span>
+          )}
+        </div>
+
+        <Button
+          asChild
+          variant="outline"
+          className="mt-6 h-14 w-full rounded-2xl border-teal-200 bg-teal-50/80 text-base font-black text-teal-800 hover:border-teal-300 hover:bg-teal-100"
+        >
+          <Link to="/nachrichten">
+            <MessageSquare className="size-5" />
+            Nachricht an Auftraggeber
+            <ArrowUpRight className="ml-auto size-5" />
+          </Link>
+        </Button>
+
+        <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5"><MapPin className="size-4" />{mapLabel(item)}</span>
+          <span className="flex items-center gap-1.5"><CalendarClock className="size-4" />{item.start}</span>
+          <span className="flex items-center gap-1.5"><Clock3 className="size-4" />{item.duration}</span>
+          <span className="flex items-center gap-1.5"><Users className="size-4" />{item.people}</span>
+        </div>
+
+        <div className="mt-7 border-t pt-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.04em] text-slate-400">Auftragsvolumen</p>
+              <p className="mt-2 text-2xl font-black tracking-tight text-slate-900">{item.budget}</p>
+            </div>
+
+            <Link to={link.to} params={link.params} className="rounded-xl transition-transform hover:scale-[1.02]">
+              <MatchBadge score={item.match} />
+            </Link>
+          </div>
+        </div>
+
+        <p className="mt-5 text-[11px] leading-5 text-muted-foreground/75">{sourceNotice(item.source)}</p>
+      </div>
     </article>
   );
 }
