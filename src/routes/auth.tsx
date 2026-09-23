@@ -17,9 +17,9 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Anmelden · BauMatch" },
-      { name: "description", content: "Melden Sie sich bei BauMatch an oder erstellen Sie ein kostenloses Konto für Fachkräfte, Teams und Bauunternehmen." },
-      { property: "og:title", content: "Anmelden · BauMatch" },
+      { title: "Anmelden · BAUSQO" },
+      { name: "description", content: "Melden Sie sich bei BAUSQO an oder erstellen Sie ein kostenloses Konto für Fachkräfte, Teams und Bauunternehmen." },
+      { property: "og:title", content: "Anmelden · BAUSQO" },
       { property: "og:description", content: "Konto für Fachkräfte, Teams und Bauunternehmen." },
     ],
   }),
@@ -107,15 +107,15 @@ function AuthPage() {
   return (
     <div className="min-h-screen bg-muted/40">
       <PublicHeader />
-      <main className="mx-auto w-full max-w-md px-4 py-12">
-        <div className="rounded-xl border bg-card p-6 shadow-sm sm:p-8">
-          <div className="mb-6 grid grid-cols-2 gap-1 rounded-lg bg-muted p-1">
+      <main className="bausqo-page mx-auto w-full max-w-md px-4 py-12">
+        <div className="bausqo-panel overflow-hidden rounded-[1.6rem] p-6 shadow-xl sm:p-8">
+          <div className="mb-6 grid grid-cols-2 gap-1 rounded-xl bg-muted p-1">
             {(["signin", "signup"] as const).map((value) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => setTab(value)}
-                className={`h-10 rounded-md text-sm font-semibold transition-colors ${tab === value ? "bg-background shadow-sm" : "text-muted-foreground"}`}
+                className={`h-10 rounded-lg text-sm font-bold transition-all ${tab === value ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
               >
                 {value === "signin" ? "Anmelden" : "Registrieren"}
               </button>
@@ -129,7 +129,7 @@ function AuthPage() {
           )}
           {info && <p className="mb-4 rounded-md border bg-muted/50 p-3 text-sm">{info}</p>}
 
-          <OAuthButtons mode={tab} />
+          <OAuthButtons mode={tab} redirect={target} />
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
@@ -193,7 +193,7 @@ function AuthPage() {
           </form>
 
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            Mit der Registrierung stimmen Sie der Verarbeitung Ihrer Angaben zur Nutzung von BauMatch zu.{" "}
+            Mit der Registrierung stimmen Sie der Verarbeitung Ihrer Angaben zur Nutzung von BAUSQO zu.{" "}
             <Link to="/" className="underline">Zur Startseite</Link>
           </p>
         </div>
