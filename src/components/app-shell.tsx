@@ -1,4 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import type { CSSProperties } from "react";
 import {
   Bell,
   Bookmark,
@@ -55,11 +56,33 @@ type NavigationItem =
   | (typeof secondaryItems)[number]
   | (typeof serviceItems)[number];
 
+function sectionAccent(pathname: string) {
+  if (pathname.startsWith("/profil")) return "#ff6fae";
+  if (pathname.startsWith("/nachrichten")) return "#4fc8ff";
+  if (
+    pathname.startsWith("/auftrag/") ||
+    pathname.startsWith("/meine-auftraege") ||
+    pathname.startsWith("/mitgliedschaft")
+  ) return "#f6c85f";
+  if (
+    pathname.startsWith("/marketplace") ||
+    pathname.startsWith("/matches") ||
+    pathname.startsWith("/bewerbungen") ||
+    pathname.startsWith("/gespeichert")
+  ) return "#8b7cff";
+  if (pathname.startsWith("/benachrichtigungen")) return "#63d8ff";
+  if (pathname.startsWith("/kontakt")) return "#2dd4bf";
+  if (pathname.startsWith("/datenschutz") || pathname.startsWith("/impressum")) return "#94a3b8";
+  return "#49e58b";
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const { unreadCount } = useWorkspace();
   const { signOut } = useAuth();
+  const accent = sectionAccent(pathname);
+  const sectionStyle = { "--section-accent": accent } as CSSProperties;
 
   async function handleSignOut() {
     await signOut();
@@ -88,7 +111,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-muted/35">
+    <div className="bausqo-section-shell min-h-screen bg-muted/35" style={sectionStyle}>
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[18rem] overflow-hidden bg-brand-dark text-white lg:flex lg:flex-col">
         <div className="bausqo-grid-dark absolute inset-0 opacity-40" />
         <div className="bausqo-sidebar-orb pointer-events-none absolute -left-28 top-10 size-72 rounded-full bg-primary/10 blur-3xl" />
@@ -152,36 +175,36 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      <header className="sticky top-0 z-30 flex h-[74px] items-center border-b bg-background/88 px-4 backdrop-blur-xl lg:ml-[18rem] lg:px-6">
+      <header className="bausqo-section-header sticky top-0 z-30 flex h-[74px] items-center border-b bg-background/88 px-4 backdrop-blur-xl lg:ml-[18rem] lg:px-6">
         <div className="lg:hidden"><Brand /></div>
 
         <button
           type="button"
-          className="ml-6 hidden h-11 w-full max-w-xl items-center gap-3 rounded-2xl border bg-card/80 px-4 text-left text-sm text-muted-foreground shadow-sm transition-all hover:border-primary/30 hover:shadow-md lg:flex"
+          className="bausqo-section-search ml-6 hidden h-11 w-full max-w-xl items-center gap-3 rounded-2xl border bg-card/80 px-4 text-left text-sm text-muted-foreground shadow-sm transition-all lg:flex"
           onClick={() => { void navigate({ to: "/marketplace" }); }}
         >
-          <Search className="size-4 text-primary" />
+          <Search className="bausqo-section-icon size-4" />
           <span className="flex-1">Aufträge, Firmen, Gewerke oder Orte suchen…</span>
           <span className="rounded-lg border bg-muted/60 px-2 py-1 text-[10px] font-bold">⌘ K</span>
         </button>
 
         <div className="ml-auto flex items-center gap-2">
-          <Button asChild className="hidden rounded-xl lg:flex">
+          <Button asChild className="bausqo-section-primary hidden rounded-xl lg:flex">
             <Link to="/auftrag/erstellen" search={{ draft: undefined }}>
               <Plus className="size-4" />
               Auftrag erstellen
             </Link>
           </Button>
-          <Button asChild variant="outline" size="icon" className="relative rounded-xl bg-card">
+          <Button asChild variant="outline" size="icon" className="bausqo-section-control relative rounded-xl bg-card">
             <Link to="/benachrichtigungen" aria-label="Benachrichtigungen">
               <Bell className="size-4" />
-              {unreadCount > 0 && <span className="absolute right-2 top-2 size-2 rounded-full bg-primary" />}
+              {unreadCount > 0 && <span className="bausqo-section-dot absolute right-2 top-2 size-2 rounded-full" />}
             </Link>
           </Button>
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="rounded-xl bg-card lg:hidden" aria-label="Optionen öffnen">
+              <Button variant="outline" size="icon" className="bausqo-section-control rounded-xl bg-card lg:hidden" aria-label="Optionen öffnen">
                 <Grid3X3 className="size-4" />
               </Button>
             </SheetTrigger>
@@ -234,7 +257,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link
             to="/profil"
             aria-label="Profil"
-            className="grid size-10 place-items-center rounded-xl border bg-card text-xs font-black text-primary shadow-sm"
+            className="bausqo-section-avatar grid size-10 place-items-center rounded-xl border bg-card text-xs font-black shadow-sm"
           >
             RB
           </Link>
