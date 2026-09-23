@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/lib/auth";
 
-const nav = [{ label: "Marketplace", to: "/marketplace" as const }, { label: "Dashboard", to: "/dashboard" as const }];
+const nav = [{ label: "Suche", to: "/marketplace" as const }, { label: "Dashboard", to: "/dashboard" as const }];
 
 export function PublicHeader() {
   const { user, ready, signOut } = useAuth();
   const signedIn = ready && Boolean(user);
 
-  return <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
-    <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+  return <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur-xl">
+    <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <Brand />
       <nav className="hidden items-center gap-7 md:flex" aria-label="Hauptnavigation">
         {nav.map((item) => <Link key={item.to} to={item.to} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-foreground" }}>{item.label}</Link>)}
@@ -32,15 +32,15 @@ export function PublicHeader() {
         )}
       </div>
       <Sheet>
-        <SheetTrigger asChild><Button className="md:hidden" size="icon" variant="ghost" aria-label="Menü öffnen"><Menu /></Button></SheetTrigger>
+        <SheetTrigger asChild><Button className="rounded-xl md:hidden" size="icon" variant="ghost" aria-label="Menü öffnen"><Menu /></Button></SheetTrigger>
         <SheetContent className="w-[88%]" side="right">
           <SheetTitle><Brand /></SheetTitle>
           <nav className="mt-10 grid gap-2">
-            <Button asChild variant="ghost" className="justify-start"><Link to="/marketplace">Marketplace</Link></Button>
-            <Button asChild variant="ghost" className="justify-start"><Link to="/dashboard">Dashboard</Link></Button>
+            <Button asChild variant="ghost" className="justify-start rounded-xl"><Link to="/marketplace">Suche</Link></Button>
+            <Button asChild variant="ghost" className="justify-start rounded-xl"><Link to="/dashboard">Dashboard</Link></Button>
             {signedIn ? (
               <>
-                <Button asChild variant="ghost" className="justify-start"><Link to="/meine-auftraege">Meine Aufträge</Link></Button>
+                <Button asChild variant="ghost" className="justify-start rounded-xl"><Link to="/meine-auftraege">Meine Aufträge</Link></Button>
                 <Button asChild className="mt-6"><Link to="/auftrag/erstellen" search={{ draft: undefined }}>Auftrag erstellen</Link></Button>
                 <Button variant="outline" onClick={() => void signOut()}>Abmelden</Button>
               </>
