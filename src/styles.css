@@ -2149,3 +2149,128 @@ button:focus-visible {
     animation: bausqo-tab-shine 1.2s linear both;
   }
 }
+
+
+/* Full-page premium glow frame, inspired by the auth card but colored per section. */
+.bausqo-section-page-frame {
+  position: relative;
+  min-height: calc(100vh - 74px);
+  isolation: isolate;
+}
+
+.bausqo-section-page-border,
+.bausqo-section-page-shine {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.bausqo-section-page-border {
+  inset: 10px 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--section-accent) 24%, rgba(148,163,184,.22));
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 0 28px color-mix(in srgb, var(--section-accent) 8%, transparent);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--section-accent) 3.5%, transparent),
+      transparent 32%,
+      transparent 72%,
+      color-mix(in srgb, var(--section-accent) 2.5%, transparent)
+    );
+}
+
+.bausqo-section-page-shine {
+  top: 10px;
+  left: 10px;
+  width: min(34vw, 320px);
+  height: 2px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--section-accent) 48%, transparent) 24%,
+      rgba(255,255,255,.92) 50%,
+      color-mix(in srgb, var(--section-accent) 62%, transparent) 74%,
+      transparent 100%
+    );
+  opacity: 0;
+  transform: translate3d(-140%,0,0);
+  will-change: transform, opacity;
+  animation: bausqo-page-frame-shine 4.4s cubic-bezier(.2,.8,.2,1) infinite;
+}
+
+.bausqo-section-page-frame > :not(.bausqo-section-page-border):not(.bausqo-section-page-shine) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bausqo-page-frame-shine {
+  0%, 56% {
+    opacity: 0;
+    transform: translate3d(-140%,0,0);
+  }
+  64% {
+    opacity: .88;
+  }
+  84% {
+    opacity: .48;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 220px),0,0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bausqo-section-page-border {
+    inset: 14px 16px 16px;
+    border-radius: 32px;
+  }
+
+  .bausqo-section-page-shine {
+    top: 14px;
+    left: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bausqo-section-page-border {
+    inset: 6px 6px 10px;
+    border-radius: 22px;
+  }
+
+  .bausqo-section-page-shine {
+    top: 6px;
+    left: 6px;
+    width: 46vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-section-page-shine {
+    animation: none !important;
+    display: none !important;
+  }
+}
+
+/* Decorative layers must never block any control. */
+.bausqo-section-header::after,
+.bausqo-section-search::after,
+.bausqo-section-control::after,
+.bausqo-section-avatar::after,
+.bausqo-section-primary::after,
+.bausqo-liquid-tab::before,
+.bausqo-liquid-tab::after,
+.bausqo-liquid-light,
+.bausqo-liquid-light-core,
+.bausqo-liquid-light-core::before,
+.bausqo-liquid-light-core::after,
+.bausqo-section-page-border,
+.bausqo-section-page-shine {
+  pointer-events: none !important;
+}
