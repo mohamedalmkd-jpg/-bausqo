@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Home, MessageSquare, Plus, Search, UserRound } from "lucide-react";
 
 const tabs = [
-  { label: "Start", to: "/dashboard", icon: Home, color: "#49e58b", tone: 329.63 },
+  { label: "Start", to: "/", icon: Home, color: "#49e58b", tone: 329.63 },
   { label: "Suche", to: "/marketplace", icon: Search, color: "#8b7cff", tone: 440 },
   { label: "Neu", to: "/auftrag/erstellen", icon: Plus, color: "#f6c85f", tone: 523.25 },
   { label: "Chat", to: "/nachrichten", icon: MessageSquare, color: "#4fc8ff", tone: 587.33 },
@@ -15,6 +15,7 @@ function routeIndex(pathname: string) {
   if (exact >= 0) return exact;
 
   if (
+    pathname.startsWith("/dashboard") ||
     pathname.startsWith("/matches") ||
     pathname.startsWith("/bewerbungen") ||
     pathname.startsWith("/gespeichert") ||
@@ -25,58 +26,12 @@ function routeIndex(pathname: string) {
   return 0;
 }
 
-function playNavigationTone(frequency: number) {
-  if (typeof window === "undefined") return;
-
-  try {
-    const AudioContextCtor =
-      window.AudioContext ||
-      (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-
-    if (!AudioContextCtor) return;
-
-    const ctx = new AudioContextCtor();
-    const now = ctx.currentTime;
-    const gain = ctx.createGain();
-    const primary = ctx.createOscillator();
-    const sparkle = ctx.createOscillator();
-
-    primary.type = "sine";
-    sparkle.type = "triangle";
-
-    primary.frequency.setValueAtTime(frequency, now);
-    primary.frequency.exponentialRampToValueAtTime(frequency * 1.055, now + 0.105);
-    sparkle.frequency.setValueAtTime(frequency * 2, now);
-    sparkle.frequency.exponentialRampToValueAtTime(frequency * 2.12, now + 0.08);
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.032, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
-
-    primary.connect(gain);
-    sparkle.connect(gain);
-    gain.connect(ctx.destination);
-
-    primary.start(now);
-    sparkle.start(now);
-    primary.stop(now + 0.17);
-    sparkle.stop(now + 0.1);
-
-    primary.onended = () => {
-      void ctx.close();
-    };
-
-    if ("vibrate" in navigator) navigator.vibrate(8);
-  } catch {
-    // Audio is enhancement-only; navigation must never fail because of it.
-  }
-}
-
 export function MobileLiquidNav() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const navigate = useNavigate();
   const currentIndex = useMemo(() => routeIndex(pathname), [pathname]);
   const [fromIndex, setFromIndex] = useState(currentIndex);
+  const audioRef = useRef<AudioContext | null>(null);
 
   useEffect(() => {
     try {
@@ -98,6 +53,43 @@ export function MobileLiquidNav() {
     "--nav-to-x": `${currentIndex * 100}%`,
     "--nav-stretch": String(1 + Math.min(distance, 4) * 0.48),
   } as CSSProperties;
+
+  function playNavigationTone(frequency: number) {
+    if (typeof window === "undefined") return;
+
+    try {
+      const AudioContextCtor =
+        window.AudioContext ||
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+      if (!AudioContextCtor) return;
+
+      const ctx = audioRef.current ?? new AudioContextCtor();
+      audioRef.current = ctx;
+      if (ctx.state === "suspended") void ctx.resume();
+
+      const now = ctx.currentTime;
+      const gain = ctx.createGain();
+      const oscillator = ctx.createOscillator();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, now);
+      oscillator.frequency.exponentialRampToValueAtTime(frequency * 1.045, now + 0.09);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.026, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.13);
+
+      if ("vibrate" in navigator) navigator.vibrate(6);
+    } catch {
+      // Sound is enhancement-only.
+    }
+  }
 
   function go(to: (typeof tabs)[number]["to"], tone: number, index: number) {
     playNavigationTone(tone);
