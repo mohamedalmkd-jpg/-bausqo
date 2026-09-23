@@ -1554,3 +1554,52 @@ button:focus-visible {
 .bausqo-liquid-light-core::after {
   background: rgba(100,116,139,.20);
 }
+
+
+/* Active-section glass: the whole mobile nav inherits the selected tab color. */
+.bausqo-liquid-nav {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--nav-accent) 22%, rgba(255,255,255,.10)),
+      color-mix(in srgb, var(--nav-accent) 13%, rgba(100,116,139,.12))
+    ) !important;
+  border-color: color-mix(in srgb, var(--nav-accent) 42%, rgba(148,163,184,.34));
+  box-shadow:
+    0 14px 36px rgba(15,23,42,.13),
+    0 0 28px color-mix(in srgb, var(--nav-accent) 14%, transparent),
+    0 1px 0 rgba(255,255,255,.22) inset;
+  transition:
+    background-color .34s ease,
+    border-color .34s ease,
+    box-shadow .34s ease;
+}
+
+.bausqo-liquid-nav::before {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--nav-accent) 10%, rgba(255,255,255,.08)),
+      rgba(255,255,255,.015)
+    ),
+    linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--nav-accent) 12%, rgba(226,232,240,.08)),
+      transparent
+    );
+}
+
+.bausqo-liquid-light-core {
+  border-color: color-mix(in srgb, var(--nav-accent) 38%, rgba(203,213,225,.52));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--nav-accent) 18%, rgba(148,163,184,.16)),
+      color-mix(in srgb, var(--nav-accent) 9%, rgba(100,116,139,.08))
+    );
+}
+
+.bausqo-liquid-light-core::after {
+  background: color-mix(in srgb, var(--nav-accent) 24%, rgba(100,116,139,.16));
+}
