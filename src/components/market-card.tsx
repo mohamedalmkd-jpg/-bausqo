@@ -5,6 +5,8 @@ import {
   BriefcaseBusiness,
   Building2,
   CalendarDays,
+  Crown,
+  BadgeCheck,
   MapPin,
   MessageSquare,
   Sparkles,
@@ -60,12 +62,13 @@ export function MarketCard({
 }) {
   const link = itemLink(item);
   const plan = item.id % 3 === 0 ? "BUSINESS" : item.id % 3 === 1 ? "PRO" : "FREE";
-  const planClass =
+  const planMeta =
     plan === "BUSINESS"
-      ? "border-rose-200 bg-rose-50 text-rose-700"
+      ? { icon: Building2, className: "plan-badge plan-badge-business" }
       : plan === "PRO"
-        ? "border-amber-200 bg-amber-50 text-amber-700"
-        : "border-slate-200 bg-slate-50 text-slate-500";
+        ? { icon: Crown, className: "plan-badge plan-badge-pro" }
+        : { icon: BadgeCheck, className: "plan-badge plan-badge-free" };
+  const PlanIcon = planMeta.icon;
 
   return (
     <article
@@ -93,8 +96,8 @@ export function MarketCard({
               <Building2 className="size-4 text-primary" />
               {item.provider}
             </span>
-            <span className={`inline-flex items-center gap-2 rounded-xl border px-2.5 py-1.5 text-[10px] font-black tracking-[0.08em] ${planClass}`}>
-              <span className="size-1.5 rotate-45 bg-current" />
+            <span className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-[10px] font-black tracking-[0.08em] ${planMeta.className}`}>
+              <PlanIcon className="size-3.5" />
               {plan}
             </span>
           </div>
