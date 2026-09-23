@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness,
   Building2,
   ChevronRight,
+  Crown,
   FileText,
   Home,
   LayoutDashboard,
@@ -32,6 +33,7 @@ const secondaryItems = [
   { label: "Bewerbungen", to: "/bewerbungen" as const, icon: FileText },
   { label: "Gespeichert", to: "/gespeichert" as const, icon: Bookmark },
   { label: "Benachrichtigungen", to: "/benachrichtigungen" as const, icon: Bell },
+  { label: "Mitgliedschaft", to: "/mitgliedschaft" as const, icon: Crown },
   { label: "Profil", to: "/profil" as const, icon: UserRound },
 ];
 
