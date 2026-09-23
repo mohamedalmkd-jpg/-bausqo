@@ -1513,3 +1513,44 @@ button:focus-visible {
     linear-gradient(180deg, rgba(148,163,184,.18), rgba(148,163,184,.08)),
     rgba(255,255,255,.07);
 }
+
+
+/* Final mobile nav tone: translucent gray glass. */
+.bausqo-liquid-nav {
+  background: rgba(100,116,139,.18) !important;
+  border-color: rgba(148,163,184,.34);
+  box-shadow:
+    0 14px 36px rgba(15,23,42,.14),
+    0 1px 0 rgba(255,255,255,.22) inset,
+    0 -1px 0 rgba(71,85,105,.10) inset;
+}
+
+.bausqo-liquid-nav::before {
+  background:
+    linear-gradient(180deg, rgba(203,213,225,.10), rgba(100,116,139,.05)),
+    linear-gradient(90deg, transparent, rgba(226,232,240,.07), transparent);
+  opacity: .9;
+}
+
+.bausqo-liquid-tab {
+  color: rgba(51,65,85,.80);
+}
+
+.bausqo-liquid-label {
+  color: rgba(51,65,85,.80);
+}
+
+.bausqo-liquid-light-core {
+  border-color: rgba(148,163,184,.58);
+  background:
+    linear-gradient(180deg, rgba(148,163,184,.22), rgba(100,116,139,.11)),
+    rgba(255,255,255,.035);
+}
+
+.bausqo-liquid-light-core::before {
+  background: linear-gradient(90deg, transparent, rgba(226,232,240,.66), transparent);
+}
+
+.bausqo-liquid-light-core::after {
+  background: rgba(100,116,139,.20);
+}
