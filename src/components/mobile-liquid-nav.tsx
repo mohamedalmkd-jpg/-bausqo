@@ -155,7 +155,7 @@ export function MobileLiquidNav() {
               aria-label={tab.label}
             >
               <span className="bausqo-liquid-icon">
-                <Icon className="size-[19px]" strokeWidth={active ? 2.4 : 1.85} />
+                <Icon className="size-[22px]" strokeWidth={active ? 2.35 : 1.9} />
               </span>
               <span className="bausqo-liquid-label">{tab.label}</span>
             </button>
