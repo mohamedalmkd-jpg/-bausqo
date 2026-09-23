@@ -87,7 +87,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.045] px-3 py-2">
             <span className="text-[10px] font-bold text-white/45">Mitgliedschaft</span>
-            <span className="rounded-full border border-rose-300/20 bg-rose-500/15 px-2.5 py-1 text-[9px] font-black tracking-[0.12em] text-rose-200">BUSINESS</span>
+            <span className="plan-badge plan-badge-business inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black tracking-[0.12em]"><Building2 className="size-3" />BUSINESS</span>
           </div>
         </div>
 
