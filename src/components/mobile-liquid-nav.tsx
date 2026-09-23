@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Home, MessageSquare, Plus, Search, UserRound } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 
 const tabs = [
   { label: "Start", to: "/", icon: Home, color: "#49e58b", tone: 329.63 },
@@ -10,7 +11,12 @@ const tabs = [
   { label: "Profil", to: "/profil", icon: UserRound, color: "#ff6fae", tone: 659.25 },
 ] as const;
 
-function routeIndex(pathname: string) {
+function routeIndex(pathname: string, redirect?: string) {
+  if (
+    (pathname === "/auth" || pathname === "/login" || pathname === "/registrieren") &&
+    redirect?.startsWith("/auftrag/erstellen")
+  ) return 2;
+
   const exact = tabs.findIndex((tab) => pathname === tab.to || pathname.startsWith(tab.to + "/"));
   if (exact >= 0) return exact;
 
@@ -27,9 +33,15 @@ function routeIndex(pathname: string) {
 }
 
 export function MobileLiquidNav() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const location = useRouterState({ select: (state) => state.location });
+  const pathname = location.pathname;
+  const redirect =
+    typeof (location.search as Record<string, unknown> | undefined)?.redirect === "string"
+      ? String((location.search as Record<string, unknown>).redirect)
+      : undefined;
   const navigate = useNavigate();
-  const routeActiveIndex = useMemo(() => routeIndex(pathname), [pathname]);
+  const { user, ready } = useAuth();
+  const routeActiveIndex = useMemo(() => routeIndex(pathname, redirect), [pathname, redirect]);
   const [activeIndex, setActiveIndex] = useState(routeActiveIndex);
   const [fromIndex, setFromIndex] = useState(routeActiveIndex);
   const audioRef = useRef<AudioContext | null>(null);
@@ -105,6 +117,14 @@ export function MobileLiquidNav() {
     pendingIndexRef.current = index;
 
     if (to === "/auftrag/erstellen") {
+      if (ready && !user) {
+        void navigate({
+          to: "/auth",
+          search: { redirect: "/auftrag/erstellen", mode: "signin" },
+        });
+        return;
+      }
+
       void navigate({ to, search: { draft: undefined } });
       return;
     }
