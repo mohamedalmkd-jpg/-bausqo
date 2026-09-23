@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, Grid3X3, Menu, Plus, Search } from "lucide-react";
+import { Bell, Grid3X3, Mail, Menu, Plus, Search } from "lucide-react";
 import { Brand } from "./brand";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -10,6 +10,7 @@ const nav = [
   { label: "Matches", to: "/matches" as const },
   { label: "Dashboard", to: "/dashboard" as const },
   { label: "Mitgliedschaft", to: "/mitgliedschaft" as const },
+  { label: "Kontakt", to: "/kontakt" as const },
 ];
 
 export function PublicHeader() {
@@ -101,6 +102,7 @@ export function PublicHeader() {
                 ["Dashboard", "/dashboard" as const, Grid3X3],
                 ["Nachrichten", "/nachrichten" as const, Bell],
                 ["Profil", "/profil" as const, Menu],
+                ["Kontakt", "/kontakt" as const, Mail],
               ].map(([label, to, Icon]) => {
                 const NavIcon = Icon as typeof Search;
                 return (
