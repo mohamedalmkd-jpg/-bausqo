@@ -65,7 +65,8 @@ export function MobileLiquidNav() {
     "--nav-accent": activeTab.color,
     "--nav-from-x": `${fromIndex * 100}%`,
     "--nav-to-x": `${activeIndex * 100}%`,
-    "--nav-stretch": String(1 + Math.min(distance, 4) * 0.48),
+    "--nav-stretch": String(1 + Math.min(distance, 4) * 0.36),
+    "--nav-origin": activeIndex >= fromIndex ? "left center" : "right center",
   } as CSSProperties;
 
   function playNavigationTone(frequency: number) {
