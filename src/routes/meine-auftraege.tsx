@@ -22,9 +22,9 @@ export const Route = createFileRoute("/meine-auftraege")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Meine Aufträge · BauMatch" },
+      { title: "Meine Aufträge · BAUSQO" },
       { name: "description", content: "Verwalten Sie Ihre Bauaufträge: Entwürfe, veröffentlichte Aufträge, Pausen und eingegangene Bewerbungen." },
-      { property: "og:title", content: "Meine Aufträge · BauMatch" },
+      { property: "og:title", content: "Meine Aufträge · BAUSQO" },
       { property: "og:description", content: "Aufträge und Bewerbungen verwalten." },
     ],
   }),
@@ -76,25 +76,25 @@ function MyJobsPage() {
 
   return (
     <AppShell>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Meine Aufträge</h1>
-        <Button asChild><Link to="/auftrag/erstellen" search={{ draft: undefined }}><Plus /> Auftrag erstellen</Link></Button>
+      <div className="bausqo-grid-dark relative overflow-hidden rounded-[1.6rem] bg-brand-dark p-6 text-white shadow-2xl sm:p-8 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">Meine Aufträge</h1>
+        <Button asChild className="rounded-xl font-black text-brand-dark"><Link to="/auftrag/erstellen" search={{ draft: undefined }}><Plus /> Auftrag erstellen</Link></Button>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2 rounded-2xl border bg-card p-1.5 shadow-sm">
         {tabs.map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setTab(t)}
-            className={`h-10 rounded-lg border px-4 text-sm font-semibold transition-colors ${tab === t ? "border-primary bg-primary/5 text-primary" : "bg-card hover:border-primary/40"}`}
+            className={`h-10 rounded-xl px-4 text-sm font-black transition-all ${tab === t ? "bg-brand-dark text-white shadow-lg" : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"}`}
           >
             {jobStatusLabels[t]} ({(jobs ?? []).filter((j) => j.status === t).length})
           </button>
         ))}
       </div>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 grid gap-4">
         {list.length === 0 && (
           <EmptyState
             icon={Inbox}
@@ -105,11 +105,11 @@ function MyJobsPage() {
         {list.map((job) => {
           const apps = applications[job.id] ?? [];
           return (
-            <article key={job.id} className="rounded-xl border bg-card p-5 shadow-sm">
+            <article key={job.id} className="bausqo-panel bausqo-lift rounded-2xl p-5 sm:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <span className="rounded bg-primary/10 px-2 py-1 text-xs font-bold text-primary">{job.category}</span>
-                  <h2 className="mt-2 text-lg font-bold">{job.title}</h2>
+                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-primary">{job.category}</span>
+                  <h2 className="mt-3 text-lg font-black tracking-tight sm:text-xl">{job.title}</h2>
                   <p className="text-sm text-muted-foreground">
                     {[job.postal_code, job.city].filter(Boolean).join(" ")} · {jobStatusLabels[job.status]} · {apps.length} Bewerbung(en)
                   </p>
@@ -147,7 +147,7 @@ function MyJobsPage() {
                 <div className="mt-4 space-y-2 border-t pt-4">
                   <h3 className="text-sm font-bold">Bewerbungen</h3>
                   {apps.map((a) => (
-                    <div key={a.id} className="rounded-md border p-3 text-sm">
+                    <div key={a.id} className="rounded-xl border bg-muted/25 p-4 text-sm">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="font-semibold">Status: {a.status}</span>
                         <span className="text-xs text-muted-foreground">{new Date(a.created_at).toLocaleDateString("de-DE")}</span>
