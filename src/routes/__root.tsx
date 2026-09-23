@@ -129,6 +129,8 @@ function RootComponent() {
       <AuthProvider>
         <WorkspaceProvider>
           <div key={pathname} className="bausqo-route-stage">
+            <div className="bausqo-ambient bausqo-ambient-one" aria-hidden="true" />
+            <div className="bausqo-ambient bausqo-ambient-two" aria-hidden="true" />
             <div className="bausqo-route-wipe" aria-hidden="true" />
             <div className="bausqo-route-progress" aria-hidden="true" />
             <div className="bausqo-route-content">
