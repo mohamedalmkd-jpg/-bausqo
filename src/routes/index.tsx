@@ -181,6 +181,7 @@ function HomePage() {
               <div>
                 <p className="text-[9px] font-black uppercase tracking-[0.16em] text-muted-foreground">Mitgliedschaften</p>
                 <h2 className="mt-1 text-lg font-black tracking-[-0.02em]">FREE, PRO und BUSINESS</h2>
+                <Link to="/mitgliedschaft" className="mt-2 inline-flex items-center gap-1 text-xs font-black text-primary">Tarife vergleichen <ArrowRight className="size-3.5" /></Link>
                 <p className="mt-1 text-xs text-muted-foreground">Alle drei Status-Schilder sind sichtbar, animiert und klar voneinander unterschieden.</p>
               </div>
 
