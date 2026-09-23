@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useAuth } from "@/lib/auth";
+import { oauthErrorMessage, useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 
 function GoogleMark() {
@@ -22,14 +22,14 @@ function AppleMark() {
   );
 }
 
-export function OAuthButtons({ mode }: { mode: "signin" | "signup" }) {
+export function OAuthButtons({ mode, redirect }: { mode: "signin" | "signup"; redirect?: string }) {
   const { signInWithProvider } = useAuth();
   const [busy, setBusy] = useState<"google" | "apple" | null>(null);
 
   async function start(provider: "google" | "apple") {
     setBusy(provider);
-    const { error } = await signInWithProvider(provider);
-    if (error) toast.error(error);
+    const { error } = await signInWithProvider(provider, redirect);
+    if (error) toast.error(oauthErrorMessage(provider, error));
     setBusy(null);
   }
 
@@ -42,8 +42,9 @@ export function OAuthButtons({ mode }: { mode: "signin" | "signup" }) {
         type="button"
         disabled={busy !== null}
         onClick={() => void start("google")}
-        className="flex h-12 w-full items-center justify-center gap-3 rounded-lg border border-border bg-background text-[15px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted/60 disabled:opacity-60"
+        className="group relative flex h-13 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border border-slate-200 bg-white text-[15px] font-bold text-slate-800 shadow-[0_8px_24px_rgba(15,23,42,.07)] transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_12px_32px_rgba(15,23,42,.11)] disabled:opacity-60"
       >
+        <span className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-[#4285F4] via-[#34A853] to-[#EA4335]" />
         {busy === "google" ? <Loader2 className="size-[18px] animate-spin" /> : <GoogleMark />}
         {googleLabel}
       </button>
@@ -51,7 +52,7 @@ export function OAuthButtons({ mode }: { mode: "signin" | "signup" }) {
         type="button"
         disabled={busy !== null}
         onClick={() => void start("apple")}
-        className="flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-foreground text-[15px] font-medium text-background shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="flex h-12 w-full items-center justify-center gap-3 rounded-xl bg-foreground text-[15px] font-semibold text-background shadow-sm transition-all hover:-translate-y-0.5 hover:opacity-95 disabled:opacity-60"
       >
         {busy === "apple" ? <Loader2 className="size-[18px] animate-spin" /> : <AppleMark />}
         {appleLabel}
