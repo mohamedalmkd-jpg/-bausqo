@@ -26,6 +26,7 @@ import { PlanBadge } from "@/components/plan-badge";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useWorkspace } from "@/lib/workspace-state";
 import { useAuth } from "@/lib/auth";
+import { MobileLiquidNav } from "@/components/mobile-liquid-nav";
 
 const primaryItems = [
   { label: "Dashboard", to: "/dashboard" as const, icon: LayoutDashboard },
@@ -48,13 +49,6 @@ const serviceItems = [
   { label: "Datenschutz", to: "/datenschutz" as const, icon: ShieldCheck },
   { label: "Impressum", to: "/impressum" as const, icon: FileText },
   { label: "BAUSQO Home", to: "/" as const, icon: Home },
-];
-
-const mobileItems = [
-  { label: "Start", to: "/dashboard" as const, icon: Home },
-  { label: "Suche", to: "/marketplace" as const, icon: Search },
-  { label: "Chat", to: "/nachrichten" as const, icon: MessageSquare },
-  { label: "Profil", to: "/profil" as const, icon: UserRound },
 ];
 
 type NavigationItem =
@@ -250,40 +244,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <main className="pb-28 lg:ml-[18rem] lg:pb-8">{children}</main>
 
-      <nav className="fixed inset-x-3 bottom-3 z-50 grid grid-cols-5 items-end rounded-[1.4rem] border bg-background/94 px-1 pb-[max(env(safe-area-inset-bottom),4px)] shadow-[0_16px_50px_rgba(15,23,42,.20)] backdrop-blur-xl lg:hidden">
-        <Link
-          to={mobileItems[0].to}
-          className={`flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-bold ${pathname === mobileItems[0].to ? "text-primary" : "text-muted-foreground"}`}
-        >
-          <Home className="size-5" />Start
-        </Link>
-        <Link
-          to={mobileItems[1].to}
-          className={`flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-bold ${pathname === mobileItems[1].to ? "text-primary" : "text-muted-foreground"}`}
-        >
-          <Search className="size-5" />Suche
-        </Link>
-        <Link
-          to="/auftrag/erstellen"
-          search={{ draft: undefined }}
-          aria-label="Auftrag erstellen"
-          className="bausqo-mobile-create -mt-5 mx-auto grid size-16 place-items-center rounded-2xl bg-primary text-brand-dark shadow-[0_14px_34px_rgba(45,212,191,.32)]"
-        >
-          <Plus className="size-8" />
-        </Link>
-        <Link
-          to={mobileItems[2].to}
-          className={`flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-bold ${pathname === mobileItems[2].to ? "text-primary" : "text-muted-foreground"}`}
-        >
-          <MessageSquare className="size-5" />Chat
-        </Link>
-        <Link
-          to={mobileItems[3].to}
-          className={`flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-bold ${pathname === mobileItems[3].to ? "text-primary" : "text-muted-foreground"}`}
-        >
-          <UserRound className="size-5" />Profil
-        </Link>
-      </nav>
+      <MobileLiquidNav />
     </div>
   );
 }
