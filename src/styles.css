@@ -147,6 +147,10 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background: radial-gradient(circle at 85% 0%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 24rem), var(--color-background);
     color: var(--color-foreground);
@@ -157,7 +161,7 @@
     text-rendering: optimizeLegibility;
   }
 
-  button, a { transition: color .18s ease, background-color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease, opacity .18s ease; }
+  button, a { transition: color .22s cubic-bezier(.2,.8,.2,1), background-color .22s cubic-bezier(.2,.8,.2,1), border-color .22s cubic-bezier(.2,.8,.2,1), transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s cubic-bezier(.2,.8,.2,1), opacity .22s ease; }
   button:active, a:active { transform: scale(.985); }
 
   ::selection { background: color-mix(in oklab, var(--primary) 24%, transparent); }
@@ -540,5 +544,143 @@ button:focus-visible {
   .bausqo-auth-shine {
     animation: none !important;
     display: none;
+  }
+}
+
+
+/* Living BAUSQO UI: calm ambient motion + tactile option cards. */
+.bausqo-ambient {
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: .16;
+  will-change: transform;
+}
+
+.bausqo-ambient-one {
+  top: 14vh;
+  right: -8rem;
+  width: 22rem;
+  height: 22rem;
+  background: color-mix(in oklab, var(--primary) 58%, transparent);
+  animation: bausqo-ambient-drift-one 15s ease-in-out infinite alternate;
+}
+
+.bausqo-ambient-two {
+  bottom: 8vh;
+  left: -9rem;
+  width: 25rem;
+  height: 25rem;
+  background: rgba(245, 196, 86, .28);
+  animation: bausqo-ambient-drift-two 18s ease-in-out infinite alternate;
+}
+
+.bausqo-menu-orb,
+.bausqo-sidebar-orb {
+  animation: bausqo-orb-breathe 6.5s ease-in-out infinite;
+}
+
+.bausqo-option-card {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1),
+    border-color .28s ease,
+    box-shadow .28s ease,
+    background-color .28s ease;
+}
+
+.bausqo-option-card::after {
+  content: "";
+  position: absolute;
+  inset: -50% auto -50% -35%;
+  width: 24%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+  transform: translateX(-140%) skewX(-18deg);
+  opacity: 0;
+}
+
+.bausqo-option-card:hover {
+  transform: translateY(-4px) scale(1.012);
+  border-color: color-mix(in oklab, var(--primary) 38%, var(--border));
+  box-shadow: 0 18px 42px rgba(15,23,42,.11);
+}
+
+.bausqo-option-card:hover::after {
+  opacity: .9;
+  animation: bausqo-option-shine .72s ease-out both;
+}
+
+.bausqo-option-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.bausqo-option-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.34) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: bausqo-primary-sweep 4.6s ease-in-out infinite;
+}
+
+.bausqo-mobile-create {
+  animation: bausqo-mobile-create-float 3.2s ease-in-out infinite;
+}
+
+@keyframes bausqo-ambient-drift-one {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-7vw, 8vh, 0) scale(1.12); }
+}
+
+@keyframes bausqo-ambient-drift-two {
+  from { transform: translate3d(0, 0, 0) scale(.96); }
+  to { transform: translate3d(8vw, -6vh, 0) scale(1.08); }
+}
+
+@keyframes bausqo-orb-breathe {
+  0%, 100% { opacity: .72; transform: scale(.96); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes bausqo-option-shine {
+  from { transform: translateX(-140%) skewX(-18deg); }
+  to { transform: translateX(720%) skewX(-18deg); }
+}
+
+@keyframes bausqo-primary-sweep {
+  0%, 64% { transform: translateX(-125%); opacity: 0; }
+  72% { opacity: .9; }
+  90%, 100% { transform: translateX(125%); opacity: 0; }
+}
+
+@keyframes bausqo-mobile-create-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(1.5deg); }
+}
+
+@media (hover: hover) {
+  .bausqo-panel,
+  [class*="rounded-2xl"][class*="border"][class*="bg-card"] {
+    transition:
+      transform .24s cubic-bezier(.2,.8,.2,1),
+      box-shadow .24s ease,
+      border-color .24s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-ambient,
+  .bausqo-menu-orb,
+  .bausqo-sidebar-orb,
+  .bausqo-option-primary::after,
+  .bausqo-mobile-create {
+    animation: none !important;
   }
 }
