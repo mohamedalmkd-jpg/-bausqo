@@ -116,6 +116,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               System aktiv
             </div>
             <p className="mt-1 text-[10px] leading-4 text-white/30">Aufträge, Nachrichten und Matches sind verbunden.</p>
+            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 border-t border-white/8 pt-3 text-[9px] font-bold text-white/35">
+              <Link to="/kontakt" className="hover:text-white">Kontakt</Link>
+              <Link to="/datenschutz" className="hover:text-white">Datenschutz</Link>
+              <Link to="/impressum" className="hover:text-white">Impressum</Link>
+            </div>
           </div>
         </div>
       </aside>
