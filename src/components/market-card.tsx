@@ -5,8 +5,6 @@ import {
   BriefcaseBusiness,
   Building2,
   CalendarDays,
-  Crown,
-  BadgeCheck,
   MapPin,
   MessageSquare,
   Sparkles,
@@ -15,6 +13,7 @@ import {
 import { toast } from "sonner";
 import type { MarketItem } from "@/lib/demo-data";
 import { Button } from "@/components/ui/button";
+import { PlanBadge, type MembershipPlan } from "@/components/plan-badge";
 import { useWorkspace } from "@/lib/workspace-state";
 import { itemLink, mapLabel } from "@/lib/market-utils";
 import { isExternal, sourceNotice } from "@/lib/data-sources";
@@ -61,14 +60,7 @@ export function MarketCard({
   onSelect?: (id: number) => void;
 }) {
   const link = itemLink(item);
-  const plan = item.id % 3 === 0 ? "BUSINESS" : item.id % 3 === 1 ? "PRO" : "FREE";
-  const planMeta =
-    plan === "BUSINESS"
-      ? { icon: Building2, className: "plan-badge plan-badge-business" }
-      : plan === "PRO"
-        ? { icon: Crown, className: "plan-badge plan-badge-pro" }
-        : { icon: BadgeCheck, className: "plan-badge plan-badge-free" };
-  const PlanIcon = planMeta.icon;
+  const plan: MembershipPlan = item.id % 3 === 0 ? "BUSINESS" : item.id % 3 === 1 ? "PRO" : "FREE";
 
   return (
     <article
@@ -96,10 +88,7 @@ export function MarketCard({
               <Building2 className="size-4 text-primary" />
               {item.provider}
             </span>
-            <span className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-[10px] font-black tracking-[0.08em] ${planMeta.className}`}>
-              <PlanIcon className="size-3.5" />
-              {plan}
-            </span>
+            <PlanBadge plan={plan} />
           </div>
         </div>
 
