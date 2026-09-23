@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import type { CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import {
   Bell,
   Bookmark,
@@ -23,10 +23,11 @@ import {
 } from "lucide-react";
 import { Brand } from "./brand";
 import { Button } from "@/components/ui/button";
-import { PlanBadge } from "@/components/plan-badge";
+import { PlanBadge, type MembershipPlan } from "@/components/plan-badge";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useWorkspace } from "@/lib/workspace-state";
 import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 const primaryItems = [
   { label: "Dashboard", to: "/dashboard" as const, icon: LayoutDashboard },
@@ -80,9 +81,55 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const { unreadCount } = useWorkspace();
-  const { signOut } = useAuth();
+  const { signOut, profile, user } = useAuth();
+  const [plan, setPlan] = useState<MembershipPlan>("FREE");
   const accent = sectionAccent(pathname);
   const sectionStyle = { "--section-accent": accent } as CSSProperties;
+
+  const workspaceName = useMemo(() => {
+    const company = profile?.company_name?.trim();
+    const display = profile?.display_name?.trim();
+    const emailName = user?.email?.split("@")[0]?.trim();
+    return company || display || emailName || "BAUSQO";
+  }, [profile?.company_name, profile?.display_name, user?.email]);
+
+  const initials = useMemo(() => {
+    const parts = workspaceName.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return "BQ";
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }, [workspaceName]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadPlan() {
+      if (!user) {
+        if (active) setPlan("FREE");
+        return;
+      }
+
+      const { data } = await supabase
+        .from("subscriptions")
+        .select("plan,status,valid_until")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (!active) return;
+
+      const raw = data?.plan?.toUpperCase();
+      const validPlan = raw === "PRO" || raw === "BUSINESS" ? raw : "FREE";
+      const expired = data?.valid_until ? new Date(data.valid_until).getTime() < Date.now() : false;
+      const inactive = data?.status && !["active", "trialing"].includes(data.status.toLowerCase());
+
+      setPlan(expired || inactive ? "FREE" : validPlan);
+    }
+
+    void loadPlan();
+    return () => {
+      active = false;
+    };
+  }, [user]);
 
   async function handleSignOut() {
     await signOut();
@@ -126,12 +173,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35">Workspace</p>
-              <p className="mt-0.5 truncate text-sm font-black">Rheinbau Projekt GmbH</p>
+              <p className="mt-0.5 truncate text-sm font-black">{workspaceName}</p>
             </div>
           </div>
           <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.045] px-3 py-2">
             <span className="text-[10px] font-bold text-white/45">Mitgliedschaft</span>
-            <PlanBadge plan="BUSINESS" compact />
+            <PlanBadge plan={plan} compact />
           </div>
         </div>
 
@@ -259,7 +306,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             aria-label="Profil"
             className="bausqo-section-avatar grid size-10 place-items-center rounded-full border bg-card text-xs font-black shadow-sm"
           >
-            RB
+            {initials}
           </Link>
         </div>
       </header>
