@@ -16,6 +16,7 @@ import { PublicHeader } from "@/components/public-header";
 import { Button } from "@/components/ui/button";
 import { featuredItem } from "@/lib/demo-data";
 import { MarketCard } from "@/components/market-card";
+import { PlanBadge } from "@/components/plan-badge";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -172,6 +173,33 @@ function HomePage() {
               <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
             </Link>
           ))}
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
+          <div className="bausqo-panel rounded-[1.45rem] p-4 sm:p-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.16em] text-muted-foreground">Mitgliedschaften</p>
+                <h2 className="mt-1 text-lg font-black tracking-[-0.02em]">FREE, PRO und BUSINESS</h2>
+                <p className="mt-1 text-xs text-muted-foreground">Alle drei Status-Schilder sind sichtbar, animiert und klar voneinander unterschieden.</p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 sm:min-w-[420px]">
+                <div className="rounded-2xl border bg-emerald-50/40 p-3 text-center">
+                  <PlanBadge plan="FREE" />
+                  <p className="mt-2 text-[10px] font-semibold text-emerald-800/70">Basis</p>
+                </div>
+                <div className="rounded-2xl border bg-amber-50/40 p-3 text-center">
+                  <PlanBadge plan="PRO" />
+                  <p className="mt-2 text-[10px] font-semibold text-amber-800/70">Premium</p>
+                </div>
+                <div className="rounded-2xl border bg-red-50/40 p-3 text-center">
+                  <PlanBadge plan="BUSINESS" />
+                  <p className="mt-2 text-[10px] font-semibold text-red-800/70">Firma</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-4 pb-8 pt-4 sm:px-6 lg:px-8">
