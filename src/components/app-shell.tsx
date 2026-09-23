@@ -5,7 +5,6 @@ import {
   BriefcaseBusiness,
   Building2,
   FileText,
-  Home,
   LayoutDashboard,
   MessageSquare,
   Search,
@@ -16,6 +15,8 @@ import {
 import { Brand } from "./brand";
 import { Button } from "@/components/ui/button";
 import { useWorkspace } from "@/lib/workspace-state";
+import { WorkspaceOptions } from "@/components/workspace-options";
+import { MobileBottomNav } from "@/components/mobile-bottom-nav";
 
 const items = [
   { label: "Dashboard", to: "/dashboard" as const, icon: LayoutDashboard },
@@ -30,14 +31,6 @@ const items = [
 ];
 
 const future = [{ label: "Einstellungen", icon: Settings }];
-
-const mobileItems = [
-  { label: "Start", to: "/dashboard" as const, icon: Home },
-  { label: "Suche", to: "/marketplace" as const, icon: Search },
-  { label: "Aufträge", to: "/meine-auftraege" as const, icon: BriefcaseBusiness },
-  { label: "Chat", to: "/nachrichten" as const, icon: MessageSquare },
-  { label: "Profil", to: "/profil" as const, icon: UserRound },
-];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -95,8 +88,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      <header className="sticky top-0 z-30 flex h-[72px] items-center border-b bg-background/90 px-4 backdrop-blur-xl lg:ml-[17.5rem] lg:px-8">
+      <header className="sticky top-0 z-30 flex h-[72px] items-center border-b bg-background/94 px-4 backdrop-blur-xl lg:ml-[17.5rem] lg:px-8">
         <div className="lg:hidden"><Brand /></div>
+
         <button
           type="button"
           className="ml-6 hidden h-10 w-full max-w-md items-center gap-2 rounded-xl border bg-muted/45 px-3 text-left text-sm text-muted-foreground lg:flex"
@@ -107,7 +101,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span className="rounded-md border bg-background px-2 py-0.5 text-[10px]">⌘ K</span>
         </button>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2 lg:hidden">
+          <WorkspaceOptions />
+          <Button asChild variant="ghost" size="icon" className="relative rounded-xl">
+            <Link to="/benachrichtigungen" aria-label="Benachrichtigungen">
+              <Bell className="size-6 text-sky-500" />
+              {unreadCount > 0 && <span className="absolute right-1.5 top-1 size-2.5 rounded-full border-2 border-background bg-teal-400" />}
+            </Link>
+          </Button>
+        </div>
+
+        <div className="ml-auto hidden items-center gap-2 lg:flex">
+          <WorkspaceOptions />
           <Button asChild variant="ghost" size="icon" className="relative rounded-xl border bg-background" aria-label="Benachrichtigungen">
             <Link to="/benachrichtigungen">
               <Bell className="size-4" />
@@ -124,23 +129,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="pb-24 lg:ml-[17.5rem] lg:pb-8">{children}</main>
-
-      <nav
-        className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-5 rounded-2xl border border-primary-foreground/10 bg-brand-dark/95 px-1 pb-[env(safe-area-inset-bottom)] shadow-2xl backdrop-blur-xl lg:hidden"
-        aria-label="Mobile Navigation"
-      >
-        {mobileItems.map((item) => (
-          <Link
-            key={item.label}
-            to={item.to}
-            className={`flex h-16 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold transition-colors ${pathname === item.to ? "bg-primary-foreground/10 text-primary-foreground" : "text-primary-foreground/45"}`}
-          >
-            <item.icon className="size-5" />
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <main className="pb-28 lg:ml-[17.5rem] lg:pb-8">{children}</main>
+      <MobileBottomNav />
     </div>
   );
 }
