@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { featuredItem } from "@/lib/demo-data";
 import { MarketCard } from "@/components/market-card";
 import { PlanBadge } from "@/components/plan-badge";
+import { SiteFooter } from "@/components/site-footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -293,6 +294,7 @@ function HomePage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }
