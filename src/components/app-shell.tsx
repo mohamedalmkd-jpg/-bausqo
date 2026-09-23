@@ -241,7 +241,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="pb-28 lg:ml-[18rem] lg:pb-8">{children}</main>
+      <main className="pb-6 lg:ml-[18rem] lg:pb-8">{children}</main>
     </div>
   );
 }
