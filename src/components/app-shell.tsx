@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Brand } from "./brand";
 import { Button } from "@/components/ui/button";
+import { PlanBadge } from "@/components/plan-badge";
 import { useWorkspace } from "@/lib/workspace-state";
 
 const primaryItems = [
@@ -87,7 +88,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.045] px-3 py-2">
             <span className="text-[10px] font-bold text-white/45">Mitgliedschaft</span>
-            <span className="plan-badge plan-badge-business inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-black tracking-[0.12em]"><Building2 className="size-3" />BUSINESS</span>
+            <PlanBadge plan="BUSINESS" compact />
           </div>
         </div>
 
