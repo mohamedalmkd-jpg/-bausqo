@@ -5707,3 +5707,222 @@ a[href]:focus-visible {
   }
 }
 
+/* Uploaded-video transition v20 — real old/new page morph, no fake doors/cards. */
+.bausqo-wind-transition,
+.bausqo-morph-backdrop,
+.bausqo-morph-frame,
+.bausqo-portal-wall,
+.bausqo-depth-door,
+.bausqo-portal-rail,
+.bausqo-portal-depth-line,
+.bausqo-wind-line {
+  display: none !important;
+}
+
+.bausqo-route-stage,
+.bausqo-route-content {
+  perspective: none !important;
+  transform-style: flat !important;
+  overflow-x: clip;
+}
+
+.bausqo-route-content {
+  view-transition-name: bausqo-page;
+  background: var(--background);
+}
+
+.bausqo-route-page-slide,
+.bausqo-route-page-slide.is-forward,
+.bausqo-route-page-slide.is-back {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  border-radius: 0 !important;
+  will-change: auto !important;
+}
+
+/* The browser snapshots the actual old and new BAUSQO screens. */
+::view-transition-group(bausqo-page) {
+  animation-duration: 760ms;
+  animation-timing-function: cubic-bezier(.16,.84,.18,1);
+}
+
+::view-transition-image-pair(bausqo-page) {
+  isolation: isolate;
+  overflow: clip;
+  border-radius: 0;
+}
+
+::view-transition-old(bausqo-page) {
+  z-index: 1;
+  animation: bausqo-video-old-page 330ms cubic-bezier(.22,.72,.2,1) both;
+  transform-origin: 50% 46%;
+}
+
+::view-transition-new(bausqo-page) {
+  z-index: 2;
+  animation: bausqo-video-new-page 650ms 110ms cubic-bezier(.16,.84,.18,1) both;
+  transform-origin: 50% 46%;
+}
+
+@keyframes bausqo-video-old-page {
+  0% {
+    opacity: 1;
+    filter: grayscale(0) saturate(1) blur(0) brightness(1);
+    transform: translate3d(0,0,0) scale(1);
+  }
+  45% {
+    opacity: .72;
+    filter: grayscale(.55) saturate(.55) blur(1.5px) brightness(1.03);
+    transform: translate3d(0,-2px,0) scale(.955);
+  }
+  100% {
+    opacity: .08;
+    filter: grayscale(1) saturate(.08) blur(8px) brightness(1.12);
+    transform: translate3d(0,-8px,0) scale(.86);
+  }
+}
+
+@keyframes bausqo-video-new-page {
+  0% {
+    opacity: .08;
+    filter: grayscale(1) saturate(.08) blur(12px) brightness(1.12);
+    transform: translate3d(0,28px,0) scale(.84);
+  }
+  22% {
+    opacity: .34;
+    filter: grayscale(.82) saturate(.24) blur(7px) brightness(1.08);
+    transform: translate3d(0,19px,0) scale(.88);
+  }
+  48% {
+    opacity: .72;
+    filter: grayscale(.38) saturate(.68) blur(3px) brightness(1.035);
+    transform: translate3d(0,7px,0) scale(.945);
+  }
+  72% {
+    opacity: 1;
+    filter: grayscale(0) saturate(1.04) blur(0) brightness(1);
+    transform: translate3d(0,-3px,0) scale(1.01);
+  }
+  88% {
+    transform: translate3d(0,1px,0) scale(.998);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Soft whole-screen color bloom like the reference when the design switches state. */
+::view-transition-new(bausqo-page)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255,255,255,.22), transparent 44%);
+  mix-blend-mode: soft-light;
+  animation: bausqo-video-bloom 650ms ease-out both;
+}
+
+@keyframes bausqo-video-bloom {
+  0%, 18% { opacity: .9; }
+  58% { opacity: .28; }
+  100% { opacity: 0; }
+}
+
+/* iPhone: same choreography, slightly shorter to keep it feeling premium rather than slow. */
+@media (max-width: 1023px) {
+  ::view-transition-group(bausqo-page) {
+    animation-duration: 700ms;
+  }
+
+  ::view-transition-old(bausqo-page) {
+    animation: bausqo-video-old-page-mobile 300ms cubic-bezier(.22,.72,.2,1) both;
+  }
+
+  ::view-transition-new(bausqo-page) {
+    animation: bausqo-video-new-page-mobile 590ms 95ms cubic-bezier(.16,.84,.18,1) both;
+  }
+
+  @keyframes bausqo-video-old-page-mobile {
+    0% {
+      opacity: 1;
+      filter: grayscale(0) saturate(1) blur(0);
+      transform: translate3d(0,0,0) scale(1);
+    }
+    100% {
+      opacity: .06;
+      filter: grayscale(1) saturate(.08) blur(6px);
+      transform: translate3d(0,-6px,0) scale(.87);
+    }
+  }
+
+  @keyframes bausqo-video-new-page-mobile {
+    0% {
+      opacity: .08;
+      filter: grayscale(1) saturate(.08) blur(9px) brightness(1.08);
+      transform: translate3d(0,24px,0) scale(.85);
+    }
+    30% {
+      opacity: .46;
+      filter: grayscale(.68) saturate(.36) blur(5px);
+      transform: translate3d(0,14px,0) scale(.9);
+    }
+    58% {
+      opacity: .86;
+      filter: grayscale(.18) saturate(.84) blur(1.5px);
+      transform: translate3d(0,4px,0) scale(.968);
+    }
+    78% {
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0,-2px,0) scale(1.006);
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+}
+
+/* Fallback for browsers without native View Transitions. */
+@supports not (view-transition-name: bausqo-page) {
+  .bausqo-route-page-slide {
+    animation: bausqo-video-fallback 560ms cubic-bezier(.16,.84,.18,1) both !important;
+  }
+
+  @keyframes bausqo-video-fallback {
+    0% {
+      opacity: .12;
+      filter: grayscale(1) blur(8px);
+      transform: translate3d(0,22px,0) scale(.86);
+    }
+    65% {
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0,-2px,0) scale(1.006);
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(bausqo-page),
+  ::view-transition-new(bausqo-page),
+  ::view-transition-group(bausqo-page),
+  .bausqo-route-page-slide {
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
