@@ -6214,3 +6214,118 @@ a[href]:focus-visible {
   }
 }
 
+/* Button-feel page motion v23 — whole-site navigation uses the same tactile motion language as buttons. */
+.bausqo-route-stage,
+.bausqo-route-content {
+  perspective: none !important;
+  transform-style: flat !important;
+  overflow-x: clip;
+}
+
+/* The full route surface moves as one lightweight layer. */
+.bausqo-route-page-slide {
+  animation: bausqo-button-feel-page 240ms cubic-bezier(.2,.8,.2,1) both !important;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity !important;
+  filter: none !important;
+}
+
+@keyframes bausqo-button-feel-page {
+  0% {
+    opacity: .94;
+    transform: translate3d(0,3px,0) scale(.985);
+  }
+  58% {
+    opacity: 1;
+    transform: translate3d(0,-1px,0) scale(1.002);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Pressing a navigation control gently compresses the whole current site,
+   exactly like the buttons themselves, then the new route springs back. */
+body:has(.bausqo-liquid-tab:active) .bausqo-route-page-slide,
+body:has(.bausqo-section-shell nav a:active) .bausqo-route-page-slide,
+body:has(.bausqo-section-header a:active) .bausqo-route-page-slide,
+body:has(.bausqo-section-header button:active) .bausqo-route-page-slide,
+body:has(.bausqo-side-card a:active) .bausqo-route-page-slide {
+  animation: none !important;
+  transform: translate3d(0,1px,0) scale(.992) !important;
+  opacity: .985 !important;
+  transition:
+    transform 90ms cubic-bezier(.2,.8,.2,1),
+    opacity 90ms ease-out !important;
+}
+
+/* No legacy transition system may override the button-like page motion. */
+::view-transition-group(bausqo-page),
+::view-transition-image-pair(bausqo-page),
+::view-transition-old(bausqo-page),
+::view-transition-new(bausqo-page) {
+  animation: none !important;
+  filter: none !important;
+}
+
+.bausqo-wind-transition,
+.bausqo-morph-backdrop,
+.bausqo-morph-frame,
+.bausqo-portal-wall,
+.bausqo-depth-door,
+.bausqo-portal-rail,
+.bausqo-portal-depth-line,
+.bausqo-wind-line {
+  display: none !important;
+}
+
+/* Mobile / high-refresh tuning. */
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide {
+    animation: bausqo-button-feel-page-mobile 210ms cubic-bezier(.2,.8,.2,1) both !important;
+  }
+
+  @keyframes bausqo-button-feel-page-mobile {
+    0% {
+      opacity: .955;
+      transform: translate3d(0,2px,0) scale(.988);
+    }
+    60% {
+      opacity: 1;
+      transform: translate3d(0,-.5px,0) scale(1.0015);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  body:has(.bausqo-liquid-tab:active) .bausqo-route-page-slide,
+  body:has(.bausqo-section-header a:active) .bausqo-route-page-slide,
+  body:has(.bausqo-section-header button:active) .bausqo-route-page-slide,
+  body:has(.bausqo-side-card a:active) .bausqo-route-page-slide {
+    animation: none !important;
+    transform: translate3d(0,1px,0) scale(.994) !important;
+    opacity: .99 !important;
+    transition:
+      transform 75ms cubic-bezier(.2,.8,.2,1),
+      opacity 75ms ease-out !important;
+  }
+
+  .bausqo-liquid-light {
+    animation-duration: 200ms !important;
+    animation-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
