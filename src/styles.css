@@ -3808,3 +3808,252 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Global smoothness v11 — one motion system for the entire BAUSQO UI. */
+:root {
+  --bausqo-ease: cubic-bezier(.18,.9,.22,1);
+  --bausqo-ease-soft: cubic-bezier(.2,.8,.2,1);
+  --bausqo-fast: 120ms;
+  --bausqo-ui: 180ms;
+  --bausqo-panel: 220ms;
+}
+
+html {
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Make every common interactive surface feel like one product. */
+button,
+a[href],
+input,
+textarea,
+select,
+[role="button"],
+[role="tab"],
+.bausqo-panel,
+.bausqo-option-card,
+.bausqo-global-back,
+.bausqo-side-card,
+.bausqo-section-control,
+.bausqo-section-primary,
+.bausqo-section-avatar,
+.bausqo-brand-mark {
+  transition-timing-function: var(--bausqo-ease-soft) !important;
+}
+
+button,
+a[href],
+[role="button"],
+[role="tab"] {
+  transition-duration: var(--bausqo-fast) !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea,
+select {
+  transition-duration: var(--bausqo-ui) !important;
+}
+
+.bausqo-panel,
+.bausqo-option-card,
+.bausqo-global-back,
+.bausqo-section-control,
+.bausqo-section-primary,
+.bausqo-section-avatar,
+.bausqo-brand-mark {
+  transition-duration: var(--bausqo-panel) !important;
+}
+
+/* Avoid animating layout/paint-heavy properties globally. */
+button,
+a[href],
+[role="button"],
+[role="tab"],
+.bausqo-panel,
+.bausqo-option-card,
+.bausqo-global-back,
+.bausqo-section-control,
+.bausqo-section-primary,
+.bausqo-section-avatar,
+.bausqo-brand-mark {
+  transition-property:
+    transform,
+    opacity,
+    color,
+    background-color,
+    border-color !important;
+}
+
+/* Consistent tactile press response everywhere. */
+button:active,
+a[href]:active,
+[role="button"]:active,
+[role="tab"]:active {
+  transform: translate3d(0,1px,0) scale(.985);
+}
+
+/* Smooth hover without expensive repaint. */
+@media (hover: hover) {
+  .bausqo-panel:hover,
+  .bausqo-option-card:hover {
+    transform: translate3d(0,-3px,0);
+  }
+
+  button:hover,
+  a[href]:hover,
+  [role="button"]:hover,
+  [role="tab"]:hover {
+    transition-duration: var(--bausqo-ui) !important;
+  }
+}
+
+/* Side sheets/drawers should glide, never snap. */
+.bausqo-side-card[data-state="open"] {
+  animation-duration: 220ms !important;
+  animation-timing-function: var(--bausqo-ease) !important;
+}
+
+.bausqo-side-card[data-state="closed"] {
+  animation-duration: 160ms !important;
+  animation-timing-function: var(--bausqo-ease-soft) !important;
+}
+
+/* Smooth focus feedback. */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a[href]:focus-visible {
+  outline-offset: 2px;
+}
+
+/* Long lists: don't spend GPU/CPU time painting off-screen UI. */
+.bausqo-deferred-card,
+.bausqo-premium-page-content > section,
+.bausqo-premium-page-content > div > section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+}
+
+/* Keep scrolling fluid while preventing horizontal rubber-band artifacts. */
+.bausqo-route-stage,
+.bausqo-premium-page-card,
+.bausqo-public-premium-card {
+  overflow-x: clip;
+}
+
+/* Route wind stays lightweight and in sync with the rest of the product. */
+.bausqo-wind-line {
+  animation-duration: 230ms !important;
+  animation-timing-function: var(--bausqo-ease) !important;
+}
+
+.bausqo-liquid-light,
+.bausqo-liquid-wind {
+  animation-timing-function: var(--bausqo-ease) !important;
+}
+
+/* Mobile/iPhone performance pass. */
+@media (max-width: 1023px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  /* Native momentum where scrolling exists. */
+  [class*="overflow-y-auto"],
+  [class*="overflow-x-auto"] {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Avoid large continuously composited surfaces. */
+  .bausqo-premium-page-card,
+  .bausqo-public-premium-card,
+  .bausqo-panel,
+  .bausqo-option-card,
+  .bausqo-side-card {
+    will-change: auto !important;
+  }
+
+  /* Remove paint-heavy blur during normal touch navigation. */
+  .bausqo-side-card,
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Keep shadows elegant but cheap enough for high refresh-rate screens. */
+  .bausqo-panel,
+  .bausqo-option-card {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.76) inset,
+      0 7px 18px rgba(15,23,42,.065) !important;
+  }
+
+  /* Inputs react instantly without triggering large repaint chains. */
+  input,
+  textarea,
+  select {
+    box-shadow: none !important;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--section-accent, var(--primary)) 10%, transparent) !important;
+  }
+
+  /* Small touch movement only; no cascading transforms on parent cards. */
+  .bausqo-panel:active,
+  .bausqo-option-card:active {
+    transform: scale(.995) !important;
+  }
+
+  /* Keep bottom navigation and wind animation compositor-only. */
+  .bausqo-liquid-nav,
+  .bausqo-liquid-light,
+  .bausqo-liquid-wind,
+  .bausqo-wind-transition,
+  .bausqo-wind-line {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}
+
+/* Very small screens: reduce decorative paint even further. */
+@media (max-width: 640px) {
+  .bausqo-deferred-card,
+  .bausqo-premium-page-content > section,
+  .bausqo-premium-page-content > div > section {
+    contain-intrinsic-size: auto 240px;
+  }
+
+  .bausqo-panel:hover,
+  .bausqo-option-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Accessibility: the product remains fast even when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
