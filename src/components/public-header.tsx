@@ -114,14 +114,14 @@ export function PublicHeader() {
           )}
         </div>
 
-        <Sheet>
+        <Sheet modal={false}>
           <SheetTrigger asChild>
             <Button className="ml-auto rounded-xl lg:hidden" size="icon" variant="outline" aria-label="Optionen öffnen">
               <Grid3X3 className="size-5" />
             </Button>
           </SheetTrigger>
 
-          <SheetContent className="w-[94%] overflow-y-auto border-l-0 p-0 sm:max-w-md" side="right">
+          <SheetContent nonBlocking className="bausqo-side-card w-[94%] overflow-y-auto border-l-0 p-0 sm:max-w-md" side="right">
             <div className="bausqo-grid-dark relative overflow-hidden bg-brand-dark px-6 pb-8 pt-7 text-white">
               <div className="bausqo-menu-orb absolute -right-16 -top-20 size-52 rounded-full bg-primary/16 blur-3xl" />
               <div className="relative">
