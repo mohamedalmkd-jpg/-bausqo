@@ -160,6 +160,12 @@ function RootComponent() {
             <div key={pathname} className={`bausqo-wind-transition is-${direction}`} aria-hidden="true">
               <span className="bausqo-portal-wall bausqo-portal-wall-left" />
               <span className="bausqo-portal-wall bausqo-portal-wall-right" />
+              <span className="bausqo-depth-door bausqo-depth-door-1-left" />
+              <span className="bausqo-depth-door bausqo-depth-door-1-right" />
+              <span className="bausqo-depth-door bausqo-depth-door-2-left" />
+              <span className="bausqo-depth-door bausqo-depth-door-2-right" />
+              <span className="bausqo-depth-door bausqo-depth-door-3-left" />
+              <span className="bausqo-depth-door bausqo-depth-door-3-right" />
               <span className="bausqo-portal-rail bausqo-portal-rail-top" />
               <span className="bausqo-portal-rail bausqo-portal-rail-bottom" />
               <span className="bausqo-portal-depth-line bausqo-portal-depth-1" />
