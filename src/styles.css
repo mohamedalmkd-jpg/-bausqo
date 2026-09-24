@@ -5926,3 +5926,151 @@ a[href]:focus-visible {
   }
 }
 
+/* Uploaded-video transition v21 — high-FPS compositor-only version. */
+/* Override v20's full-screen filters/blur with transform + opacity only. */
+::view-transition-group(bausqo-page) {
+  animation-duration: 520ms !important;
+  animation-timing-function: cubic-bezier(.16,.84,.18,1) !important;
+}
+
+::view-transition-image-pair(bausqo-page) {
+  isolation: isolate;
+  overflow: clip;
+  background: var(--background);
+}
+
+::view-transition-old(bausqo-page) {
+  z-index: 1;
+  animation: bausqo-video-old-fast 230ms cubic-bezier(.22,.72,.2,1) both !important;
+  transform-origin: 50% 46%;
+  filter: none !important;
+  will-change: transform, opacity;
+}
+
+::view-transition-new(bausqo-page) {
+  z-index: 2;
+  animation: bausqo-video-new-fast 430ms 45ms cubic-bezier(.16,.84,.18,1) both !important;
+  transform-origin: 50% 46%;
+  filter: none !important;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-video-old-fast {
+  0% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+  100% {
+    opacity: .04;
+    transform: translate3d(0,-5px,0) scale(.89);
+  }
+}
+
+@keyframes bausqo-video-new-fast {
+  0% {
+    opacity: .06;
+    transform: translate3d(0,20px,0) scale(.87);
+  }
+  38% {
+    opacity: .5;
+    transform: translate3d(0,10px,0) scale(.925);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0,-2px,0) scale(1.006);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Cheap neutral wash instead of full-screen grayscale/blur filters. */
+::view-transition-image-pair(bausqo-page)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: rgba(248,250,252,.36);
+  animation: bausqo-video-neutral-wash 360ms ease-out both;
+}
+
+@keyframes bausqo-video-neutral-wash {
+  0% { opacity: .72; }
+  52% { opacity: .22; }
+  100% { opacity: 0; }
+}
+
+/* Remove expensive bloom/filter work from v20. */
+::view-transition-new(bausqo-page)::after {
+  display: none !important;
+}
+
+/* Route itself must stay inert; native snapshots own the motion. */
+.bausqo-route-page-slide {
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  will-change: auto !important;
+}
+
+@media (max-width: 1023px) {
+  ::view-transition-group(bausqo-page) {
+    animation-duration: 470ms !important;
+  }
+
+  ::view-transition-old(bausqo-page) {
+    animation: bausqo-video-old-fast-mobile 190ms cubic-bezier(.22,.72,.2,1) both !important;
+  }
+
+  ::view-transition-new(bausqo-page) {
+    animation: bausqo-video-new-fast-mobile 390ms 35ms cubic-bezier(.16,.84,.18,1) both !important;
+  }
+
+  @keyframes bausqo-video-old-fast-mobile {
+    0% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+    100% {
+      opacity: .03;
+      transform: translate3d(0,-4px,0) scale(.9);
+    }
+  }
+
+  @keyframes bausqo-video-new-fast-mobile {
+    0% {
+      opacity: .05;
+      transform: translate3d(0,16px,0) scale(.885);
+    }
+    44% {
+      opacity: .62;
+      transform: translate3d(0,7px,0) scale(.945);
+    }
+    78% {
+      opacity: 1;
+      transform: translate3d(0,-1px,0) scale(1.004);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  ::view-transition-image-pair(bausqo-page)::before {
+    background: rgba(248,250,252,.28);
+    animation-duration: 300ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(bausqo-page),
+  ::view-transition-new(bausqo-page),
+  ::view-transition-group(bausqo-page),
+  ::view-transition-image-pair(bausqo-page)::before {
+    animation: none !important;
+  }
+}
+
