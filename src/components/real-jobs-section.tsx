@@ -97,7 +97,7 @@ export function RealJobsSection({ query, category, location, map = false }: { qu
       ) : (
         <div className="mt-4 space-y-4">
           {filtered.map((job) => (
-            <article key={job.id} className="rounded-lg border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
+            <article key={job.id} className="bausqo-deferred-card rounded-lg border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded bg-primary/10 px-2 py-1 text-xs font-bold text-primary">{job.category}</span>
                 <span className="rounded bg-muted px-2 py-1 text-xs font-semibold">{job.contract_type}</span>
