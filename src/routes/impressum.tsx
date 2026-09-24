@@ -18,7 +18,7 @@ function ImprintPage() {
     <div className="min-h-screen bg-muted/25">
       <PublicHeader />
       <main className="bausqo-page mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-[2rem] border bg-card shadow-xl">
+        <div className="bausqo-public-premium-card overflow-hidden rounded-[2rem] border bg-card shadow-xl">
           <div className="bausqo-grid-dark bg-brand-dark px-6 py-10 text-white sm:px-10">
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-primary">Rechtliches / Anbieter</p>
             <h1 className="mt-3 text-4xl font-black tracking-[-0.04em]">Impressum</h1>
