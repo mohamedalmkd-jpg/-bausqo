@@ -4653,3 +4653,279 @@ a[href]:focus-visible {
   }
 }
 
+/* Immersive corridor transition v16 — enter deeper into BAUSQO through opening gates. */
+.bausqo-route-content {
+  perspective: 1200px;
+  perspective-origin: 50% 48%;
+}
+
+.bausqo-route-page-slide {
+  transform-style: preserve-3d;
+  transform-origin: 50% 48%;
+  will-change: transform, opacity;
+}
+
+/* The whole site screen moves inward, then comes forward through the corridor. */
+.bausqo-route-page-slide.is-forward,
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-enter-corridor 620ms cubic-bezier(.16,.88,.18,1) both !important;
+}
+
+@keyframes bausqo-enter-corridor {
+  0% {
+    opacity: .48;
+    transform: translate3d(0,10px,-170px) scale(.905);
+  }
+  24% {
+    opacity: .72;
+    transform: translate3d(0,6px,-108px) scale(.936);
+  }
+  58% {
+    opacity: .97;
+    transform: translate3d(0,1px,-20px) scale(.992);
+  }
+  78% {
+    opacity: 1;
+    transform: translate3d(0,0,8px) scale(1.004);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Two side barriers frame the route like a corridor, then open outward. */
+.bausqo-portal-wall {
+  position: fixed;
+  z-index: 9993;
+  top: 0;
+  bottom: 0;
+  width: 23vw;
+  max-width: 290px;
+  min-width: 72px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15,23,42,.92),
+      color-mix(in srgb, var(--primary) 14%, rgba(15,23,42,.88)),
+      rgba(15,23,42,.48)
+    );
+}
+
+.bausqo-portal-wall-left {
+  left: 0;
+  transform-origin: left center;
+  clip-path: polygon(0 0, 100% 9%, 82% 91%, 0 100%);
+  animation: bausqo-gate-left 620ms cubic-bezier(.16,.88,.18,1) both;
+}
+
+.bausqo-portal-wall-right {
+  right: 0;
+  transform-origin: right center;
+  clip-path: polygon(0 9%, 100% 0, 100% 100%, 18% 91%);
+  background:
+    linear-gradient(
+      270deg,
+      rgba(15,23,42,.92),
+      color-mix(in srgb, var(--primary) 14%, rgba(15,23,42,.88)),
+      rgba(15,23,42,.48)
+    );
+  animation: bausqo-gate-right 620ms cubic-bezier(.16,.88,.18,1) both;
+}
+
+@keyframes bausqo-gate-left {
+  0% {
+    opacity: .96;
+    transform: translate3d(0,0,0) scaleX(1);
+  }
+  34% {
+    opacity: .88;
+    transform: translate3d(-12%,0,0) scaleX(.93);
+  }
+  74% {
+    opacity: .22;
+    transform: translate3d(-82%,0,0) scaleX(.48);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-118%,0,0) scaleX(.34);
+  }
+}
+
+@keyframes bausqo-gate-right {
+  0% {
+    opacity: .96;
+    transform: translate3d(0,0,0) scaleX(1);
+  }
+  34% {
+    opacity: .88;
+    transform: translate3d(12%,0,0) scaleX(.93);
+  }
+  74% {
+    opacity: .22;
+    transform: translate3d(82%,0,0) scaleX(.48);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(118%,0,0) scaleX(.34);
+  }
+}
+
+/* Top/bottom rails exaggerate the tunnel perspective without expensive blur. */
+.bausqo-portal-rail {
+  position: fixed;
+  z-index: 9992;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.42) 24%,
+      color-mix(in srgb, var(--primary) 38%, rgba(255,255,255,.56)) 50%,
+      rgba(255,255,255,.42) 76%,
+      transparent
+    );
+  will-change: transform, opacity;
+}
+
+.bausqo-portal-rail-top {
+  top: 12%;
+  animation: bausqo-rail-top 560ms cubic-bezier(.16,.88,.18,1) both;
+}
+
+.bausqo-portal-rail-bottom {
+  bottom: 12%;
+  animation: bausqo-rail-bottom 560ms cubic-bezier(.16,.88,.18,1) both;
+}
+
+@keyframes bausqo-rail-top {
+  0% { opacity: .78; transform: translate3d(0,90px,0) scaleX(.48); }
+  62% { opacity: .42; transform: translate3d(0,10px,0) scaleX(.92); }
+  100% { opacity: 0; transform: translate3d(0,-22px,0) scaleX(1.08); }
+}
+
+@keyframes bausqo-rail-bottom {
+  0% { opacity: .78; transform: translate3d(0,-90px,0) scaleX(.48); }
+  62% { opacity: .42; transform: translate3d(0,-10px,0) scaleX(.92); }
+  100% { opacity: 0; transform: translate3d(0,22px,0) scaleX(1.08); }
+}
+
+/* Two depth markers rush past the viewer, creating the "going inside" sensation. */
+.bausqo-portal-depth-line {
+  position: fixed;
+  z-index: 9994;
+  left: 50%;
+  top: 50%;
+  width: 18%;
+  height: 1px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.74), transparent);
+  will-change: transform, opacity;
+}
+
+.bausqo-portal-depth-1 {
+  animation: bausqo-depth-rush 500ms 40ms cubic-bezier(.12,.8,.18,1) both;
+}
+
+.bausqo-portal-depth-2 {
+  animation: bausqo-depth-rush 500ms 95ms cubic-bezier(.12,.8,.18,1) both;
+}
+
+@keyframes bausqo-depth-rush {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(.18);
+  }
+  32% {
+    opacity: .72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(5.4);
+  }
+}
+
+/* Old lateral edge is unnecessary in corridor mode. */
+.bausqo-route-page-slide::after {
+  display: none !important;
+}
+
+/* Keep wind/navigation synchronized with the deeper transition. */
+.bausqo-wind-line {
+  animation-duration: 560ms !important;
+}
+
+.bausqo-liquid-light,
+.bausqo-liquid-wind-1,
+.bausqo-liquid-wind-2,
+.bausqo-liquid-wind-3 {
+  animation-duration: 540ms !important;
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-content {
+    perspective: 900px;
+  }
+
+  .bausqo-route-page-slide.is-forward,
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-enter-corridor-mobile 590ms cubic-bezier(.16,.88,.18,1) both !important;
+  }
+
+  @keyframes bausqo-enter-corridor-mobile {
+    0% {
+      opacity: .5;
+      transform: translate3d(0,8px,-135px) scale(.91);
+    }
+    28% {
+      opacity: .76;
+      transform: translate3d(0,4px,-82px) scale(.946);
+    }
+    62% {
+      opacity: .98;
+      transform: translate3d(0,0,-12px) scale(.995);
+    }
+    80% {
+      opacity: 1;
+      transform: translate3d(0,0,5px) scale(1.003);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-portal-wall {
+    width: 27vw;
+    min-width: 66px;
+  }
+
+  .bausqo-portal-rail {
+    left: 8%;
+    right: 8%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-portal-wall,
+  .bausqo-portal-rail,
+  .bausqo-portal-depth-line {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
