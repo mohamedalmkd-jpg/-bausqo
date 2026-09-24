@@ -4929,3 +4929,286 @@ a[href]:focus-visible {
   }
 }
 
+/* Door-depth navigation v17 — sequential doors, no lateral page movement. */
+.bausqo-route-content {
+  perspective: 1100px !important;
+  perspective-origin: 50% 50% !important;
+}
+
+.bausqo-wind-transition {
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+}
+
+/* Completely remove sideways route motion. */
+.bausqo-route-page-slide.is-forward,
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-door-depth-enter 860ms cubic-bezier(.16,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-door-depth-enter {
+  0% {
+    opacity: .18;
+    transform: translate3d(0,0,-320px) scale(.77);
+  }
+  18% {
+    opacity: .34;
+    transform: translate3d(0,0,-270px) scale(.81);
+  }
+  38% {
+    opacity: .58;
+    transform: translate3d(0,0,-190px) scale(.87);
+  }
+  60% {
+    opacity: .82;
+    transform: translate3d(0,0,-92px) scale(.94);
+  }
+  82% {
+    opacity: 1;
+    transform: translate3d(0,0,10px) scale(1.006);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Old corridor walls become the first broad threshold and open early. */
+.bausqo-portal-wall-left,
+.bausqo-portal-wall-right {
+  width: 50vw !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  clip-path: none !important;
+  opacity: 1;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 8%, #111827),
+      #0f172a 48%,
+      color-mix(in srgb, var(--primary) 5%, #111827)
+    ) !important;
+}
+
+.bausqo-portal-wall-left {
+  left: 0;
+  transform-origin: left center;
+  animation: bausqo-door-open-left-1 360ms cubic-bezier(.2,.78,.2,1) both !important;
+}
+
+.bausqo-portal-wall-right {
+  right: 0;
+  transform-origin: right center;
+  animation: bausqo-door-open-right-1 360ms cubic-bezier(.2,.78,.2,1) both !important;
+}
+
+@keyframes bausqo-door-open-left-1 {
+  0% { transform: perspective(900px) rotateY(0deg); opacity: 1; }
+  72% { opacity: .92; }
+  100% { transform: perspective(900px) rotateY(-82deg); opacity: 0; }
+}
+
+@keyframes bausqo-door-open-right-1 {
+  0% { transform: perspective(900px) rotateY(0deg); opacity: 1; }
+  72% { opacity: .92; }
+  100% { transform: perspective(900px) rotateY(82deg); opacity: 0; }
+}
+
+/* Repeating door planes further inside the corridor. */
+.bausqo-depth-door {
+  position: fixed;
+  z-index: 9994;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  pointer-events: none;
+  opacity: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 10%, #162033),
+      #111827 52%,
+      color-mix(in srgb, var(--primary) 7%, #162033)
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    inset 0 0 38px rgba(255,255,255,.025);
+}
+
+.bausqo-depth-door-1-left,
+.bausqo-depth-door-2-left,
+.bausqo-depth-door-3-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.bausqo-depth-door-1-right,
+.bausqo-depth-door-2-right,
+.bausqo-depth-door-3-right {
+  right: 0;
+  transform-origin: right center;
+}
+
+.bausqo-depth-door-1-left,
+.bausqo-depth-door-1-right {
+  z-index: 9995;
+  filter: brightness(.95);
+}
+
+.bausqo-depth-door-2-left,
+.bausqo-depth-door-2-right {
+  z-index: 9994;
+  filter: brightness(.82);
+}
+
+.bausqo-depth-door-3-left,
+.bausqo-depth-door-3-right {
+  z-index: 9993;
+  filter: brightness(.7);
+}
+
+/* Door 1 */
+.bausqo-depth-door-1-left {
+  animation: bausqo-door-left-sequence-1 500ms 90ms cubic-bezier(.18,.84,.2,1) both;
+}
+.bausqo-depth-door-1-right {
+  animation: bausqo-door-right-sequence-1 500ms 90ms cubic-bezier(.18,.84,.2,1) both;
+}
+
+/* Door 2 */
+.bausqo-depth-door-2-left {
+  animation: bausqo-door-left-sequence-2 500ms 235ms cubic-bezier(.18,.84,.2,1) both;
+}
+.bausqo-depth-door-2-right {
+  animation: bausqo-door-right-sequence-2 500ms 235ms cubic-bezier(.18,.84,.2,1) both;
+}
+
+/* Door 3 */
+.bausqo-depth-door-3-left {
+  animation: bausqo-door-left-sequence-3 500ms 380ms cubic-bezier(.18,.84,.2,1) both;
+}
+.bausqo-depth-door-3-right {
+  animation: bausqo-door-right-sequence-3 500ms 380ms cubic-bezier(.18,.84,.2,1) both;
+}
+
+@keyframes bausqo-door-left-sequence-1 {
+  0%, 8% { opacity: .92; transform: perspective(900px) translateZ(-36px) scale(.94) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(28px) scale(1.02) rotateY(-84deg); }
+}
+@keyframes bausqo-door-right-sequence-1 {
+  0%, 8% { opacity: .92; transform: perspective(900px) translateZ(-36px) scale(.94) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(28px) scale(1.02) rotateY(84deg); }
+}
+@keyframes bausqo-door-left-sequence-2 {
+  0%, 8% { opacity: .82; transform: perspective(900px) translateZ(-120px) scale(.84) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(4px) scale(1.01) rotateY(-83deg); }
+}
+@keyframes bausqo-door-right-sequence-2 {
+  0%, 8% { opacity: .82; transform: perspective(900px) translateZ(-120px) scale(.84) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(4px) scale(1.01) rotateY(83deg); }
+}
+@keyframes bausqo-door-left-sequence-3 {
+  0%, 8% { opacity: .72; transform: perspective(900px) translateZ(-210px) scale(.74) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(-8px) scale(1) rotateY(-82deg); }
+}
+@keyframes bausqo-door-right-sequence-3 {
+  0%, 8% { opacity: .72; transform: perspective(900px) translateZ(-210px) scale(.74) rotateY(0deg); }
+  100% { opacity: 0; transform: perspective(900px) translateZ(-8px) scale(1) rotateY(82deg); }
+}
+
+/* No horizontal wind in this mode. Use depth rails only. */
+.bausqo-wind-line {
+  display: none !important;
+}
+
+.bausqo-portal-rail-top,
+.bausqo-portal-rail-bottom {
+  animation-duration: 760ms !important;
+}
+
+.bausqo-portal-depth-1 {
+  animation: bausqo-depth-rush-door 620ms 120ms cubic-bezier(.12,.8,.18,1) both !important;
+}
+
+.bausqo-portal-depth-2 {
+  animation: bausqo-depth-rush-door 620ms 330ms cubic-bezier(.12,.8,.18,1) both !important;
+}
+
+@keyframes bausqo-depth-rush-door {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(.12);
+  }
+  35% {
+    opacity: .62;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(7.2);
+  }
+}
+
+/* Bottom nav stays responsive, but its rail eases instead of doing a dramatic lateral fling. */
+.bausqo-liquid-light {
+  animation-duration: 340ms !important;
+}
+
+.bausqo-liquid-wind {
+  display: none !important;
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-content {
+    perspective: 860px !important;
+  }
+
+  .bausqo-route-page-slide.is-forward,
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-door-depth-enter-mobile 820ms cubic-bezier(.16,.86,.18,1) both !important;
+  }
+
+  @keyframes bausqo-door-depth-enter-mobile {
+    0% {
+      opacity: .2;
+      transform: translate3d(0,6px,-250px) scale(.79);
+    }
+    22% {
+      opacity: .38;
+      transform: translate3d(0,4px,-205px) scale(.83);
+    }
+    45% {
+      opacity: .64;
+      transform: translate3d(0,2px,-130px) scale(.89);
+    }
+    68% {
+      opacity: .88;
+      transform: translate3d(0,0,-48px) scale(.96);
+    }
+    86% {
+      opacity: 1;
+      transform: translate3d(0,0,6px) scale(1.004);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-depth-door,
+  .bausqo-portal-wall-left,
+  .bausqo-portal-wall-right {
+    width: 50vw !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-depth-door {
+    display: none !important;
+  }
+}
+
