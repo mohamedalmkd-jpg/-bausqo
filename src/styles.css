@@ -4459,3 +4459,197 @@ a[href]:focus-visible {
   }
 }
 
+/* Full-screen swipe v15 — the entire route moves as one physical screen. */
+
+/* Disable all nested page/card entrance motion. The route itself now owns 100% of the transition. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide > div > main.bausqo-page,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.bausqo-route-content {
+  position: relative;
+  overflow-x: clip;
+  background: var(--background);
+}
+
+.bausqo-route-page-slide {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  opacity: 1 !important;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* A faint leading edge makes the whole page feel like a physical sheet. */
+.bausqo-route-page-slide::after {
+  content: "";
+  position: fixed;
+  z-index: 9991;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.28), rgba(255,255,255,0));
+  will-change: opacity;
+}
+
+.bausqo-route-page-slide.is-forward::after {
+  left: 0;
+  box-shadow: -12px 0 34px rgba(15,23,42,.16);
+  animation: bausqo-screen-edge 560ms cubic-bezier(.16,.86,.2,1) both;
+}
+
+.bausqo-route-page-slide.is-back::after {
+  right: 0;
+  transform: scaleX(-1);
+  box-shadow: 12px 0 34px rgba(15,23,42,.16);
+  animation: bausqo-screen-edge 560ms cubic-bezier(.16,.86,.2,1) both;
+}
+
+.bausqo-route-page-slide.is-forward {
+  animation: bausqo-full-screen-forward 560ms cubic-bezier(.16,.86,.2,1) both !important;
+}
+
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-full-screen-back 560ms cubic-bezier(.16,.86,.2,1) both !important;
+}
+
+@keyframes bausqo-full-screen-forward {
+  0% {
+    transform: translate3d(42vw,0,0) scale(.992);
+  }
+  34% {
+    transform: translate3d(17vw,0,0) scale(.996);
+  }
+  72% {
+    transform: translate3d(-1.2vw,0,0) scale(1);
+  }
+  88% {
+    transform: translate3d(.35vw,0,0) scale(1);
+  }
+  100% {
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes bausqo-full-screen-back {
+  0% {
+    transform: translate3d(-42vw,0,0) scale(.992);
+  }
+  34% {
+    transform: translate3d(-17vw,0,0) scale(.996);
+  }
+  72% {
+    transform: translate3d(1.2vw,0,0) scale(1);
+  }
+  88% {
+    transform: translate3d(-.35vw,0,0) scale(1);
+  }
+  100% {
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes bausqo-screen-edge {
+  0% { opacity: .82; }
+  58% { opacity: .4; }
+  100% { opacity: 0; }
+}
+
+/* Synchronize decorative motion with the physical screen swipe. */
+.bausqo-wind-line {
+  animation-duration: 520ms !important;
+}
+
+.bausqo-liquid-light {
+  animation-duration: 500ms !important;
+}
+
+.bausqo-liquid-wind-1,
+.bausqo-liquid-wind-2,
+.bausqo-liquid-wind-3 {
+  animation-duration: 500ms !important;
+}
+
+/* Phone: start almost off-screen for a true app-style page pull. */
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide.is-forward {
+    animation: bausqo-full-screen-forward-mobile 520ms cubic-bezier(.16,.86,.2,1) both !important;
+  }
+
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-full-screen-back-mobile 520ms cubic-bezier(.16,.86,.2,1) both !important;
+  }
+
+  @keyframes bausqo-full-screen-forward-mobile {
+    0% {
+      transform: translate3d(88vw,0,0) scale(.992);
+    }
+    40% {
+      transform: translate3d(31vw,0,0) scale(.996);
+    }
+    74% {
+      transform: translate3d(-2.2vw,0,0) scale(1);
+    }
+    89% {
+      transform: translate3d(.7vw,0,0) scale(1);
+    }
+    100% {
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  @keyframes bausqo-full-screen-back-mobile {
+    0% {
+      transform: translate3d(-88vw,0,0) scale(.992);
+    }
+    40% {
+      transform: translate3d(-31vw,0,0) scale(.996);
+    }
+    74% {
+      transform: translate3d(2.2vw,0,0) scale(1);
+    }
+    89% {
+      transform: translate3d(-.7vw,0,0) scale(1);
+    }
+    100% {
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-route-page-slide::after {
+    width: 16px;
+  }
+
+  .bausqo-wind-line {
+    animation-duration: 500ms !important;
+  }
+
+  .bausqo-liquid-light,
+  .bausqo-liquid-wind-1,
+  .bausqo-liquid-wind-2,
+  .bausqo-liquid-wind-3 {
+    animation-duration: 480ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide,
+  .bausqo-route-page-slide::after {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
