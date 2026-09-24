@@ -3265,3 +3265,128 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Navigation performance v6 — compositor-only route changes, tuned for iOS Safari. */
+.bausqo-route-stage {
+  perspective: none !important;
+  overflow-x: clip;
+}
+
+.bausqo-route-content {
+  animation: bausqo-route-smooth-enter .22s cubic-bezier(.2,.8,.2,1) both !important;
+  transform-origin: center top !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@keyframes bausqo-route-smooth-enter {
+  from {
+    opacity: .72;
+    transform: translate3d(0, 7px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Avoid double page-entry animations inside the route transition. */
+.bausqo-route-content .bausqo-page {
+  animation: none !important;
+}
+
+/* Old cinematic transition layers are no longer rendered; keep them disabled as a safety net. */
+.bausqo-route-impact,
+.bausqo-route-impact-ring,
+.bausqo-route-impact-beam,
+.bausqo-route-progress,
+.bausqo-route-cinematic,
+.bausqo-route-wipe {
+  display: none !important;
+}
+
+/* Continuous decoration should not compete with navigation on mobile GPUs. */
+@media (max-width: 1023px) {
+  .bausqo-premium-card-sweep,
+  .bausqo-section-page-shine,
+  .bausqo-public-premium-card::before,
+  .bausqo-brand-mark::before,
+  .bausqo-name-glow::before,
+  .bausqo-name-glow::after {
+    animation: none !important;
+  }
+
+  .bausqo-premium-card-sweep,
+  .bausqo-section-page-shine {
+    opacity: .7;
+  }
+
+  .bausqo-premium-card-aura {
+    animation: none !important;
+    opacity: .68;
+  }
+
+  .bausqo-section-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,.96) !important;
+  }
+
+  .bausqo-premium-page-card,
+  .bausqo-panel,
+  .bausqo-option-card {
+    will-change: auto !important;
+  }
+
+  /* Keep the liquid feeling, but reduce it to one transform animation. */
+  .bausqo-liquid-light {
+    animation: bausqo-liquid-fast .32s cubic-bezier(.2,.8,.2,1) both !important;
+  }
+
+  .bausqo-liquid-light-core,
+  .bausqo-liquid-light-core::before,
+  .bausqo-liquid-light-core::after {
+    animation: none !important;
+  }
+
+  .bausqo-liquid-tab,
+  .bausqo-liquid-icon,
+  .bausqo-liquid-label {
+    transition-duration: .18s !important;
+  }
+}
+
+@keyframes bausqo-liquid-fast {
+  from {
+    transform: translate3d(var(--nav-from-x),0,0) scaleX(1);
+    opacity: .72;
+  }
+  55% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1.08);
+    opacity: .96;
+  }
+  to {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
+    opacity: .92;
+  }
+}
+
+/* Faster tactile response without changing the visual system. */
+@media (max-width: 1023px) {
+  a[href],
+  button {
+    transition-duration: .16s !important;
+  }
+
+  a[href]:active,
+  button:active {
+    transform: scale(.992);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-content,
+  .bausqo-liquid-light {
+    animation: none !important;
+  }
+}
+
