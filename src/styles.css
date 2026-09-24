@@ -5212,3 +5212,224 @@ a[href]:focus-visible {
   }
 }
 
+/* Full-site door sync v18 — the website itself moves with the black gate sequence. */
+.bausqo-route-stage {
+  perspective: 1150px !important;
+  perspective-origin: 50% 50% !important;
+  overflow: hidden;
+}
+
+.bausqo-route-content {
+  perspective: inherit !important;
+  transform-style: preserve-3d;
+}
+
+/* Entire route is now physically part of the corridor animation. */
+.bausqo-route-page-slide.is-forward,
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-site-through-doors 900ms cubic-bezier(.15,.86,.18,1) both !important;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-site-through-doors {
+  0% {
+    opacity: .16;
+    transform: translate3d(0,0,-430px) scale(.68) rotateX(1.8deg);
+  }
+
+  /* First black gate opens */
+  18% {
+    opacity: .32;
+    transform: translate3d(0,0,-335px) scale(.75) rotateX(1.3deg);
+  }
+
+  /* Passing first threshold */
+  34% {
+    opacity: .52;
+    transform: translate3d(0,0,-250px) scale(.82) rotateX(.9deg);
+  }
+
+  /* Second gate */
+  50% {
+    opacity: .7;
+    transform: translate3d(0,0,-165px) scale(.89) rotateX(.55deg);
+  }
+
+  /* Third gate */
+  67% {
+    opacity: .9;
+    transform: translate3d(0,0,-76px) scale(.955) rotateX(.22deg);
+  }
+
+  /* Push slightly through the final plane */
+  84% {
+    opacity: 1;
+    transform: translate3d(0,0,15px) scale(1.009) rotateX(0deg);
+  }
+
+  93% {
+    transform: translate3d(0,0,-4px) scale(.9985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1) rotateX(0deg);
+  }
+}
+
+/* Make all major site surfaces visually travel together with the route. */
+.bausqo-route-page-slide > *,
+.bausqo-route-page-slide .bausqo-section-shell,
+.bausqo-route-page-slide main,
+.bausqo-route-page-slide header,
+.bausqo-route-page-slide footer,
+.bausqo-route-page-slide .bausqo-section-page-frame,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-public-premium-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Sync the black barriers exactly with the website depth beats. */
+.bausqo-portal-wall-left,
+.bausqo-portal-wall-right {
+  animation-duration: 390ms !important;
+}
+
+.bausqo-depth-door-1-left,
+.bausqo-depth-door-1-right {
+  animation-delay: 110ms !important;
+  animation-duration: 470ms !important;
+}
+
+.bausqo-depth-door-2-left,
+.bausqo-depth-door-2-right {
+  animation-delay: 285ms !important;
+  animation-duration: 470ms !important;
+}
+
+.bausqo-depth-door-3-left,
+.bausqo-depth-door-3-right {
+  animation-delay: 455ms !important;
+  animation-duration: 470ms !important;
+}
+
+/* A short center flash marks each threshold without blur-heavy effects. */
+.bausqo-portal-depth-1 {
+  animation: bausqo-site-threshold-flash 520ms 160ms cubic-bezier(.14,.8,.18,1) both !important;
+}
+
+.bausqo-portal-depth-2 {
+  animation: bausqo-site-threshold-flash 520ms 400ms cubic-bezier(.14,.8,.18,1) both !important;
+}
+
+@keyframes bausqo-site-threshold-flash {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(.14);
+  }
+  28% {
+    opacity: .72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scaleX(8.4);
+  }
+}
+
+/* The top/bottom corridor edges also expand while the site approaches. */
+.bausqo-portal-rail-top {
+  animation: bausqo-site-rail-top 820ms cubic-bezier(.15,.86,.18,1) both !important;
+}
+
+.bausqo-portal-rail-bottom {
+  animation: bausqo-site-rail-bottom 820ms cubic-bezier(.15,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-site-rail-top {
+  0% {
+    opacity: .82;
+    transform: translate3d(0,125px,0) scaleX(.34);
+  }
+  55% {
+    opacity: .5;
+    transform: translate3d(0,28px,0) scaleX(.78);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0,-26px,0) scaleX(1.14);
+  }
+}
+
+@keyframes bausqo-site-rail-bottom {
+  0% {
+    opacity: .82;
+    transform: translate3d(0,-125px,0) scaleX(.34);
+  }
+  55% {
+    opacity: .5;
+    transform: translate3d(0,-28px,0) scaleX(.78);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0,26px,0) scaleX(1.14);
+  }
+}
+
+/* Mobile keeps the effect strong but compositor-only. */
+@media (max-width: 1023px) {
+  .bausqo-route-stage {
+    perspective: 900px !important;
+  }
+
+  .bausqo-route-page-slide.is-forward,
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-site-through-doors-mobile 860ms cubic-bezier(.15,.86,.18,1) both !important;
+  }
+
+  @keyframes bausqo-site-through-doors-mobile {
+    0% {
+      opacity: .18;
+      transform: translate3d(0,0,-330px) scale(.7);
+    }
+    19% {
+      opacity: .34;
+      transform: translate3d(0,0,-265px) scale(.76);
+    }
+    37% {
+      opacity: .54;
+      transform: translate3d(0,0,-196px) scale(.83);
+    }
+    55% {
+      opacity: .74;
+      transform: translate3d(0,0,-125px) scale(.9);
+    }
+    71% {
+      opacity: .92;
+      transform: translate3d(0,0,-55px) scale(.963);
+    }
+    86% {
+      opacity: 1;
+      transform: translate3d(0,0,10px) scale(1.007);
+    }
+    95% {
+      transform: translate3d(0,0,-3px) scale(.999);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
