@@ -3688,3 +3688,123 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Liquid-nav wind v10 — matches the page wind transition. */
+.bausqo-liquid-light {
+  overflow: visible !important;
+}
+
+.bausqo-liquid-wind {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 1.5px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: center;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--nav-accent) 18%, rgba(255,255,255,.12)) 18%,
+      rgba(255,255,255,.62) 58%,
+      color-mix(in srgb, var(--nav-accent) 42%, rgba(255,255,255,.18)) 76%,
+      transparent 100%
+    );
+  will-change: transform, opacity;
+}
+
+.bausqo-liquid-wind-1 {
+  width: 54px;
+  margin-top: -16px;
+  animation: bausqo-liquid-wind-pass 220ms cubic-bezier(.14,.82,.18,1) both;
+}
+
+.bausqo-liquid-wind-2 {
+  width: 38px;
+  margin-top: 0;
+  animation: bausqo-liquid-wind-pass 220ms 12ms cubic-bezier(.14,.82,.18,1) both;
+}
+
+.bausqo-liquid-wind-3 {
+  width: 46px;
+  margin-top: 16px;
+  animation: bausqo-liquid-wind-pass 220ms 24ms cubic-bezier(.14,.82,.18,1) both;
+}
+
+@keyframes bausqo-liquid-wind-pass {
+  0% {
+    opacity: 0;
+    transform: translate3d(-34px,-50%,0) scaleX(.55);
+  }
+  24% {
+    opacity: .72;
+  }
+  58% {
+    opacity: .96;
+    transform: translate3d(0,-50%,0) scaleX(1.25);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(30px,-50%,0) scaleX(.72);
+  }
+}
+
+/* Same acceleration/deceleration feel as the route wind. */
+@media (max-width: 1023px) {
+  .bausqo-liquid-light {
+    animation: bausqo-liquid-120-wind 220ms cubic-bezier(.14,.82,.18,1) both !important;
+  }
+
+  .bausqo-liquid-light-core {
+    transition: transform 120ms cubic-bezier(.2,.9,.2,1), opacity 120ms linear !important;
+  }
+}
+
+@keyframes bausqo-liquid-120-wind {
+  0% {
+    transform: translate3d(var(--nav-from-x),0,0) scaleX(.92);
+    opacity: .72;
+  }
+  34% {
+    transform: translate3d(
+      calc(var(--nav-from-x) + (var(--nav-to-x) - var(--nav-from-x)) * .42),
+      0,
+      0
+    ) scaleX(1.12);
+    opacity: 1;
+  }
+  76% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
+    opacity: .94;
+  }
+}
+
+/* Safari fallback: avoid calc arithmetic between custom percentage tokens. */
+@supports not (transform: translateX(calc(10% + (20% - 10%) * .5))) {
+  @keyframes bausqo-liquid-120-wind {
+    0% {
+      transform: translate3d(var(--nav-from-x),0,0) scaleX(.92);
+      opacity: .72;
+    }
+    52% {
+      transform: translate3d(var(--nav-to-x),0,0) scaleX(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
+      opacity: .94;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-liquid-wind {
+    display: none !important;
+  }
+}
+
