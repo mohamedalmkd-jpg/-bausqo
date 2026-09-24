@@ -3390,3 +3390,19 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Navigation performance v7 — prevent old/new page visual overlap on mobile. */
+@media (max-width: 1023px) {
+  .bausqo-route-content {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    will-change: auto !important;
+  }
+
+  .bausqo-route-stage {
+    perspective: none !important;
+    transform: none !important;
+  }
+}
+
