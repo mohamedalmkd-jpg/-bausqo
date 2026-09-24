@@ -6329,3 +6329,222 @@ body:has(.bausqo-side-card a:active) .bausqo-route-page-slide {
   }
 }
 
+/* Floating-scene navigation v24 — based on the uploaded reference video. */
+.bausqo-route-stage {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bausqo-scene-accent) 10%, #f8fafc),
+      color-mix(in srgb, var(--bausqo-scene-accent) 4%, #f8fafc)
+    );
+  perspective: none !important;
+}
+
+.bausqo-scene-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  animation: bausqo-scene-reveal 430ms cubic-bezier(.2,.8,.2,1) both;
+  contain: strict;
+}
+
+@keyframes bausqo-scene-reveal {
+  0% { opacity: .95; }
+  72% { opacity: .62; }
+  100% { opacity: 0; }
+}
+
+.bausqo-scene-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bausqo-scene-accent) 17%, white);
+  opacity: .55;
+}
+
+.bausqo-scene-orb-a {
+  width: 34vw;
+  aspect-ratio: 1;
+  left: -7vw;
+  top: 10%;
+}
+
+.bausqo-scene-orb-b {
+  width: 28vw;
+  aspect-ratio: 1;
+  right: -5vw;
+  bottom: 12%;
+  opacity: .35;
+}
+
+.bausqo-scene-floor {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 10%;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bausqo-scene-accent) 26%, rgba(15,23,42,.08));
+  opacity: .48;
+}
+
+/* The entire real website briefly becomes the floating central viewport. */
+.bausqo-route-content {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+.bausqo-route-page-slide {
+  position: relative;
+  overflow: hidden;
+  min-height: 100dvh;
+  background: var(--background);
+  border-radius: 0;
+  transform-origin: 50% 46%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  animation: bausqo-floating-site-enter 430ms cubic-bezier(.18,.86,.2,1) both !important;
+  filter: none !important;
+}
+
+@keyframes bausqo-floating-site-enter {
+  0% {
+    opacity: .9;
+    transform: translate3d(0,18px,0) scale(.885);
+    border-radius: 30px;
+  }
+  34% {
+    opacity: 1;
+    transform: translate3d(0,8px,0) scale(.925);
+    border-radius: 25px;
+  }
+  68% {
+    transform: translate3d(0,-2px,0) scale(1.008);
+    border-radius: 10px;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+    border-radius: 0;
+  }
+}
+
+/* A static depth shadow while the page is in its floating-card state. */
+.bausqo-route-page-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    0 18px 42px rgba(15,23,42,.13),
+    0 0 0 1px color-mix(in srgb, var(--bausqo-scene-accent) 18%, rgba(255,255,255,.65)) inset;
+  opacity: 0;
+  animation: bausqo-floating-frame-shadow 430ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes bausqo-floating-frame-shadow {
+  0% { opacity: 1; }
+  58% { opacity: .62; }
+  100% { opacity: 0; }
+}
+
+/* Disable all older heavy route-transition systems. */
+::view-transition-group(bausqo-page),
+::view-transition-image-pair(bausqo-page),
+::view-transition-old(bausqo-page),
+::view-transition-new(bausqo-page),
+.bausqo-wind-transition,
+.bausqo-morph-backdrop,
+.bausqo-morph-frame,
+.bausqo-portal-wall,
+.bausqo-depth-door,
+.bausqo-portal-rail,
+.bausqo-portal-depth-line,
+.bausqo-wind-line {
+  animation: none !important;
+  display: none !important;
+  filter: none !important;
+}
+
+/* Keep all inner UI glued to the viewport; only the whole site moves. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* iPhone / high-refresh: shorter and compositor-focused. */
+@media (max-width: 1023px) {
+  .bausqo-scene-backdrop {
+    animation-duration: 360ms;
+  }
+
+  .bausqo-scene-orb {
+    opacity: .34;
+  }
+
+  .bausqo-route-page-slide {
+    animation: bausqo-floating-site-enter-mobile 350ms cubic-bezier(.18,.86,.2,1) both !important;
+  }
+
+  @keyframes bausqo-floating-site-enter-mobile {
+    0% {
+      opacity: .94;
+      transform: translate3d(0,12px,0) scale(.91);
+      border-radius: 26px;
+    }
+    42% {
+      opacity: 1;
+      transform: translate3d(0,5px,0) scale(.955);
+      border-radius: 18px;
+    }
+    76% {
+      transform: translate3d(0,-1px,0) scale(1.004);
+      border-radius: 6px;
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+      border-radius: 0;
+    }
+  }
+
+  .bausqo-route-page-slide::before {
+    box-shadow:
+      0 10px 24px rgba(15,23,42,.09),
+      0 0 0 1px rgba(255,255,255,.58) inset;
+    animation-duration: 350ms;
+  }
+
+  .bausqo-scene-floor {
+    bottom: 14%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-scene-backdrop {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide,
+  .bausqo-route-page-slide::before {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    border-radius: 0 !important;
+  }
+}
+
