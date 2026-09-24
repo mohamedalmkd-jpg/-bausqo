@@ -4317,3 +4317,145 @@ a[href]:focus-visible {
   }
 }
 
+/* Swipe-screen motion v14 — longer, deliberate app-like page drag. */
+.bausqo-route-page-slide.is-forward .bausqo-page-motion-surface,
+.bausqo-route-page-slide.is-forward > div > main.bausqo-page {
+  animation: bausqo-unified-page-forward-long 460ms cubic-bezier(.17,.84,.2,1) both !important;
+}
+
+.bausqo-route-page-slide.is-back .bausqo-page-motion-surface,
+.bausqo-route-page-slide.is-back > div > main.bausqo-page {
+  animation: bausqo-unified-page-back-long 460ms cubic-bezier(.17,.84,.2,1) both !important;
+}
+
+@keyframes bausqo-unified-page-forward-long {
+  0% {
+    opacity: .68;
+    transform: translate3d(92px,0,0) scale(.988);
+  }
+  38% {
+    opacity: .94;
+    transform: translate3d(34px,0,0) scale(.995);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(-5px,0,0) scale(1);
+  }
+  88% {
+    transform: translate3d(2px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes bausqo-unified-page-back-long {
+  0% {
+    opacity: .68;
+    transform: translate3d(-92px,0,0) scale(.988);
+  }
+  38% {
+    opacity: .94;
+    transform: translate3d(-34px,0,0) scale(.995);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(5px,0,0) scale(1);
+  }
+  88% {
+    transform: translate3d(-2px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Wind and bottom rail travel with the same longer swipe rhythm. */
+.bausqo-wind-line {
+  animation-duration: 430ms !important;
+}
+
+.bausqo-liquid-light {
+  animation-duration: 420ms !important;
+}
+
+.bausqo-liquid-wind-1 {
+  animation-duration: 420ms !important;
+}
+
+.bausqo-liquid-wind-2 {
+  animation-duration: 420ms !important;
+  animation-delay: 18ms !important;
+}
+
+.bausqo-liquid-wind-3 {
+  animation-duration: 420ms !important;
+  animation-delay: 36ms !important;
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide.is-forward .bausqo-page-motion-surface,
+  .bausqo-route-page-slide.is-forward > div > main.bausqo-page {
+    animation: bausqo-unified-page-forward-mobile-long 430ms cubic-bezier(.17,.84,.2,1) both !important;
+  }
+
+  .bausqo-route-page-slide.is-back .bausqo-page-motion-surface,
+  .bausqo-route-page-slide.is-back > div > main.bausqo-page {
+    animation: bausqo-unified-page-back-mobile-long 430ms cubic-bezier(.17,.84,.2,1) both !important;
+  }
+
+  @keyframes bausqo-unified-page-forward-mobile-long {
+    0% {
+      opacity: .72;
+      transform: translate3d(72px,0,0) scale(.99);
+    }
+    42% {
+      opacity: .96;
+      transform: translate3d(25px,0,0) scale(.996);
+    }
+    74% {
+      opacity: 1;
+      transform: translate3d(-4px,0,0) scale(1);
+    }
+    90% {
+      transform: translate3d(1.5px,0,0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  @keyframes bausqo-unified-page-back-mobile-long {
+    0% {
+      opacity: .72;
+      transform: translate3d(-72px,0,0) scale(.99);
+    }
+    42% {
+      opacity: .96;
+      transform: translate3d(-25px,0,0) scale(.996);
+    }
+    74% {
+      opacity: 1;
+      transform: translate3d(4px,0,0) scale(1);
+    }
+    90% {
+      transform: translate3d(-1.5px,0,0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-liquid-light {
+    animation-duration: 400ms !important;
+  }
+
+  .bausqo-wind-line {
+    animation-duration: 410ms !important;
+  }
+}
+
