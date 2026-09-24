@@ -4179,3 +4179,141 @@ a[href]:focus-visible {
   }
 }
 
+/* Unified page-card motion v13 — move the full large page surface, not its inner pieces. */
+.bausqo-route-page-slide {
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Workspace pages: frame + premium card + all children travel as one object. */
+.bausqo-page-motion-surface {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* Public pages (Home, Auth, Kontakt, Datenschutz, Impressum):
+   move their entire main content block as one object while the header stays anchored. */
+.bausqo-route-page-slide > div > main.bausqo-page {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* Same motion for the actual large premium cards in case a page uses one directly. */
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* All large surfaces use the exact same animation — no stagger, no independent pieces. */
+.bausqo-route-page-slide.is-forward .bausqo-page-motion-surface,
+.bausqo-route-page-slide.is-forward > div > main.bausqo-page {
+  animation: bausqo-unified-page-forward 280ms cubic-bezier(.16,.88,.2,1) both !important;
+}
+
+.bausqo-route-page-slide.is-back .bausqo-page-motion-surface,
+.bausqo-route-page-slide.is-back > div > main.bausqo-page {
+  animation: bausqo-unified-page-back 280ms cubic-bezier(.16,.88,.2,1) both !important;
+}
+
+@keyframes bausqo-unified-page-forward {
+  0% {
+    opacity: .78;
+    transform: translate3d(46px,0,0) scale(.992);
+  }
+  48% {
+    opacity: 1;
+    transform: translate3d(-3px,0,0) scale(1);
+  }
+  72% {
+    transform: translate3d(1px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes bausqo-unified-page-back {
+  0% {
+    opacity: .78;
+    transform: translate3d(-46px,0,0) scale(.992);
+  }
+  48% {
+    opacity: 1;
+    transform: translate3d(3px,0,0) scale(1);
+  }
+  72% {
+    transform: translate3d(-1px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Prevent children from adding a second entrance motion; the full card owns the transition. */
+.bausqo-page-motion-surface .bausqo-premium-page-card,
+.bausqo-page-motion-surface .bausqo-premium-page-content,
+.bausqo-route-page-slide > div > main.bausqo-page .bausqo-public-premium-card,
+.bausqo-route-page-slide > div > main.bausqo-page .bausqo-auth-card {
+  animation: none !important;
+}
+
+/* On phones, the same full-surface movement stays GPU-only and slightly tighter. */
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide.is-forward .bausqo-page-motion-surface,
+  .bausqo-route-page-slide.is-forward > div > main.bausqo-page {
+    animation: bausqo-unified-page-forward-mobile 250ms cubic-bezier(.16,.88,.2,1) both !important;
+  }
+
+  .bausqo-route-page-slide.is-back .bausqo-page-motion-surface,
+  .bausqo-route-page-slide.is-back > div > main.bausqo-page {
+    animation: bausqo-unified-page-back-mobile 250ms cubic-bezier(.16,.88,.2,1) both !important;
+  }
+
+  @keyframes bausqo-unified-page-forward-mobile {
+    0% {
+      opacity: .82;
+      transform: translate3d(38px,0,0) scale(.994);
+    }
+    56% {
+      opacity: 1;
+      transform: translate3d(-2px,0,0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  @keyframes bausqo-unified-page-back-mobile {
+    0% {
+      opacity: .82;
+      transform: translate3d(-38px,0,0) scale(.994);
+    }
+    56% {
+      opacity: 1;
+      transform: translate3d(2px,0,0) scale(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-page-motion-surface,
+  .bausqo-route-page-slide > div > main.bausqo-page {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
