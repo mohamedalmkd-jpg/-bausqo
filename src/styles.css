@@ -3406,3 +3406,143 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* UI/UX smoothness v8 — performance-first motion for iPhone and touch devices. */
+.bausqo-deferred-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+}
+
+@media (max-width: 1023px) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  /* Large blurred compositor layers are expensive on iOS and add little while moving. */
+  .bausqo-ambient {
+    display: none !important;
+  }
+
+  .bausqo-public-premium-card::after {
+    display: none !important;
+  }
+
+  .bausqo-route-stage .blur-3xl {
+    filter: blur(22px) !important;
+  }
+
+  .bausqo-route-stage [class*="backdrop-blur"],
+  .bausqo-side-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .bausqo-side-card {
+    background: rgba(255,255,255,.985) !important;
+  }
+
+  /* Never animate paint-heavy properties on touch. */
+  a[href],
+  button,
+  .bausqo-panel,
+  .bausqo-option-card,
+  .bausqo-global-back,
+  .bausqo-brand-mark,
+  .bausqo-section-control,
+  .bausqo-section-primary,
+  .bausqo-section-avatar {
+    transition-property: transform, opacity, color, background-color, border-color !important;
+    transition-duration: .14s !important;
+    transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Keep premium depth but cut multi-layer shadow repaint cost on mobile. */
+  .bausqo-premium-page-card {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.92) inset,
+      0 16px 38px rgba(15,23,42,.11),
+      0 0 22px color-mix(in srgb, var(--section-accent) 14%, transparent) !important;
+  }
+
+  .bausqo-panel,
+  .bausqo-option-card,
+  [class*="rounded-2xl"][class*="border"][class*="bg-card"] {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.78) inset,
+      0 8px 20px rgba(15,23,42,.07) !important;
+  }
+
+  .bausqo-public-premium-card {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.88) inset,
+      0 16px 38px rgba(15,23,42,.11),
+      0 0 20px color-mix(in srgb, var(--primary) 12%, transparent) !important;
+  }
+
+  .bausqo-global-back {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.86) inset,
+      0 8px 20px rgba(15,23,42,.10) !important;
+  }
+
+  /* One fluid rail animation only. */
+  .bausqo-liquid-nav {
+    contain: layout paint style;
+    transform: translate3d(0,0,0);
+    will-change: auto;
+  }
+
+  .bausqo-liquid-light {
+    will-change: transform, opacity;
+  }
+
+  .bausqo-liquid-tab:active .bausqo-liquid-icon {
+    transform: scale(.94);
+  }
+
+  .bausqo-liquid-tab:active .bausqo-liquid-label {
+    opacity: .82;
+  }
+
+  /* All repeating decorative animations become static on touch. */
+  .bausqo-live,
+  .plan-badge,
+  .bausqo-menu-orb,
+  .bausqo-sidebar-orb,
+  .bausqo-option-primary::after,
+  .bausqo-mobile-create,
+  .bausqo-auth-shine,
+  .bausqo-premium-card-aura,
+  .bausqo-premium-card-sweep,
+  .bausqo-public-premium-card::before,
+  .bausqo-brand-mark::before,
+  .bausqo-name-glow::before,
+  .bausqo-name-glow::after {
+    animation: none !important;
+  }
+
+  /* Native momentum scrolling for sheets and horizontal rails. */
+  [class*="overflow-y-auto"],
+  [class*="overflow-x-auto"] {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .bausqo-premium-page-card,
+  .bausqo-public-premium-card,
+  .bausqo-panel {
+    transform: none !important;
+  }
+
+  .bausqo-deferred-card {
+    contain-intrinsic-size: auto 240px;
+  }
+}
+
