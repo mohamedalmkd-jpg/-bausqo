@@ -48,18 +48,30 @@ export function MobileLiquidNav() {
   const audioRef = useRef<AudioContext | null>(null);
   const pendingIndexRef = useRef<number | null>(null);
 
-  // Preload the five main mobile destinations once so taps do not wait on route preparation.
+  // Search is the most common next destination from Home, so warm it first.
+  // The remaining tabs are prepared after the browser gets a quiet moment.
   useEffect(() => {
-    const preload = async () => {
-      await Promise.allSettled([
+    void router.preloadRoute({ to: "/marketplace" });
+
+    const preloadRest = () => {
+      void Promise.allSettled([
         router.preloadRoute({ to: "/" }),
-        router.preloadRoute({ to: "/marketplace" }),
         router.preloadRoute({ to: "/nachrichten" }),
         router.preloadRoute({ to: "/profil" }),
       ]);
     };
 
-    const id = window.setTimeout(() => { void preload(); }, 80);
+    const browser = window as typeof window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+
+    if (browser.requestIdleCallback) {
+      const id = browser.requestIdleCallback(preloadRest, { timeout: 700 });
+      return () => browser.cancelIdleCallback?.(id);
+    }
+
+    const id = window.setTimeout(preloadRest, 220);
     return () => window.clearTimeout(id);
   }, [router]);
 
@@ -87,6 +99,13 @@ export function MobileLiquidNav() {
 
   function playNavigationTone(frequency: number) {
     if (typeof window === "undefined") return;
+
+    // On phones/tablets, avoid creating an AudioContext during navigation.
+    // A tiny haptic response is much cheaper and feels more immediate.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      if ("vibrate" in navigator) navigator.vibrate(4);
+      return;
+    }
 
     try {
       const AudioContextCtor =
@@ -127,12 +146,17 @@ export function MobileLiquidNav() {
   function go(to: (typeof tabs)[number]["to"], tone: number, index: number) {
     if (index === activeIndex && pathname === to) return;
 
-    setFromIndex(activeIndex);
-    setActiveIndex(index);
     pendingIndexRef.current = index;
 
-    const playToneAfterNavigation = () => {
-      window.setTimeout(() => playNavigationTone(tone), 90);
+    const syncNavVisual = () => {
+      window.requestAnimationFrame(() => {
+        setFromIndex(activeIndex);
+        setActiveIndex(index);
+      });
+    };
+
+    const playFeedback = () => {
+      window.setTimeout(() => playNavigationTone(tone), 70);
     };
 
     if (to === "/auftrag/erstellen") {
@@ -141,17 +165,21 @@ export function MobileLiquidNav() {
           to: "/auth",
           search: { redirect: "/auftrag/erstellen", mode: "signin" },
         });
-        playToneAfterNavigation();
+        syncNavVisual();
+        playFeedback();
         return;
       }
 
       void navigate({ to, search: { draft: undefined } });
-      playToneAfterNavigation();
+      syncNavVisual();
+      playFeedback();
       return;
     }
 
+    // Start the route change before any cosmetic state work.
     void navigate({ to });
-    playToneAfterNavigation();
+    syncNavVisual();
+    playFeedback();
   }
 
   return (
