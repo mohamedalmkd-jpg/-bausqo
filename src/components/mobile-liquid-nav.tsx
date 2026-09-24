@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
 import { Home, MessageSquare, Plus, Search, UserRound } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
@@ -40,12 +40,28 @@ export function MobileLiquidNav() {
       ? String((location.search as Record<string, unknown>).redirect)
       : undefined;
   const navigate = useNavigate();
+  const router = useRouter();
   const { user, ready } = useAuth();
   const routeActiveIndex = useMemo(() => routeIndex(pathname, redirect), [pathname, redirect]);
   const [activeIndex, setActiveIndex] = useState(routeActiveIndex);
   const [fromIndex, setFromIndex] = useState(routeActiveIndex);
   const audioRef = useRef<AudioContext | null>(null);
   const pendingIndexRef = useRef<number | null>(null);
+
+  // Preload the five main mobile destinations once so taps do not wait on route preparation.
+  useEffect(() => {
+    const preload = async () => {
+      await Promise.allSettled([
+        router.preloadRoute({ to: "/" }),
+        router.preloadRoute({ to: "/marketplace" }),
+        router.preloadRoute({ to: "/nachrichten" }),
+        router.preloadRoute({ to: "/profil" }),
+      ]);
+    };
+
+    const id = window.setTimeout(() => { void preload(); }, 80);
+    return () => window.clearTimeout(id);
+  }, [router]);
 
   useEffect(() => {
     if (pendingIndexRef.current !== null && routeActiveIndex === pendingIndexRef.current) {
@@ -109,13 +125,15 @@ export function MobileLiquidNav() {
   }
 
   function go(to: (typeof tabs)[number]["to"], tone: number, index: number) {
-    playNavigationTone(tone);
-
     if (index === activeIndex && pathname === to) return;
 
     setFromIndex(activeIndex);
     setActiveIndex(index);
     pendingIndexRef.current = index;
+
+    const playToneAfterNavigation = () => {
+      window.setTimeout(() => playNavigationTone(tone), 90);
+    };
 
     if (to === "/auftrag/erstellen") {
       if (ready && !user) {
@@ -123,14 +141,17 @@ export function MobileLiquidNav() {
           to: "/auth",
           search: { redirect: "/auftrag/erstellen", mode: "signin" },
         });
+        playToneAfterNavigation();
         return;
       }
 
       void navigate({ to, search: { draft: undefined } });
+      playToneAfterNavigation();
       return;
     }
 
     void navigate({ to });
+    playToneAfterNavigation();
   }
 
   return (
