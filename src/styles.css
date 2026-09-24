@@ -2316,3 +2316,261 @@ button:focus-visible {
     margin-inline: 2px;
   }
 }
+
+/* BAUSQO premium card-frame v2: stronger, smoother, and touch-friendly. */
+.bausqo-panel,
+.bausqo-option-card,
+.bausqo-global-back,
+.bausqo-side-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bausqo-panel {
+  position: relative;
+  isolation: isolate;
+  border-color: color-mix(
+    in srgb,
+    var(--section-accent, var(--primary)) 24%,
+    color-mix(in srgb, var(--border) 88%, transparent)
+  );
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--section-accent, var(--primary)) 3.5%, rgba(255,255,255,.98)),
+      color-mix(in srgb, var(--card) 98%, transparent) 34%,
+      color-mix(in srgb, var(--card) 93%, transparent)
+    );
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.72) inset,
+    0 1px 0 rgba(255,255,255,.88) inset,
+    0 12px 34px rgba(15,23,42,.075),
+    0 0 24px color-mix(in srgb, var(--section-accent, var(--primary)) 6%, transparent);
+  transition:
+    transform .34s cubic-bezier(.16,.84,.25,1),
+    box-shadow .34s cubic-bezier(.16,.84,.25,1),
+    border-color .28s ease,
+    background-color .28s ease;
+}
+
+.bausqo-panel:focus-within {
+  border-color: color-mix(in srgb, var(--section-accent, var(--primary)) 46%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--section-accent, var(--primary)) 15%, white) inset,
+    0 16px 42px rgba(15,23,42,.09),
+    0 0 30px color-mix(in srgb, var(--section-accent, var(--primary)) 9%, transparent);
+}
+
+@media (hover: hover) {
+  .bausqo-panel:hover {
+    transform: translate3d(0,-3px,0) scale(1.003);
+    border-color: color-mix(in srgb, var(--section-accent, var(--primary)) 40%, var(--border));
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.78) inset,
+      0 18px 46px rgba(15,23,42,.105),
+      0 0 34px color-mix(in srgb, var(--section-accent, var(--primary)) 9%, transparent);
+  }
+}
+
+.bausqo-panel:active {
+  transform: translate3d(0,0,0) scale(.994);
+  transition-duration: .12s;
+}
+
+/* The full workspace now reads as one premium card, using the active section color. */
+.bausqo-section-page-frame {
+  margin: 8px;
+  border: 1px solid color-mix(in srgb, var(--section-accent) 22%, rgba(148,163,184,.22));
+  border-radius: 30px;
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--section-accent) 2.8%, rgba(255,255,255,.96)),
+      rgba(255,255,255,.72) 42%,
+      color-mix(in srgb, var(--section-accent) 2.2%, rgba(248,250,252,.92))
+    );
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.7) inset,
+    0 20px 56px rgba(15,23,42,.075),
+    0 0 34px color-mix(in srgb, var(--section-accent) 6%, transparent);
+  overflow: clip;
+}
+
+.bausqo-section-page-border {
+  inset: 0;
+  border-width: 1px;
+  border-color: color-mix(in srgb, var(--section-accent) 34%, rgba(148,163,184,.22));
+  border-radius: inherit;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.64) inset,
+    0 0 38px color-mix(in srgb, var(--section-accent) 10%, transparent);
+}
+
+.bausqo-section-page-shine {
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: min(38vw, 380px);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--section-accent) 28%, transparent));
+  animation-duration: 5.2s;
+}
+
+/* Back control follows the same framed-card language as authentication. */
+.bausqo-global-back {
+  overflow: hidden;
+  min-width: 92px;
+  height: 42px;
+  border-radius: 15px;
+  border-color: color-mix(in srgb, var(--primary) 26%, var(--border));
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--primary) 5%, rgba(255,255,255,.96)),
+      color-mix(in srgb, var(--card) 88%, transparent)
+    );
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.66) inset,
+    0 10px 30px rgba(15,23,42,.11),
+    0 0 22px color-mix(in srgb, var(--primary) 8%, transparent);
+  transition:
+    transform .28s cubic-bezier(.16,.84,.25,1),
+    border-color .24s ease,
+    box-shadow .28s ease,
+    background-color .24s ease;
+}
+
+.bausqo-global-back::before {
+  content: "";
+  position: absolute;
+  inset: -50% auto -50% -36%;
+  width: 24%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  opacity: 0;
+  transform: translate3d(-180%,0,0) skewX(-18deg);
+}
+
+.bausqo-global-back:hover,
+.bausqo-global-back:focus-visible {
+  transform: translate3d(0,-2px,0);
+  border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.74) inset,
+    0 16px 38px rgba(15,23,42,.15),
+    0 0 28px color-mix(in srgb, var(--primary) 11%, transparent);
+}
+
+.bausqo-global-back:hover::before,
+.bausqo-global-back:focus-visible::before,
+.bausqo-global-back:active::before {
+  opacity: .8;
+  animation: bausqo-option-shine .74s ease-out both;
+}
+
+.bausqo-global-back:active {
+  transform: translate3d(0,0,0) scale(.975);
+}
+
+/* Navigation drawer behaves like a floating card instead of a blocking wall. */
+.bausqo-side-card {
+  top: 10px !important;
+  right: 10px !important;
+  bottom: 10px !important;
+  height: auto !important;
+  max-height: calc(100dvh - 20px);
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, rgba(148,163,184,.28)) !important;
+  border-radius: 30px !important;
+  background: color-mix(in srgb, var(--card) 96%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.66) inset,
+    -16px 18px 58px rgba(15,23,42,.18),
+    0 0 34px color-mix(in srgb, var(--primary) 8%, transparent);
+  backdrop-filter: blur(24px) saturate(1.08);
+  overscroll-behavior: contain;
+}
+
+/* Side-menu cards react on mouse, keyboard, and touch. */
+.bausqo-option-card {
+  border-color: color-mix(in srgb, var(--primary) 20%, var(--border));
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--primary) 3%, rgba(255,255,255,.98)),
+      var(--card)
+    );
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.66) inset,
+    0 8px 22px rgba(15,23,42,.06);
+  touch-action: manipulation;
+}
+
+.bausqo-option-card:hover,
+.bausqo-option-card:focus-visible,
+.bausqo-option-card:focus-within {
+  transform: translate3d(0,-4px,0) scale(1.012);
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--border));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.74) inset,
+    0 18px 42px rgba(15,23,42,.12),
+    0 0 24px color-mix(in srgb, var(--primary) 9%, transparent);
+}
+
+.bausqo-option-card:active {
+  transform: translate3d(0,-1px,0) scale(.982);
+  transition-duration: .11s;
+}
+
+.bausqo-option-card:hover::after,
+.bausqo-option-card:focus-visible::after,
+.bausqo-option-card:focus-within::after,
+.bausqo-option-card:active::after {
+  opacity: .9;
+  animation: bausqo-option-shine .72s ease-out both;
+}
+
+/* Keep exposed page controls genuinely clickable while a non-blocking drawer is open. */
+[data-nonblocking="true"] {
+  pointer-events: auto;
+}
+
+body:has([data-nonblocking="true"][data-state="open"]) .bausqo-route-content {
+  pointer-events: auto;
+}
+
+body:has([data-nonblocking="true"][data-state="open"]) .bausqo-global-back,
+body:has([data-nonblocking="true"][data-state="open"]) .bausqo-liquid-nav,
+body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
+  pointer-events: auto;
+}
+
+@media (max-width: 640px) {
+  .bausqo-section-page-frame {
+    margin: 5px;
+    border-radius: 23px;
+  }
+
+  .bausqo-side-card {
+    top: 7px !important;
+    right: 7px !important;
+    bottom: 7px !important;
+    max-height: calc(100dvh - 14px);
+    border-radius: 25px !important;
+  }
+
+  .bausqo-global-back {
+    top: 82px;
+    left: 8px;
+    height: 40px;
+    min-width: 86px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-panel,
+  .bausqo-option-card,
+  .bausqo-global-back {
+    transition-duration: .001ms !important;
+  }
+}
+
