@@ -8,7 +8,7 @@ import type { ExternalResult, ExternalSearchResponse, SearchStats } from "@/lib/
 export function ExternalResultCard({ item, highlight }: { item: ExternalResult; highlight?: boolean }) {
   const type = item.resultType ? resultTypeMeta[item.resultType] : null;
   return (
-    <article className={`rounded-lg border border-dashed p-5 ${highlight ? "border-primary/50 bg-primary/5" : "border-muted-foreground/40 bg-muted/30"}`}>
+    <article className={`bausqo-deferred-card rounded-lg border border-dashed p-5 ${highlight ? "border-primary/50 bg-primary/5" : "border-muted-foreground/40 bg-muted/30"}`}>
       <div className="flex flex-wrap items-center gap-2">
         {type && (
           <span className="inline-flex items-center gap-1.5 rounded bg-background px-2 py-1 text-xs font-extrabold uppercase tracking-wide">
