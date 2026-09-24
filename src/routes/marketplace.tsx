@@ -174,13 +174,13 @@ function MarketplacePage() {
   return (
     <AppShell>
       <div className="bausqo-page mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <div className="bausqo-grid-dark relative overflow-hidden rounded-[1.65rem] bg-brand-dark p-6 text-white shadow-2xl sm:p-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div className="bausqo-panel relative overflow-hidden rounded-[1.65rem] bg-card p-6 sm:p-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <span className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-primary">UNIVERSAL SEARCH</span>
-            <h1 className="mt-4 text-3xl font-black tracking-[-0.04em] sm:text-4xl">Finde genau, was dein Projekt braucht.</h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/50">Aufträge, Mitarbeiter, Teams und Unternehmen in einer Suche – intern, extern und auf der Karte.</p>
+            <span className="inline-flex rounded-full border border-primary/25 bg-primary/5 px-3 py-1 text-[9px] font-black uppercase tracking-[0.16em] text-primary">UNIVERSAL SEARCH</span>
+            <h1 className="mt-4 text-3xl font-black tracking-[-0.04em] text-foreground sm:text-4xl">Finde genau, was dein Projekt braucht.</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">Aufträge, Mitarbeiter, Teams und Unternehmen in einer Suche – intern, extern und auf der Karte.</p>
           </div>
-          <div className="inline-flex flex-wrap rounded-2xl border border-white/10 bg-white/[0.055] p-1.5 backdrop-blur" role="group" aria-label="Ansicht">
+          <div className="inline-flex flex-wrap rounded-2xl border bg-muted/35 p-1.5" role="group" aria-label="Ansicht">
             <Button size="sm" variant={view === "alle" ? "default" : "ghost"} onClick={() => setView("alle")}><List /> Alle ({totalCount})</Button>
             <Button size="sm" variant={view === "baumatch" ? "default" : "ghost"} onClick={() => setView("baumatch")}>BAUSQO ({internalCount})</Button>
             <Button size="sm" variant={view === "extern" ? "default" : "ghost"} onClick={() => setView("extern")}>Extern ({externalCount})</Button>
