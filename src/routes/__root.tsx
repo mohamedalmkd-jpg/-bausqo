@@ -129,15 +129,10 @@ function RootComponent() {
       <GlobalBackButton />
       <AuthProvider>
         <WorkspaceProvider>
-          <div key={pathname} className="bausqo-route-stage">
+          <div className="bausqo-route-stage">
             <div className="bausqo-ambient bausqo-ambient-one" aria-hidden="true" />
             <div className="bausqo-ambient bausqo-ambient-two" aria-hidden="true" />
-            <div className="bausqo-route-impact" aria-hidden="true">
-              <span className="bausqo-route-impact-ring" />
-              <span className="bausqo-route-impact-beam" />
-            </div>
-            <div className="bausqo-route-progress" aria-hidden="true" />
-            <div className="bausqo-route-content">
+            <div key={pathname} className="bausqo-route-content">
               <Outlet />
             </div>
           </div>
