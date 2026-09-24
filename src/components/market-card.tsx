@@ -66,7 +66,7 @@ export function MarketCard({
     <article
       id={`card-${item.id}`}
       onClick={() => onSelect?.(item.id)}
-      className={`group bausqo-panel bausqo-lift relative overflow-hidden rounded-[1.55rem] p-5 sm:p-6 ${selected ? "border-primary ring-4 ring-primary/10" : ""}`}
+      className={`group bausqo-deferred-card bausqo-panel bausqo-lift relative overflow-hidden rounded-[1.55rem] p-5 sm:p-6 ${selected ? "border-primary ring-4 ring-primary/10" : ""}`}
     >
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-cyan-300 to-sky-400" />
       <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-primary/7 blur-3xl" />
