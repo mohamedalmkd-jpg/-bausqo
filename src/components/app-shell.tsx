@@ -173,7 +173,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[9px] font-black uppercase tracking-[0.15em] text-white/35">Workspace</p>
-              <p className="mt-0.5 truncate text-sm font-black">{workspaceName}</p>
+              <p className="bausqo-name-glow mt-0.5 truncate text-sm font-black">{workspaceName}</p>
             </div>
           </div>
           <div className="mt-3 flex items-center justify-between rounded-xl bg-white/[0.045] px-3 py-2">
