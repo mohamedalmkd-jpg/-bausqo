@@ -158,23 +158,14 @@ function RootComponent() {
         <WorkspaceProvider>
           <div className="bausqo-route-stage">
             <div key={pathname} className={`bausqo-wind-transition is-${direction}`} aria-hidden="true">
-              <span className="bausqo-portal-wall bausqo-portal-wall-left" />
-              <span className="bausqo-portal-wall bausqo-portal-wall-right" />
-              <span className="bausqo-depth-door bausqo-depth-door-1-left" />
-              <span className="bausqo-depth-door bausqo-depth-door-1-right" />
-              <span className="bausqo-depth-door bausqo-depth-door-2-left" />
-              <span className="bausqo-depth-door bausqo-depth-door-2-right" />
-              <span className="bausqo-depth-door bausqo-depth-door-3-left" />
-              <span className="bausqo-depth-door bausqo-depth-door-3-right" />
-              <span className="bausqo-portal-rail bausqo-portal-rail-top" />
-              <span className="bausqo-portal-rail bausqo-portal-rail-bottom" />
-              <span className="bausqo-portal-depth-line bausqo-portal-depth-1" />
-              <span className="bausqo-portal-depth-line bausqo-portal-depth-2" />
-              <span className="bausqo-wind-line bausqo-wind-line-1" />
-              <span className="bausqo-wind-line bausqo-wind-line-2" />
-              <span className="bausqo-wind-line bausqo-wind-line-3" />
-              <span className="bausqo-wind-line bausqo-wind-line-4" />
-              <span className="bausqo-wind-line bausqo-wind-line-5" />
+              <span className="bausqo-morph-backdrop" />
+              <span className="bausqo-morph-frame">
+                <span className="bausqo-morph-wire bausqo-morph-wire-a" />
+                <span className="bausqo-morph-wire bausqo-morph-wire-b" />
+                <span className="bausqo-morph-wire bausqo-morph-wire-c" />
+                <span className="bausqo-morph-wire bausqo-morph-wire-d" />
+                <span className="bausqo-morph-orb" />
+              </span>
             </div>
             <div className="bausqo-route-content">
               <div key={pathname} className={`bausqo-route-page-slide is-${direction}`}>
