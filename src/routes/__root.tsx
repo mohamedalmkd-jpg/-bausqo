@@ -158,6 +158,12 @@ function RootComponent() {
         <WorkspaceProvider>
           <div className="bausqo-route-stage">
             <div key={pathname} className={`bausqo-wind-transition is-${direction}`} aria-hidden="true">
+              <span className="bausqo-portal-wall bausqo-portal-wall-left" />
+              <span className="bausqo-portal-wall bausqo-portal-wall-right" />
+              <span className="bausqo-portal-rail bausqo-portal-rail-top" />
+              <span className="bausqo-portal-rail bausqo-portal-rail-bottom" />
+              <span className="bausqo-portal-depth-line bausqo-portal-depth-1" />
+              <span className="bausqo-portal-depth-line bausqo-portal-depth-2" />
               <span className="bausqo-wind-line bausqo-wind-line-1" />
               <span className="bausqo-wind-line bausqo-wind-line-2" />
               <span className="bausqo-wind-line bausqo-wind-line-3" />
