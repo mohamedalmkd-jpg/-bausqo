@@ -8,7 +8,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceProvider } from "@/lib/workspace-state";
 import { AuthProvider } from "@/lib/auth";
@@ -120,9 +120,36 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function routeLane(pathname: string) {
+  if (pathname.startsWith("/marketplace")) return 1;
+  if (pathname.startsWith("/auftrag/erstellen")) return 2;
+  if (pathname.startsWith("/nachrichten")) return 3;
+  if (pathname.startsWith("/profil")) return 4;
+
+  if (
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/matches") ||
+    pathname.startsWith("/bewerbungen") ||
+    pathname.startsWith("/gespeichert") ||
+    pathname.startsWith("/benachrichtigungen") ||
+    pathname.startsWith("/mitgliedschaft") ||
+    pathname.startsWith("/meine-auftraege") ||
+    pathname.startsWith("/auftrag/")
+  ) return 2;
+
+  return 0;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const currentLane = routeLane(pathname);
+  const previousLaneRef = useRef(currentLane);
+  const direction = currentLane >= previousLaneRef.current ? "forward" : "back";
+
+  useEffect(() => {
+    previousLaneRef.current = currentLane;
+  }, [currentLane]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -130,7 +157,7 @@ function RootComponent() {
       <AuthProvider>
         <WorkspaceProvider>
           <div className="bausqo-route-stage">
-            <div key={pathname} className="bausqo-wind-transition" aria-hidden="true">
+            <div key={pathname} className={`bausqo-wind-transition is-${direction}`} aria-hidden="true">
               <span className="bausqo-wind-line bausqo-wind-line-1" />
               <span className="bausqo-wind-line bausqo-wind-line-2" />
               <span className="bausqo-wind-line bausqo-wind-line-3" />
@@ -138,7 +165,9 @@ function RootComponent() {
               <span className="bausqo-wind-line bausqo-wind-line-5" />
             </div>
             <div className="bausqo-route-content">
-              <Outlet />
+              <div key={pathname} className={`bausqo-route-page-slide is-${direction}`}>
+                <Outlet />
+              </div>
             </div>
           </div>
           <MobileLiquidNav />
