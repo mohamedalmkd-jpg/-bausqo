@@ -3119,7 +3119,7 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   opacity: .78;
 }
 
-.bausqo-public-premium-card > * {
+.bausqo-public-premium-card > :not(.pointer-events-none) {
   position: relative;
   z-index: 1;
 }
@@ -3145,6 +3145,59 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
 @media (prefers-reduced-motion: reduce) {
   .bausqo-public-premium-card::before {
     animation: none !important;
+  }
+}
+
+/* Hotfix v5: restore dark-hero contrast and prevent public decorative layers from entering layout. */
+.bausqo-premium-page-card .bausqo-grid-dark h1,
+.bausqo-premium-page-card .bausqo-grid-dark h2,
+.bausqo-premium-page-card .bausqo-grid-dark h3,
+.bausqo-premium-page-card [class*="bg-brand-dark"] h1,
+.bausqo-premium-page-card [class*="bg-brand-dark"] h2,
+.bausqo-premium-page-card [class*="bg-brand-dark"] h3 {
+  color: #fff !important;
+}
+
+.bausqo-premium-page-card .bausqo-grid-dark p,
+.bausqo-premium-page-card [class*="bg-brand-dark"] p {
+  text-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+
+/* Public premium cards: only real content enters the stacking layer.
+   Decorative absolute orbs keep their absolute positioning and cannot create empty vertical space. */
+.bausqo-public-premium-card > .pointer-events-none {
+  position: absolute !important;
+  z-index: 0 !important;
+}
+
+/* Mobile: keep the fixed navigation visually clear of the final interactive rows. */
+@media (max-width: 1023px) {
+  .bausqo-premium-page-content {
+    padding-bottom: 108px;
+  }
+
+  .bausqo-liquid-nav {
+    height: 72px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .bausqo-liquid-tab {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    min-height: 56px;
+  }
+
+  .bausqo-liquid-icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bausqo-premium-page-card .bausqo-grid-dark {
+    margin-bottom: 10px;
   }
 }
 
