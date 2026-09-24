@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -121,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -128,8 +130,13 @@ function RootComponent() {
       <AuthProvider>
         <WorkspaceProvider>
           <div className="bausqo-route-stage">
-            <div className="bausqo-ambient bausqo-ambient-one" aria-hidden="true" />
-            <div className="bausqo-ambient bausqo-ambient-two" aria-hidden="true" />
+            <div key={pathname} className="bausqo-wind-transition" aria-hidden="true">
+              <span className="bausqo-wind-line bausqo-wind-line-1" />
+              <span className="bausqo-wind-line bausqo-wind-line-2" />
+              <span className="bausqo-wind-line bausqo-wind-line-3" />
+              <span className="bausqo-wind-line bausqo-wind-line-4" />
+              <span className="bausqo-wind-line bausqo-wind-line-5" />
+            </div>
             <div className="bausqo-route-content">
               <Outlet />
             </div>
