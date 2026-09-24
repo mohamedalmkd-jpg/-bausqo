@@ -51,7 +51,7 @@ function HomePage() {
 
       <main className="bausqo-page pb-24 md:pb-0">
         <section className="px-0 pt-0 sm:px-4 sm:pt-5 lg:px-8">
-          <div className="bausqo-grid-dark relative mx-auto max-w-7xl overflow-hidden bg-brand-dark text-white shadow-2xl sm:rounded-[2rem]">
+          <div className="bausqo-public-premium-card bausqo-grid-dark relative mx-auto max-w-7xl overflow-hidden bg-brand-dark text-white shadow-2xl sm:rounded-[2rem]">
             <div className="pointer-events-none absolute -right-24 -top-36 size-[34rem] rounded-full bg-primary/15 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-40 left-1/3 size-80 rounded-full bg-sky-400/8 blur-3xl" />
 
