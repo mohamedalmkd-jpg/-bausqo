@@ -8,7 +8,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceProvider } from "@/lib/workspace-state";
 import { AuthProvider } from "@/lib/auth";
@@ -120,36 +120,9 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function routeLane(pathname: string) {
-  if (pathname.startsWith("/marketplace")) return 1;
-  if (pathname.startsWith("/auftrag/erstellen")) return 2;
-  if (pathname.startsWith("/nachrichten")) return 3;
-  if (pathname.startsWith("/profil")) return 4;
-
-  if (
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/matches") ||
-    pathname.startsWith("/bewerbungen") ||
-    pathname.startsWith("/gespeichert") ||
-    pathname.startsWith("/benachrichtigungen") ||
-    pathname.startsWith("/mitgliedschaft") ||
-    pathname.startsWith("/meine-auftraege") ||
-    pathname.startsWith("/auftrag/")
-  ) return 2;
-
-  return 0;
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const currentLane = routeLane(pathname);
-  const previousLaneRef = useRef(currentLane);
-  const direction = currentLane >= previousLaneRef.current ? "forward" : "back";
-
-  useEffect(() => {
-    previousLaneRef.current = currentLane;
-  }, [currentLane]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -157,18 +130,8 @@ function RootComponent() {
       <AuthProvider>
         <WorkspaceProvider>
           <div className="bausqo-route-stage">
-            <div key={pathname} className={`bausqo-wind-transition is-${direction}`} aria-hidden="true">
-              <span className="bausqo-morph-backdrop" />
-              <span className="bausqo-morph-frame">
-                <span className="bausqo-morph-wire bausqo-morph-wire-a" />
-                <span className="bausqo-morph-wire bausqo-morph-wire-b" />
-                <span className="bausqo-morph-wire bausqo-morph-wire-c" />
-                <span className="bausqo-morph-wire bausqo-morph-wire-d" />
-                <span className="bausqo-morph-orb" />
-              </span>
-            </div>
             <div className="bausqo-route-content">
-              <div key={pathname} className={`bausqo-route-page-slide is-${direction}`}>
+              <div key={pathname} className="bausqo-route-page-slide">
                 <Outlet />
               </div>
             </div>
