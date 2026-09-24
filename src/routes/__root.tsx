@@ -120,16 +120,33 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function sceneAccent(pathname: string) {
+  if (pathname.startsWith("/marketplace")) return "#8b7cff";
+  if (pathname.startsWith("/auftrag/erstellen")) return "#f6c85f";
+  if (pathname.startsWith("/nachrichten")) return "#4fc8ff";
+  if (pathname.startsWith("/profil")) return "#ff6fae";
+  return "#49e58b";
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const sceneColor = sceneAccent(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalBackButton />
       <AuthProvider>
         <WorkspaceProvider>
-          <div className="bausqo-route-stage">
+          <div
+            className="bausqo-route-stage"
+            style={{ "--bausqo-scene-accent": sceneColor } as React.CSSProperties}
+          >
+            <div key={`scene-${pathname}`} className="bausqo-scene-backdrop" aria-hidden="true">
+              <span className="bausqo-scene-orb bausqo-scene-orb-a" />
+              <span className="bausqo-scene-orb bausqo-scene-orb-b" />
+              <span className="bausqo-scene-floor" />
+            </div>
             <div className="bausqo-route-content">
               <div key={pathname} className="bausqo-route-page-slide">
                 <Outlet />
