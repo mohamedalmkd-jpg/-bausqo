@@ -185,6 +185,9 @@ export function MobileLiquidNav() {
   return (
     <nav className="bausqo-liquid-nav lg:hidden" style={navStyle} aria-label="Mobile Hauptnavigation">
       <span key={`${fromIndex}-${activeIndex}`} className="bausqo-liquid-light" aria-hidden="true">
+        <span className="bausqo-liquid-wind bausqo-liquid-wind-1" />
+        <span className="bausqo-liquid-wind bausqo-liquid-wind-2" />
+        <span className="bausqo-liquid-wind bausqo-liquid-wind-3" />
         <span className="bausqo-liquid-light-core" />
       </span>
 
