@@ -2574,3 +2574,185 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* BAUSQO premium frame v3 — intentionally stronger and more luminous. */
+.bausqo-section-page-frame {
+  border-width: 2px !important;
+  border-color: color-mix(in srgb, var(--section-accent) 58%, rgba(148,163,184,.34)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.95) inset,
+    0 0 0 5px color-mix(in srgb, var(--section-accent) 7%, transparent),
+    0 24px 64px rgba(15,23,42,.14),
+    0 0 48px color-mix(in srgb, var(--section-accent) 20%, transparent) !important;
+}
+
+.bausqo-section-page-border {
+  border-width: 2px !important;
+  border-color: color-mix(in srgb, var(--section-accent) 72%, rgba(255,255,255,.44)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.82) inset,
+    0 0 16px color-mix(in srgb, var(--section-accent) 28%, transparent) inset,
+    0 0 44px color-mix(in srgb, var(--section-accent) 24%, transparent) !important;
+}
+
+.bausqo-section-page-shine {
+  height: 4px !important;
+  width: min(48vw, 470px) !important;
+  opacity: .92;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--section-accent) 45%, transparent) 13%,
+      color-mix(in srgb, var(--section-accent) 88%, white) 42%,
+      #fff 50%,
+      color-mix(in srgb, var(--section-accent) 92%, white) 58%,
+      color-mix(in srgb, var(--section-accent) 46%, transparent) 87%,
+      transparent 100%
+    ) !important;
+  filter:
+    drop-shadow(0 0 5px rgba(255,255,255,.95))
+    drop-shadow(0 0 14px color-mix(in srgb, var(--section-accent) 72%, transparent))
+    drop-shadow(0 0 28px color-mix(in srgb, var(--section-accent) 38%, transparent)) !important;
+  animation-duration: 3.9s !important;
+}
+
+.bausqo-panel,
+.bausqo-option-card,
+.bausqo-side-card,
+[class*="rounded-2xl"][class*="border"][class*="bg-card"] {
+  border-width: 2px !important;
+  border-color: color-mix(
+    in srgb,
+    var(--section-accent, var(--primary)) 46%,
+    rgba(148,163,184,.38)
+  ) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.88) inset,
+    0 0 0 4px color-mix(in srgb, var(--section-accent, var(--primary)) 5.5%, transparent),
+    0 14px 34px rgba(15,23,42,.11),
+    0 0 30px color-mix(in srgb, var(--section-accent, var(--primary)) 14%, transparent) !important;
+}
+
+@media (hover: hover) {
+  .bausqo-panel:hover,
+  .bausqo-option-card:hover,
+  [class*="rounded-2xl"][class*="border"][class*="bg-card"]:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--section-accent, var(--primary)) 78%,
+      rgba(255,255,255,.5)
+    ) !important;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.96) inset,
+      0 0 0 5px color-mix(in srgb, var(--section-accent, var(--primary)) 8%, transparent),
+      0 20px 48px rgba(15,23,42,.15),
+      0 0 42px color-mix(in srgb, var(--section-accent, var(--primary)) 24%, transparent) !important;
+  }
+}
+
+.bausqo-global-back {
+  border-width: 2px !important;
+  border-color: color-mix(in srgb, var(--primary) 68%, rgba(255,255,255,.46)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.92) inset,
+    0 0 0 4px color-mix(in srgb, var(--primary) 8%, transparent),
+    0 12px 34px rgba(15,23,42,.16),
+    0 0 34px color-mix(in srgb, var(--primary) 24%, transparent) !important;
+}
+
+/* Bright animated light directly above the workspace/company name. */
+.bausqo-name-glow {
+  position: relative;
+  overflow: visible;
+  text-shadow:
+    0 0 10px color-mix(in srgb, var(--section-accent) 24%, transparent),
+    0 1px 0 rgba(255,255,255,.10);
+}
+
+.bausqo-name-glow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -8px;
+  width: min(86%, 150px);
+  height: 3px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--section-accent) 62%, transparent) 16%,
+      color-mix(in srgb, var(--section-accent) 88%, white) 44%,
+      #fff 50%,
+      color-mix(in srgb, var(--section-accent) 88%, white) 56%,
+      color-mix(in srgb, var(--section-accent) 62%, transparent) 84%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 6px rgba(255,255,255,.88),
+    0 0 14px color-mix(in srgb, var(--section-accent) 72%, transparent),
+    0 0 26px color-mix(in srgb, var(--section-accent) 40%, transparent);
+  transform-origin: left center;
+  animation: bausqo-name-light-pulse 2.35s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bausqo-name-glow::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -15px;
+  width: min(96%, 170px);
+  height: 18px;
+  border-radius: 999px;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--section-accent) 28%, rgba(255,255,255,.18)),
+    transparent 72%
+  );
+  filter: blur(5px);
+  opacity: .72;
+  animation: bausqo-name-aura 2.35s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bausqo-name-light-pulse {
+  0%, 100% {
+    opacity: .58;
+    transform: scaleX(.76);
+    filter: brightness(.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+    filter: brightness(1.18);
+  }
+}
+
+@keyframes bausqo-name-aura {
+  0%, 100% { opacity: .42; transform: scaleX(.82); }
+  50% { opacity: .9; transform: scaleX(1.08); }
+}
+
+@media (max-width: 640px) {
+  .bausqo-section-page-frame {
+    border-width: 2px !important;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.92) inset,
+      0 0 0 3px color-mix(in srgb, var(--section-accent) 7%, transparent),
+      0 16px 42px rgba(15,23,42,.13),
+      0 0 34px color-mix(in srgb, var(--section-accent) 18%, transparent) !important;
+  }
+
+  .bausqo-section-page-shine {
+    width: 62vw !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-name-glow::before,
+  .bausqo-name-glow::after {
+    animation: none !important;
+  }
+}
+
