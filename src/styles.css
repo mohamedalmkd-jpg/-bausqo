@@ -4057,3 +4057,125 @@ a[href]:focus-visible {
   }
 }
 
+/* Horizontal page navigation v12 — the page body moves with the tab direction. */
+.bausqo-route-content {
+  overflow-x: clip;
+}
+
+.bausqo-route-page-slide {
+  min-height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.bausqo-route-page-slide.is-forward {
+  animation: bausqo-page-slide-forward 230ms var(--bausqo-ease) both;
+}
+
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-page-slide-back 230ms var(--bausqo-ease) both;
+}
+
+@keyframes bausqo-page-slide-forward {
+  0% {
+    opacity: .72;
+    transform: translate3d(34px,0,0) scale(.994);
+  }
+  58% {
+    opacity: 1;
+    transform: translate3d(-2px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+@keyframes bausqo-page-slide-back {
+  0% {
+    opacity: .72;
+    transform: translate3d(-34px,0,0) scale(.994);
+  }
+  58% {
+    opacity: 1;
+    transform: translate3d(2px,0,0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Wind direction follows page direction too. */
+.bausqo-wind-transition.is-back .bausqo-wind-line {
+  left: auto;
+  right: -42vw;
+  transform-origin: left center;
+  animation-name: bausqo-wind-pass-back !important;
+}
+
+@keyframes bausqo-wind-pass-back {
+  0% {
+    opacity: 0;
+    transform: translate3d(8vw,0,0) scaleX(.55);
+  }
+  18% {
+    opacity: .72;
+  }
+  58% {
+    opacity: .92;
+    transform: translate3d(-78vw,0,0) scaleX(1.18);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-152vw,0,0) scaleX(.74);
+  }
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide.is-forward {
+    animation: bausqo-page-slide-forward-mobile 210ms var(--bausqo-ease) both !important;
+  }
+
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-page-slide-back-mobile 210ms var(--bausqo-ease) both !important;
+  }
+
+  @keyframes bausqo-page-slide-forward-mobile {
+    0% {
+      opacity: .82;
+      transform: translate3d(28px,0,0);
+    }
+    64% {
+      opacity: 1;
+      transform: translate3d(-1px,0,0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+  }
+
+  @keyframes bausqo-page-slide-back-mobile {
+    0% {
+      opacity: .82;
+      transform: translate3d(-28px,0,0);
+    }
+    64% {
+      opacity: 1;
+      transform: translate3d(1px,0,0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide {
+    animation: none !important;
+  }
+}
+
