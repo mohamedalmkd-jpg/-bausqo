@@ -330,7 +330,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="pb-6 lg:ml-[18rem] lg:pb-8">
-        <div className="bausqo-section-page-frame">
+        <div className="bausqo-section-page-frame bausqo-page-motion-surface">
           <span className="bausqo-section-page-border" aria-hidden="true" />
           <span className="bausqo-section-page-shine" aria-hidden="true" />
           <div className="bausqo-premium-page-card">
