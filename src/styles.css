@@ -5433,3 +5433,277 @@ a[href]:focus-visible {
   }
 }
 
+/* TikTok-style page morph v19 — wireframe -> floating card -> full page. */
+
+/* Disable all earlier corridor/door/wind visuals. */
+.bausqo-portal-wall,
+.bausqo-depth-door,
+.bausqo-portal-rail,
+.bausqo-portal-depth-line,
+.bausqo-wind-line,
+.bausqo-liquid-wind {
+  display: none !important;
+}
+
+.bausqo-route-stage,
+.bausqo-route-content {
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+.bausqo-route-content {
+  overflow: hidden;
+  background: var(--background);
+}
+
+/* The entire real page behaves like the hero card in the reference. */
+.bausqo-route-page-slide.is-forward,
+.bausqo-route-page-slide.is-back {
+  animation: bausqo-page-morph-in 720ms cubic-bezier(.16,.84,.18,1) both !important;
+  transform-origin: 50% 46%;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes bausqo-page-morph-in {
+  0% {
+    opacity: .22;
+    filter: grayscale(1) saturate(.15) brightness(1.08);
+    transform: translate3d(0,34px,0) scale(.84);
+    border-radius: 34px;
+  }
+  20% {
+    opacity: .46;
+    filter: grayscale(.9) saturate(.25) brightness(1.06);
+    transform: translate3d(0,24px,0) scale(.87);
+    border-radius: 32px;
+  }
+  46% {
+    opacity: .78;
+    filter: grayscale(.42) saturate(.62) brightness(1.03);
+    transform: translate3d(0,10px,0) scale(.93);
+    border-radius: 26px;
+  }
+  72% {
+    opacity: 1;
+    filter: grayscale(0) saturate(1) brightness(1);
+    transform: translate3d(0,-3px,0) scale(1.012);
+    border-radius: 12px;
+  }
+  88% {
+    transform: translate3d(0,1px,0) scale(.998);
+    border-radius: 4px;
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: translate3d(0,0,0) scale(1);
+    border-radius: 0;
+  }
+}
+
+/* Transition overlay: a central mock card grows with the page, just like the reference clip. */
+.bausqo-wind-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9989;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  background: transparent;
+}
+
+.bausqo-morph-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 48%, color-mix(in srgb, var(--primary) 11%, white), transparent 52%),
+    rgba(248,250,252,.82);
+  animation: bausqo-morph-backdrop-out 700ms cubic-bezier(.16,.84,.18,1) both;
+}
+
+@keyframes bausqo-morph-backdrop-out {
+  0%, 18% { opacity: .92; }
+  54% { opacity: .52; }
+  100% { opacity: 0; }
+}
+
+.bausqo-morph-frame {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: min(76vw, 760px);
+  height: min(44vw, 430px);
+  min-height: 220px;
+  transform: translate3d(-50%,-50%,0) scale(.72);
+  border-radius: 34px;
+  border: 1px solid rgba(148,163,184,.38);
+  background:
+    linear-gradient(155deg, rgba(226,232,240,.82), rgba(241,245,249,.96));
+  box-shadow:
+    0 22px 70px rgba(15,23,42,.16),
+    0 0 0 1px rgba(255,255,255,.86) inset;
+  opacity: 0;
+  overflow: hidden;
+  animation: bausqo-morph-frame-open 700ms cubic-bezier(.16,.84,.18,1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-morph-frame-open {
+  0% {
+    opacity: .96;
+    transform: translate3d(-50%,-50%,0) scale(.68);
+  }
+  28% {
+    opacity: 1;
+    transform: translate3d(-50%,-50%,0) scale(.77);
+  }
+  58% {
+    opacity: .82;
+    transform: translate3d(-50%,-50%,0) scale(.94);
+  }
+  82% {
+    opacity: .24;
+    transform: translate3d(-50%,-50%,0) scale(1.18);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(1.34);
+  }
+}
+
+/* Wireframe pieces imitate the grey pre-color UI state from the reference. */
+.bausqo-morph-wire {
+  position: absolute;
+  height: 11px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 1px 0 rgba(15,23,42,.04);
+  opacity: .9;
+}
+
+.bausqo-morph-wire-a {
+  left: 8%;
+  top: 18%;
+  width: 31%;
+}
+
+.bausqo-morph-wire-b {
+  left: 8%;
+  top: 26%;
+  width: 18%;
+}
+
+.bausqo-morph-wire-c {
+  right: 9%;
+  top: 18%;
+  width: 19%;
+}
+
+.bausqo-morph-wire-d {
+  right: 8%;
+  bottom: 15%;
+  width: 15%;
+}
+
+.bausqo-morph-orb {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  width: min(28vw, 250px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate3d(-50%,-50%,0);
+  background: rgba(255,255,255,.92);
+  box-shadow:
+    0 0 0 22px rgba(15,23,42,.07),
+    0 0 0 48px rgba(15,23,42,.035);
+  animation: bausqo-morph-orb-pulse 700ms cubic-bezier(.16,.84,.18,1) both;
+}
+
+@keyframes bausqo-morph-orb-pulse {
+  0% { transform: translate3d(-50%,-50%,0) scale(.72); }
+  54% { transform: translate3d(-50%,-50%,0) scale(1.04); }
+  100% { transform: translate3d(-50%,-50%,0) scale(1.22); opacity: 0; }
+}
+
+/* Keep all internal sections glued to the same page motion; no independent entrances. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide > div > main.bausqo-page,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Bottom nav remains visible and only performs its liquid indicator motion. */
+.bausqo-liquid-light {
+  animation-duration: 360ms !important;
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide.is-forward,
+  .bausqo-route-page-slide.is-back {
+    animation: bausqo-page-morph-in-mobile 680ms cubic-bezier(.16,.84,.18,1) both !important;
+  }
+
+  @keyframes bausqo-page-morph-in-mobile {
+    0% {
+      opacity: .24;
+      filter: grayscale(1) saturate(.1) brightness(1.08);
+      transform: translate3d(0,28px,0) scale(.82);
+      border-radius: 32px;
+    }
+    22% {
+      opacity: .48;
+      filter: grayscale(.86) saturate(.28);
+      transform: translate3d(0,20px,0) scale(.87);
+    }
+    50% {
+      opacity: .82;
+      filter: grayscale(.34) saturate(.7);
+      transform: translate3d(0,7px,0) scale(.95);
+    }
+    74% {
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0,-2px,0) scale(1.008);
+      border-radius: 10px;
+    }
+    100% {
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0,0,0) scale(1);
+      border-radius: 0;
+    }
+  }
+
+  .bausqo-morph-frame {
+    width: 82vw;
+    height: 44vw;
+    min-height: 190px;
+    border-radius: 28px;
+  }
+
+  .bausqo-morph-orb {
+    width: 32vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-morph-backdrop,
+  .bausqo-morph-frame {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
+
