@@ -3201,3 +3201,67 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Brand accent follows the active mobile navigation section. */
+.bausqo-brand-mark {
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--brand-accent) 92%, white),
+      color-mix(in srgb, var(--brand-accent) 70%, white)
+    );
+  border: 1px solid color-mix(in srgb, var(--brand-accent) 64%, rgba(255,255,255,.7));
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.5) inset,
+    0 8px 20px color-mix(in srgb, var(--brand-accent) 20%, transparent),
+    0 0 22px color-mix(in srgb, var(--brand-accent) 30%, transparent);
+  transition:
+    background .34s ease,
+    border-color .34s ease,
+    box-shadow .34s ease,
+    transform .28s cubic-bezier(.2,.8,.2,1);
+}
+
+.bausqo-brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -35%;
+  width: 30%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  transform: translate3d(-180%,0,0) skewX(-18deg);
+  animation: bausqo-brand-accent-shine 4.4s ease-in-out infinite;
+}
+
+.bausqo-brand-underline {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--brand-accent) 55%, transparent);
+}
+
+@media (hover: hover) {
+  .bausqo-brand:hover .bausqo-brand-mark {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.58) inset,
+      0 10px 24px color-mix(in srgb, var(--brand-accent) 24%, transparent),
+      0 0 28px color-mix(in srgb, var(--brand-accent) 38%, transparent);
+  }
+}
+
+@keyframes bausqo-brand-accent-shine {
+  0%, 62% {
+    opacity: 0;
+    transform: translate3d(-180%,0,0) skewX(-18deg);
+  }
+  72% { opacity: .9; }
+  92% { opacity: .45; }
+  100% {
+    opacity: 0;
+    transform: translate3d(620%,0,0) skewX(-18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-brand-mark::before {
+    animation: none !important;
+  }
+}
+
