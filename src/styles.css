@@ -6074,3 +6074,143 @@ a[href]:focus-visible {
   }
 }
 
+/* 120Hz performance mode v22 — 8.3ms-frame-budget friendly route motion. */
+/* No browser snapshot transitions, no filters, no blur, no clip-path animation. */
+::view-transition-group(bausqo-page),
+::view-transition-image-pair(bausqo-page),
+::view-transition-old(bausqo-page),
+::view-transition-new(bausqo-page) {
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Route entry is compositor-only. */
+.bausqo-route-page-slide {
+  animation: bausqo-120hz-route-enter 320ms cubic-bezier(.18,.86,.2,1) both !important;
+  transform-origin: 50% 48%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity !important;
+  filter: none !important;
+  contain: layout paint style;
+}
+
+@keyframes bausqo-120hz-route-enter {
+  0% {
+    opacity: .42;
+    transform: translate3d(0,16px,0) scale(.925);
+  }
+  42% {
+    opacity: .78;
+    transform: translate3d(0,7px,0) scale(.965);
+  }
+  74% {
+    opacity: 1;
+    transform: translate3d(0,-1px,0) scale(1.004);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Never animate paint-heavy properties during navigation. */
+.bausqo-route-page-slide *,
+.bausqo-route-page-slide *::before,
+.bausqo-route-page-slide *::after {
+  animation-play-state: paused;
+}
+
+/* Re-enable only essential feedback after the route frame settles. */
+.bausqo-liquid-light {
+  animation-play-state: running !important;
+}
+
+/* Keep persistent navigation on its own compositor layer. */
+.bausqo-liquid-nav {
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout paint style;
+}
+
+/* High-refresh mobile tuning. */
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide {
+    animation: bausqo-120hz-route-enter-mobile 260ms cubic-bezier(.18,.86,.2,1) both !important;
+    contain: layout paint style;
+  }
+
+  @keyframes bausqo-120hz-route-enter-mobile {
+    0% {
+      opacity: .48;
+      transform: translate3d(0,12px,0) scale(.94);
+    }
+    48% {
+      opacity: .82;
+      transform: translate3d(0,5px,0) scale(.978);
+    }
+    78% {
+      opacity: 1;
+      transform: translate3d(0,-1px,0) scale(1.003);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  /* Kill effects that are expensive on iOS while navigating. */
+  .bausqo-route-page-slide [class*="blur-"],
+  .bausqo-route-page-slide [class*="backdrop-blur"] {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .bausqo-route-page-slide .bausqo-premium-page-card,
+  .bausqo-route-page-slide .bausqo-public-premium-card,
+  .bausqo-route-page-slide .bausqo-panel,
+  .bausqo-route-page-slide .bausqo-option-card {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.72) inset,
+      0 6px 16px rgba(15,23,42,.06) !important;
+  }
+
+  /* Touch feedback should never block navigation. */
+  button,
+  a[href],
+  [role="button"],
+  [role="tab"] {
+    transition-duration: 90ms !important;
+  }
+
+  .bausqo-liquid-light {
+    animation-duration: 220ms !important;
+  }
+}
+
+/* Pause expensive repeating decoration globally on touch/high-refresh layouts. */
+@media (pointer: coarse) {
+  .bausqo-premium-card-aura,
+  .bausqo-premium-card-sweep,
+  .bausqo-public-premium-card::before,
+  .bausqo-brand-mark::before,
+  .bausqo-name-glow::before,
+  .bausqo-name-glow::after,
+  .bausqo-live,
+  .bausqo-menu-orb,
+  .bausqo-sidebar-orb {
+    animation: none !important;
+  }
+}
+
+/* Once route animation is absent (reduced motion), everything stays static. */
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
