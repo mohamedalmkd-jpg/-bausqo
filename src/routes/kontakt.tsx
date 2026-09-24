@@ -58,7 +58,7 @@ function ContactPage() {
     <div className="min-h-screen bg-muted/30">
       <PublicHeader />
       <main className="bausqo-page mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <section className="grid overflow-hidden rounded-[2rem] bg-brand-dark text-white shadow-2xl lg:grid-cols-[.8fr_1.2fr]">
+        <section className="bausqo-public-premium-card grid overflow-hidden rounded-[2rem] bg-brand-dark text-white shadow-2xl lg:grid-cols-[.8fr_1.2fr]">
           <div className="bausqo-grid-dark relative p-7 sm:p-10">
             <div className="pointer-events-none absolute -left-20 top-8 size-60 rounded-full bg-primary/12 blur-3xl" />
             <div className="relative">
