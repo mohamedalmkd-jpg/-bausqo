@@ -3060,3 +3060,91 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Premium frame language for public BAUSQO pages. */
+.bausqo-public-premium-card {
+  position: relative;
+  isolation: isolate;
+  border: 2px solid color-mix(in srgb, var(--primary) 54%, rgba(255,255,255,.62)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.88) inset,
+    0 0 0 6px color-mix(in srgb, var(--primary) 6%, transparent),
+    0 24px 66px rgba(15,23,42,.16),
+    0 0 46px color-mix(in srgb, var(--primary) 20%, transparent) !important;
+}
+
+.bausqo-public-premium-card::before {
+  content: "";
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: -32%;
+  width: 34%;
+  height: 5px;
+  pointer-events: none;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--primary) 62%, white),
+      #fff 50%,
+      color-mix(in srgb, var(--primary) 74%, white),
+      transparent
+    );
+  box-shadow:
+    0 0 7px rgba(255,255,255,.92),
+    0 0 18px color-mix(in srgb, var(--primary) 72%, transparent),
+    0 0 34px color-mix(in srgb, var(--primary) 36%, transparent);
+  animation: bausqo-public-card-sweep 4s cubic-bezier(.2,.8,.2,1) infinite;
+}
+
+.bausqo-public-premium-card::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -76px;
+  left: 50%;
+  width: min(70vw, 720px);
+  height: 160px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background:
+    radial-gradient(
+      ellipse at center,
+      color-mix(in srgb, var(--primary) 23%, rgba(255,255,255,.24)),
+      transparent 70%
+    );
+  filter: blur(22px);
+  opacity: .78;
+}
+
+.bausqo-public-premium-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bausqo-public-card-sweep {
+  0%, 8% { opacity: 0; transform: translate3d(0,0,0); }
+  18% { opacity: 1; }
+  78% { opacity: .86; }
+  100% { opacity: 0; transform: translate3d(405%,0,0); }
+}
+
+@media (max-width: 640px) {
+  .bausqo-public-premium-card {
+    border-radius: 30px !important;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.9) inset,
+      0 0 0 5px color-mix(in srgb, var(--primary) 7%, transparent),
+      0 20px 54px rgba(15,23,42,.15),
+      0 0 38px color-mix(in srgb, var(--primary) 22%, transparent) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-public-premium-card::before {
+    animation: none !important;
+  }
+}
+
