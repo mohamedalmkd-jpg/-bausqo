@@ -3546,3 +3546,145 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   }
 }
 
+/* Route wind transition v9 — pure UI motion, compositor-only, high-refresh friendly. */
+.bausqo-wind-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  opacity: 1;
+}
+
+.bausqo-wind-line {
+  position: absolute;
+  left: -42vw;
+  width: 34vw;
+  min-width: 150px;
+  height: 2px;
+  border-radius: 999px;
+  opacity: 0;
+  transform: translate3d(0,0,0) scaleX(.55);
+  transform-origin: right center;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--primary) 18%, rgba(255,255,255,.16)) 24%,
+      rgba(255,255,255,.70) 58%,
+      color-mix(in srgb, var(--primary) 28%, rgba(255,255,255,.20)) 76%,
+      transparent 100%
+    );
+  will-change: transform, opacity;
+  animation: bausqo-wind-pass 260ms cubic-bezier(.14,.78,.2,1) both;
+}
+
+.bausqo-wind-line-1 { top: 18%; animation-delay: 0ms; }
+.bausqo-wind-line-2 { top: 32%; animation-delay: 14ms; width: 44vw; }
+.bausqo-wind-line-3 { top: 48%; animation-delay: 24ms; width: 28vw; }
+.bausqo-wind-line-4 { top: 64%; animation-delay: 9ms; width: 38vw; }
+.bausqo-wind-line-5 { top: 79%; animation-delay: 30ms; width: 24vw; }
+
+@keyframes bausqo-wind-pass {
+  0% {
+    opacity: 0;
+    transform: translate3d(-8vw,0,0) scaleX(.55);
+  }
+  18% {
+    opacity: .72;
+  }
+  58% {
+    opacity: .92;
+    transform: translate3d(78vw,0,0) scaleX(1.18);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(152vw,0,0) scaleX(.74);
+  }
+}
+
+/* New page settles by only 3px: enough to feel alive without slowing navigation. */
+.bausqo-route-content {
+  animation: bausqo-route-air-settle 180ms cubic-bezier(.18,.9,.22,1) both !important;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-route-air-settle {
+  from {
+    opacity: .94;
+    transform: translate3d(3px,0,0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+}
+
+/* High-refresh touch tuning: avoid paint-heavy properties during route motion. */
+@media (max-width: 1023px) {
+  .bausqo-wind-transition {
+    transform: translateZ(0);
+  }
+
+  .bausqo-wind-line {
+    height: 1.5px;
+    background:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,.08) 20%,
+        rgba(255,255,255,.56) 56%,
+        color-mix(in srgb, var(--nav-accent, var(--primary)) 24%, rgba(255,255,255,.18)) 76%,
+        transparent 100%
+      );
+  }
+
+  .bausqo-route-content {
+    animation: bausqo-route-air-settle-mobile 150ms cubic-bezier(.18,.9,.22,1) both !important;
+    will-change: transform, opacity !important;
+  }
+
+  @keyframes bausqo-route-air-settle-mobile {
+    from {
+      opacity: .965;
+      transform: translate3d(2px,0,0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+  }
+
+  /* Keep the bottom nav movement matched to the page transition duration. */
+  .bausqo-liquid-light {
+    animation: bausqo-liquid-120 220ms cubic-bezier(.14,.82,.18,1) both !important;
+  }
+}
+
+@keyframes bausqo-liquid-120 {
+  0% {
+    transform: translate3d(var(--nav-from-x),0,0) scaleX(.94);
+    opacity: .72;
+  }
+  48% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
+    opacity: .94;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-wind-transition {
+    display: none !important;
+  }
+
+  .bausqo-route-content,
+  .bausqo-liquid-light {
+    animation: none !important;
+  }
+}
+
