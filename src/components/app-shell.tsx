@@ -57,6 +57,23 @@ type NavigationItem =
   | (typeof secondaryItems)[number]
   | (typeof serviceItems)[number];
 
+function sectionLabel(pathname: string) {
+  if (pathname.startsWith("/profil")) return "PROFIL";
+  if (pathname.startsWith("/nachrichten")) return "CHAT";
+  if (pathname.startsWith("/auftrag/erstellen")) return "NEUER AUFTRAG";
+  if (pathname.startsWith("/auftrag/") || pathname.startsWith("/meine-auftraege")) return "AUFTRÄGE";
+  if (pathname.startsWith("/mitgliedschaft")) return "MITGLIEDSCHAFT";
+  if (pathname.startsWith("/marketplace")) return "SUCHE";
+  if (pathname.startsWith("/matches")) return "MATCHES";
+  if (pathname.startsWith("/bewerbungen")) return "BEWERBUNGEN";
+  if (pathname.startsWith("/gespeichert")) return "GESPEICHERT";
+  if (pathname.startsWith("/benachrichtigungen")) return "BENACHRICHTIGUNGEN";
+  if (pathname.startsWith("/kontakt")) return "KONTAKT";
+  if (pathname.startsWith("/datenschutz")) return "DATENSCHUTZ";
+  if (pathname.startsWith("/impressum")) return "IMPRESSUM";
+  return "DASHBOARD";
+}
+
 function sectionAccent(pathname: string) {
   if (pathname.startsWith("/profil")) return "#ff6fae";
   if (pathname.startsWith("/nachrichten")) return "#4fc8ff";
@@ -84,6 +101,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { signOut, profile, user } = useAuth();
   const [plan, setPlan] = useState<MembershipPlan>("FREE");
   const accent = sectionAccent(pathname);
+  const sectionName = sectionLabel(pathname);
   const sectionStyle = { "--section-accent": accent } as CSSProperties;
 
   const workspaceName = useMemo(() => {
@@ -315,7 +333,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="bausqo-section-page-frame">
           <span className="bausqo-section-page-border" aria-hidden="true" />
           <span className="bausqo-section-page-shine" aria-hidden="true" />
-          {children}
+          <div className="bausqo-premium-page-card">
+            <span className="bausqo-premium-card-aura" aria-hidden="true" />
+            <span className="bausqo-premium-card-sweep" aria-hidden="true" />
+            <div className="bausqo-premium-page-badge">
+              <Sparkles className="size-3.5" />
+              <span>BAUSQO / {sectionName}</span>
+            </div>
+            <div className="bausqo-premium-page-content">{children}</div>
+          </div>
         </div>
       </main>
     </div>
