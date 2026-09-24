@@ -4,7 +4,6 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -122,7 +121,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -132,7 +130,7 @@ function RootComponent() {
           <div className="bausqo-route-stage">
             <div className="bausqo-ambient bausqo-ambient-one" aria-hidden="true" />
             <div className="bausqo-ambient bausqo-ambient-two" aria-hidden="true" />
-            <div key={pathname} className="bausqo-route-content">
+            <div className="bausqo-route-content">
               <Outlet />
             </div>
           </div>
