@@ -4,11 +4,10 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, memo, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceProvider } from "@/lib/workspace-state";
 import { AuthProvider } from "@/lib/auth";
@@ -120,55 +119,52 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-function sceneAccent(pathname: string) {
-  if (pathname.startsWith("/marketplace")) return "#8b7cff";
-  if (pathname.startsWith("/auftrag/erstellen")) return "#f6c85f";
-  if (pathname.startsWith("/nachrichten")) return "#4fc8ff";
-  if (pathname.startsWith("/profil")) return "#ff6fae";
-  return "#49e58b";
-}
-
-function sceneKind(pathname: string) {
-  if (pathname.startsWith("/marketplace")) return "search";
-  if (pathname.startsWith("/auftrag/erstellen")) return "create";
-  if (pathname.startsWith("/nachrichten")) return "chat";
-  if (pathname.startsWith("/profil")) return "profile";
-  return "home";
-}
+const PersistentNav = memo(MobileLiquidNav);
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const sceneColor = sceneAccent(pathname);
-  const scene = sceneKind(pathname);
+  const router = useRouter();
+
+  useEffect(() => {
+    const preload = () => {
+      void Promise.allSettled([
+        router.preloadRoute({ to: "/" }),
+        router.preloadRoute({ to: "/marketplace" }),
+        router.preloadRoute({ to: "/meine-auftraege" }),
+        router.preloadRoute({ to: "/auftrag/erstellen" }),
+        router.preloadRoute({ to: "/profil" }),
+        router.preloadRoute({ to: "/nachrichten" }),
+        router.preloadRoute({ to: "/dashboard" }),
+      ]);
+    };
+
+    const browser = window as typeof window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+
+    if (browser.requestIdleCallback) {
+      const id = browser.requestIdleCallback(preload, { timeout: 800 });
+      return () => browser.cancelIdleCallback?.(id);
+    }
+
+    const id = window.setTimeout(preload, 180);
+    return () => window.clearTimeout(id);
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalBackButton />
       <AuthProvider>
         <WorkspaceProvider>
-          <div
-            className={`bausqo-route-stage scene-${scene}`}
-            style={{ "--bausqo-scene-accent": sceneColor } as React.CSSProperties}
-          >
-            <div key={`scene-${pathname}`} className="bausqo-scene-backdrop" aria-hidden="true">
-              <span className="bausqo-showcase-pillar bausqo-showcase-pillar-left" />
-              <span className="bausqo-showcase-pillar bausqo-showcase-pillar-right" />
-              <span className="bausqo-showcase-frame" />
-              <span className="bausqo-showcase-pedestal" />
-              <span className="bausqo-showcase-ring" />
-              <span className="bausqo-showcase-beam" />
-              <span className="bausqo-showcase-symbol" />
-              <span className="bausqo-showcase-wing bausqo-showcase-wing-left" />
-              <span className="bausqo-showcase-wing bausqo-showcase-wing-right" />
-            </div>
+          <div className="bausqo-route-stage">
             <div className="bausqo-route-content">
-              <div key={pathname} className="bausqo-route-page-slide">
+              <div className="bausqo-route-page-slide">
                 <Outlet />
               </div>
             </div>
           </div>
-          <MobileLiquidNav />
+          <PersistentNav />
         </WorkspaceProvider>
       </AuthProvider>
       <Toaster richColors position="top-right" />

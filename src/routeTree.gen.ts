@@ -14,12 +14,16 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BenachrichtigungenRouteImport } from './routes/benachrichtigungen'
 import { Route as BewerbungenRouteImport } from './routes/bewerbungen'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DatenschutzRouteImport } from './routes/datenschutz'
 import { Route as GespeichertRouteImport } from './routes/gespeichert'
+import { Route as ImpressumRouteImport } from './routes/impressum'
+import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as KontoTypRouteImport } from './routes/konto-typ'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as MeineAuftraegeRouteImport } from './routes/meine-auftraege'
+import { Route as MitgliedschaftRouteImport } from './routes/mitgliedschaft'
 import { Route as NachrichtenRouteImport } from './routes/nachrichten'
 import { Route as RegistrierenRouteImport } from './routes/registrieren'
 import { Route as AdminIntegrationsRouteImport } from './routes/admin.integrations'
@@ -59,9 +63,24 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DatenschutzRoute = DatenschutzRouteImport.update({
+  id: '/datenschutz',
+  path: '/datenschutz',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GespeichertRoute = GespeichertRouteImport.update({
   id: '/gespeichert',
   path: '/gespeichert',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpressumRoute = ImpressumRouteImport.update({
+  id: '/impressum',
+  path: '/impressum',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontoTypRoute = KontoTypRouteImport.update({
@@ -87,6 +106,11 @@ const MatchesRoute = MatchesRouteImport.update({
 const MeineAuftraegeRoute = MeineAuftraegeRouteImport.update({
   id: '/meine-auftraege',
   path: '/meine-auftraege',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MitgliedschaftRoute = MitgliedschaftRouteImport.update({
+  id: '/mitgliedschaft',
+  path: '/mitgliedschaft',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NachrichtenRoute = NachrichtenRouteImport.update({
@@ -161,12 +185,16 @@ export interface FileRoutesByFullPath {
   '/benachrichtigungen': typeof BenachrichtigungenRoute
   '/bewerbungen': typeof BewerbungenRoute
   '/dashboard': typeof DashboardRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/gespeichert': typeof GespeichertRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
   '/konto-typ': typeof KontoTypRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/matches': typeof MatchesRoute
   '/meine-auftraege': typeof MeineAuftraegeRoute
+  '/mitgliedschaft': typeof MitgliedschaftRoute
   '/nachrichten': typeof NachrichtenRoute
   '/registrieren': typeof RegistrierenRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -187,12 +215,16 @@ export interface FileRoutesByTo {
   '/benachrichtigungen': typeof BenachrichtigungenRoute
   '/bewerbungen': typeof BewerbungenRoute
   '/dashboard': typeof DashboardRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/gespeichert': typeof GespeichertRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
   '/konto-typ': typeof KontoTypRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/matches': typeof MatchesRoute
   '/meine-auftraege': typeof MeineAuftraegeRoute
+  '/mitgliedschaft': typeof MitgliedschaftRoute
   '/nachrichten': typeof NachrichtenRoute
   '/registrieren': typeof RegistrierenRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -214,12 +246,16 @@ export interface FileRoutesById {
   '/benachrichtigungen': typeof BenachrichtigungenRoute
   '/bewerbungen': typeof BewerbungenRoute
   '/dashboard': typeof DashboardRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/gespeichert': typeof GespeichertRoute
+  '/impressum': typeof ImpressumRoute
+  '/kontakt': typeof KontaktRoute
   '/konto-typ': typeof KontoTypRoute
   '/login': typeof LoginRoute
   '/marketplace': typeof MarketplaceRoute
   '/matches': typeof MatchesRoute
   '/meine-auftraege': typeof MeineAuftraegeRoute
+  '/mitgliedschaft': typeof MitgliedschaftRoute
   '/nachrichten': typeof NachrichtenRoute
   '/registrieren': typeof RegistrierenRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
@@ -242,12 +278,16 @@ export interface FileRouteTypes {
     | '/benachrichtigungen'
     | '/bewerbungen'
     | '/dashboard'
+    | '/datenschutz'
     | '/gespeichert'
+    | '/impressum'
+    | '/kontakt'
     | '/konto-typ'
     | '/login'
     | '/marketplace'
     | '/matches'
     | '/meine-auftraege'
+    | '/mitgliedschaft'
     | '/nachrichten'
     | '/registrieren'
     | '/admin/integrations'
@@ -268,12 +308,16 @@ export interface FileRouteTypes {
     | '/benachrichtigungen'
     | '/bewerbungen'
     | '/dashboard'
+    | '/datenschutz'
     | '/gespeichert'
+    | '/impressum'
+    | '/kontakt'
     | '/konto-typ'
     | '/login'
     | '/marketplace'
     | '/matches'
     | '/meine-auftraege'
+    | '/mitgliedschaft'
     | '/nachrichten'
     | '/registrieren'
     | '/admin/integrations'
@@ -294,12 +338,16 @@ export interface FileRouteTypes {
     | '/benachrichtigungen'
     | '/bewerbungen'
     | '/dashboard'
+    | '/datenschutz'
     | '/gespeichert'
+    | '/impressum'
+    | '/kontakt'
     | '/konto-typ'
     | '/login'
     | '/marketplace'
     | '/matches'
     | '/meine-auftraege'
+    | '/mitgliedschaft'
     | '/nachrichten'
     | '/registrieren'
     | '/admin/integrations'
@@ -321,12 +369,16 @@ export interface RootRouteChildren {
   BenachrichtigungenRoute: typeof BenachrichtigungenRoute
   BewerbungenRoute: typeof BewerbungenRoute
   DashboardRoute: typeof DashboardRoute
+  DatenschutzRoute: typeof DatenschutzRoute
   GespeichertRoute: typeof GespeichertRoute
+  ImpressumRoute: typeof ImpressumRoute
+  KontaktRoute: typeof KontaktRoute
   KontoTypRoute: typeof KontoTypRoute
   LoginRoute: typeof LoginRoute
   MarketplaceRoute: typeof MarketplaceRoute
   MatchesRoute: typeof MatchesRoute
   MeineAuftraegeRoute: typeof MeineAuftraegeRoute
+  MitgliedschaftRoute: typeof MitgliedschaftRoute
   NachrichtenRoute: typeof NachrichtenRoute
   RegistrierenRoute: typeof RegistrierenRoute
   AdminIntegrationsRoute: typeof AdminIntegrationsRoute
@@ -379,11 +431,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/datenschutz': {
+      id: '/datenschutz'
+      path: '/datenschutz'
+      fullPath: '/datenschutz'
+      preLoaderRoute: typeof DatenschutzRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gespeichert': {
       id: '/gespeichert'
       path: '/gespeichert'
       fullPath: '/gespeichert'
       preLoaderRoute: typeof GespeichertRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impressum': {
+      id: '/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/konto-typ': {
@@ -419,6 +492,13 @@ declare module '@tanstack/react-router' {
       path: '/meine-auftraege'
       fullPath: '/meine-auftraege'
       preLoaderRoute: typeof MeineAuftraegeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mitgliedschaft': {
+      id: '/mitgliedschaft'
+      path: '/mitgliedschaft'
+      fullPath: '/mitgliedschaft'
+      preLoaderRoute: typeof MitgliedschaftRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nachrichten': {
@@ -521,12 +601,16 @@ const rootRouteChildren: RootRouteChildren = {
   BenachrichtigungenRoute: BenachrichtigungenRoute,
   BewerbungenRoute: BewerbungenRoute,
   DashboardRoute: DashboardRoute,
+  DatenschutzRoute: DatenschutzRoute,
   GespeichertRoute: GespeichertRoute,
+  ImpressumRoute: ImpressumRoute,
+  KontaktRoute: KontaktRoute,
   KontoTypRoute: KontoTypRoute,
   LoginRoute: LoginRoute,
   MarketplaceRoute: MarketplaceRoute,
   MatchesRoute: MatchesRoute,
   MeineAuftraegeRoute: MeineAuftraegeRoute,
+  MitgliedschaftRoute: MitgliedschaftRoute,
   NachrichtenRoute: NachrichtenRoute,
   RegistrierenRoute: RegistrierenRoute,
   AdminIntegrationsRoute: AdminIntegrationsRoute,
