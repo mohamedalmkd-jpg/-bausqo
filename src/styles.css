@@ -3109,6 +3109,7 @@ a[href]:focus-visible {
       border-color .24s linear;
   }
 
+  .bausqo-liquid-nav.is-menu-suppressed,
   html[data-bausqo-mobile-menu="open"] .bausqo-liquid-nav,
   body:has([data-nonblocking="true"][data-state="open"]) .bausqo-liquid-nav {
     opacity: 0 !important;
