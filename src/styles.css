@@ -3109,15 +3109,16 @@ a[href]:focus-visible {
       border-color .24s linear;
   }
 
-  html[data-bausqo-mobile-menu="open"] .bausqo-liquid-nav {
-    opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(.96);
-    visibility: hidden;
+  html[data-bausqo-mobile-menu="open"] .bausqo-liquid-nav,
+  body:has([data-nonblocking="true"][data-state="open"]) .bausqo-liquid-nav {
+    opacity: 0 !important;
+    transform: translate3d(0, 28px, 0) scale(.96) !important;
+    visibility: hidden !important;
     pointer-events: none !important;
     transition:
       opacity 120ms ease,
       transform 180ms cubic-bezier(.4,0,.6,1),
-      visibility 0s linear 180ms;
+      visibility 0s linear 180ms !important;
   }
 }
 
