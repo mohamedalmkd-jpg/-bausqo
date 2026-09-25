@@ -1358,29 +1358,6 @@ button:focus-visible {
   }
 }
 
-@keyframes bausqo-liquid-travel-60 {
-  0% {
-    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1);
-    opacity: .88;
-  }
-  24% {
-    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1.1);
-    opacity: 1;
-  }
-  58% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch));
-    opacity: 1;
-  }
-  80% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(.92);
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1);
-    opacity: 1;
-  }
-}
-
 @media (max-width: 1023px) {
   body {
     padding-bottom: calc(94px + env(safe-area-inset-bottom));
@@ -1429,30 +1406,6 @@ button:focus-visible {
 .bausqo-liquid-light {
   opacity: .96;
 }
-
-@keyframes bausqo-liquid-travel-60 {
-  0% {
-    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1);
-    opacity: .72;
-  }
-  24% {
-    transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1.1);
-    opacity: .9;
-  }
-  58% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch));
-    opacity: .96;
-  }
-  80% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(.92);
-    opacity: .94;
-  }
-  100% {
-    transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1);
-    opacity: .92;
-  }
-}
-
 
 /* Transparent mobile nav surface: no black bar. */
 .bausqo-liquid-nav {
