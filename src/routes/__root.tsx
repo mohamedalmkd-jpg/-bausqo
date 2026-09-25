@@ -152,14 +152,12 @@ function RootComponent() {
             style={{ "--bausqo-scene-accent": sceneColor } as React.CSSProperties}
           >
             <div key={`scene-${pathname}`} className="bausqo-scene-backdrop" aria-hidden="true">
-              <span className="bausqo-depth-cloud bausqo-depth-cloud-1" />
-              <span className="bausqo-depth-cloud bausqo-depth-cloud-2" />
-              <span className="bausqo-depth-cloud bausqo-depth-cloud-3" />
-              <span className="bausqo-depth-cloud bausqo-depth-cloud-4" />
-              <span className="bausqo-depth-focus" />
-              <span className="bausqo-scene-orb bausqo-scene-orb-a" />
-              <span className="bausqo-scene-orb bausqo-scene-orb-b" />
-              <span className="bausqo-scene-floor" />
+              <span className="bausqo-showcase-pillar bausqo-showcase-pillar-left" />
+              <span className="bausqo-showcase-pillar bausqo-showcase-pillar-right" />
+              <span className="bausqo-showcase-frame" />
+              <span className="bausqo-showcase-pedestal" />
+              <span className="bausqo-showcase-ring" />
+              <span className="bausqo-showcase-beam" />
             </div>
             <div className="bausqo-route-content">
               <div key={pathname} className="bausqo-route-page-slide">
