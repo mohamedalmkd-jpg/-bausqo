@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 export function GlobalBackButton() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
+  if (pathname === "/") return null;
+
 
   return (
     <button
