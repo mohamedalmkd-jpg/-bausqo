@@ -6548,3 +6548,284 @@ body:has(.bausqo-side-card a:active) .bausqo-route-page-slide {
   }
 }
 
+/* Captivating depth-cloud navigation v25 — route-specific, 120Hz-friendly. */
+.bausqo-route-stage {
+  --scene-soft: color-mix(in srgb, var(--bausqo-scene-accent) 16%, white);
+  --scene-faint: color-mix(in srgb, var(--bausqo-scene-accent) 8%, white);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bausqo-scene-accent) 9%, #f8fafc),
+      #f8fafc 56%,
+      color-mix(in srgb, var(--bausqo-scene-accent) 5%, #f8fafc)
+    ) !important;
+}
+
+/* Scene owns the magic; the real site stays one compositor layer. */
+.bausqo-scene-backdrop {
+  display: block !important;
+  opacity: 1 !important;
+  animation: bausqo-depth-scene-out 520ms cubic-bezier(.16,.86,.18,1) both !important;
+  background:
+    radial-gradient(circle at 50% 50%, var(--scene-soft), transparent 42%),
+    linear-gradient(180deg, var(--scene-faint), rgba(248,250,252,.2));
+  will-change: opacity;
+}
+
+@keyframes bausqo-depth-scene-out {
+  0% { opacity: 1; }
+  62% { opacity: .86; }
+  100% { opacity: 0; }
+}
+
+/* Disable the older static scene pieces; depth clouds replace them. */
+.bausqo-scene-orb,
+.bausqo-scene-floor {
+  display: none !important;
+}
+
+.bausqo-depth-cloud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 128vmax;
+  height: 128vmax;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50%,-50%,0) scale(.18);
+  transform-origin: center;
+  will-change: transform, opacity;
+  background:
+    radial-gradient(circle at 28% 34%, rgba(255,255,255,.92) 0 7%, transparent 17%),
+    radial-gradient(circle at 68% 26%, rgba(255,255,255,.72) 0 9%, transparent 20%),
+    radial-gradient(circle at 62% 70%, var(--scene-soft) 0 10%, transparent 23%),
+    radial-gradient(circle at 34% 68%, rgba(255,255,255,.7) 0 8%, transparent 20%),
+    radial-gradient(circle at 50% 50%, var(--scene-faint) 0 26%, transparent 52%);
+}
+
+.bausqo-depth-cloud-1 {
+  animation: bausqo-cloud-rush 470ms 0ms cubic-bezier(.12,.82,.18,1) both;
+}
+
+.bausqo-depth-cloud-2 {
+  animation: bausqo-cloud-rush 470ms 55ms cubic-bezier(.12,.82,.18,1) both;
+  transform: translate3d(-50%,-50%,0) rotate(32deg) scale(.16);
+}
+
+.bausqo-depth-cloud-3 {
+  animation: bausqo-cloud-rush 470ms 108ms cubic-bezier(.12,.82,.18,1) both;
+  transform: translate3d(-50%,-50%,0) rotate(-28deg) scale(.14);
+}
+
+.bausqo-depth-cloud-4 {
+  animation: bausqo-cloud-rush 470ms 158ms cubic-bezier(.12,.82,.18,1) both;
+  transform: translate3d(-50%,-50%,0) rotate(74deg) scale(.12);
+}
+
+@keyframes bausqo-cloud-rush {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(.14);
+  }
+  18% {
+    opacity: .62;
+  }
+  58% {
+    opacity: .48;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(1.28);
+  }
+}
+
+/* Central depth focus changes character per section. */
+.bausqo-depth-focus {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28vmin;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50%,-50%,0) scale(.5);
+  border: 2px solid color-mix(in srgb, var(--bausqo-scene-accent) 45%, white);
+  box-shadow:
+    0 0 0 12px color-mix(in srgb, var(--bausqo-scene-accent) 6%, transparent),
+    0 0 0 26px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
+  animation: bausqo-focus-rush 430ms 36ms cubic-bezier(.14,.84,.18,1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-focus-rush {
+  0% {
+    opacity: .5;
+    transform: translate3d(-50%,-50%,0) scale(.38);
+  }
+  46% {
+    opacity: .72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(4.4);
+  }
+}
+
+/* Route-specific personality, same motion language. */
+.scene-search .bausqo-depth-focus {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+.scene-create .bausqo-depth-focus {
+  border-radius: 22%;
+  transform: translate3d(-50%,-50%,0) rotate(45deg) scale(.5);
+}
+
+.scene-create .bausqo-depth-cloud {
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--bausqo-scene-accent) 24%, white) 0 15%, transparent 36%),
+    radial-gradient(circle at 30% 34%, rgba(255,255,255,.86) 0 7%, transparent 18%),
+    radial-gradient(circle at 72% 68%, rgba(255,255,255,.7) 0 8%, transparent 20%);
+}
+
+.scene-chat .bausqo-depth-cloud {
+  background:
+    radial-gradient(circle at 30% 35%, rgba(255,255,255,.92) 0 9%, transparent 17%),
+    radial-gradient(circle at 69% 31%, var(--scene-soft) 0 8%, transparent 17%),
+    radial-gradient(circle at 57% 72%, rgba(255,255,255,.78) 0 11%, transparent 21%),
+    radial-gradient(circle at 50% 50%, var(--scene-faint) 0 25%, transparent 50%);
+}
+
+.scene-profile .bausqo-depth-focus {
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 10px color-mix(in srgb, var(--bausqo-scene-accent) 8%, transparent),
+    0 0 0 22px color-mix(in srgb, var(--bausqo-scene-accent) 5%, transparent),
+    0 0 0 38px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
+}
+
+/* The whole site dives in then returns through the cloud layers. */
+.bausqo-route-page-slide {
+  animation: bausqo-depth-site-enter 480ms cubic-bezier(.16,.86,.18,1) both !important;
+  transform-origin: 50% 48%;
+  will-change: transform, opacity !important;
+  filter: none !important;
+}
+
+@keyframes bausqo-depth-site-enter {
+  0% {
+    opacity: .52;
+    transform: translate3d(0,12px,0) scale(.84);
+  }
+  28% {
+    opacity: .72;
+    transform: translate3d(0,7px,0) scale(.89);
+  }
+  56% {
+    opacity: .94;
+    transform: translate3d(0,2px,0) scale(.965);
+  }
+  78% {
+    opacity: 1;
+    transform: translate3d(0,-1px,0) scale(1.006);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* No old heavy systems may compete with this transition. */
+::view-transition-group(bausqo-page),
+::view-transition-image-pair(bausqo-page),
+::view-transition-old(bausqo-page),
+::view-transition-new(bausqo-page),
+.bausqo-wind-transition,
+.bausqo-morph-backdrop,
+.bausqo-morph-frame,
+.bausqo-portal-wall,
+.bausqo-depth-door,
+.bausqo-portal-rail,
+.bausqo-portal-depth-line,
+.bausqo-wind-line {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* Inner UI stays glued together; only the whole website moves. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* High-refresh phone tuning: same illusion, shorter travel. */
+@media (max-width: 1023px) {
+  .bausqo-scene-backdrop {
+    animation-duration: 430ms !important;
+  }
+
+  .bausqo-depth-cloud {
+    width: 118vmax;
+    height: 118vmax;
+  }
+
+  .bausqo-depth-cloud-1 { animation-duration: 390ms !important; }
+  .bausqo-depth-cloud-2 { animation-duration: 390ms !important; animation-delay: 42ms !important; }
+  .bausqo-depth-cloud-3 { animation-duration: 390ms !important; animation-delay: 82ms !important; }
+  .bausqo-depth-cloud-4 { animation-duration: 390ms !important; animation-delay: 122ms !important; }
+
+  .bausqo-depth-focus {
+    width: 34vmin;
+    animation-duration: 360ms !important;
+  }
+
+  .bausqo-route-page-slide {
+    animation: bausqo-depth-site-enter-mobile 410ms cubic-bezier(.16,.86,.18,1) both !important;
+  }
+
+  @keyframes bausqo-depth-site-enter-mobile {
+    0% {
+      opacity: .6;
+      transform: translate3d(0,9px,0) scale(.87);
+    }
+    34% {
+      opacity: .78;
+      transform: translate3d(0,5px,0) scale(.915);
+    }
+    62% {
+      opacity: .96;
+      transform: translate3d(0,1px,0) scale(.975);
+    }
+    82% {
+      opacity: 1;
+      transform: translate3d(0,-.5px,0) scale(1.004);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-depth-cloud,
+  .bausqo-depth-focus,
+  .bausqo-scene-backdrop {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
