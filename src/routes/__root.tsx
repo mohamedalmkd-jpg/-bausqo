@@ -158,6 +158,9 @@ function RootComponent() {
               <span className="bausqo-showcase-pedestal" />
               <span className="bausqo-showcase-ring" />
               <span className="bausqo-showcase-beam" />
+              <span className="bausqo-showcase-symbol" />
+              <span className="bausqo-showcase-wing bausqo-showcase-wing-left" />
+              <span className="bausqo-showcase-wing bausqo-showcase-wing-right" />
             </div>
             <div className="bausqo-route-content">
               <div key={pathname} className="bausqo-route-page-slide">
