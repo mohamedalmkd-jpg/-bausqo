@@ -166,12 +166,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    if (typeof window === "undefined") return;
 
     document.documentElement.dataset.bausqoMobileMenu = mobileMenuOpen ? "open" : "closed";
+    window.dispatchEvent(
+      new CustomEvent("bausqo:mobile-menu", { detail: { open: mobileMenuOpen } }),
+    );
 
     return () => {
-      delete document.documentElement.dataset.bausqoMobileMenu;
+      if (mobileMenuOpen) {
+        document.documentElement.dataset.bausqoMobileMenu = "closed";
+        window.dispatchEvent(
+          new CustomEvent("bausqo:mobile-menu", { detail: { open: false } }),
+        );
+      }
     };
   }, [mobileMenuOpen]);
 
