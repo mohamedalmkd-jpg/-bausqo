@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  ArrowLeft,
   Bell,
   Bookmark,
   BriefcaseBusiness,
@@ -184,7 +185,14 @@ export function PublicHeader() {
               </SheetClose>
             </nav>
 
-            <div className="border-t p-5">
+            <div className="grid gap-2 border-t p-5">
+              <SheetClose asChild>
+                <Button type="button" variant="outline" className="h-11 w-full rounded-xl">
+                  <ArrowLeft className="size-4" />
+                  Zurück
+                </Button>
+              </SheetClose>
+
               {signedIn ? (
                 <SheetClose asChild>
                   <Button variant="outline" className="h-11 w-full rounded-xl" onClick={() => void handleSignOut()}>
