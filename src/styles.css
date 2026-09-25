@@ -220,7 +220,7 @@
   100% { transform: translateX(220%); }
 }
 
-.bausqo-page { animation: bausqo-fade-up .38s cubic-bezier(.2,.8,.2,1); }
+.bausqo-page { animation: none; }
 .bausqo-live { animation: bausqo-soft-pulse 2.8s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -306,99 +306,13 @@
 }
 
 .bausqo-route-content {
-  animation: bausqo-route-enter .48s cubic-bezier(.2,.8,.2,1) both;
-  transform-origin: 50% 0%;
-  will-change: transform, opacity, filter;
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  animation: none;
+  transform: none;
 }
 
-.bausqo-route-wipe {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bausqo-route-wipe::before {
-  content: "";
-  position: absolute;
-  top: -18vh;
-  bottom: -18vh;
-  left: -38vw;
-  width: 58vw;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      100deg,
-      transparent 0%,
-      rgba(45, 212, 191, .08) 22%,
-      rgba(45, 212, 191, .28) 48%,
-      rgba(125, 211, 252, .18) 67%,
-      transparent 100%
-    );
-  filter: blur(8px);
-  transform: translateX(-36vw) skewX(-12deg);
-  animation: bausqo-route-wipe .62s cubic-bezier(.16,.84,.25,1) both;
-  will-change: transform, opacity;
-}
-
-.bausqo-route-progress {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 9999;
-  height: 3px;
-  pointer-events: none;
-  transform-origin: left center;
-  background:
-    linear-gradient(90deg, transparent 0%, rgba(45,212,191,.95) 18%, rgba(125,211,252,.95) 82%, transparent 100%);
-  box-shadow:
-    0 0 18px rgba(45,212,191,.45),
-    0 0 34px rgba(125,211,252,.24);
-  animation: bausqo-route-progress .62s cubic-bezier(.2,.8,.2,1) both;
-}
-
-@keyframes bausqo-route-enter {
-  0% {
-    opacity: .82;
-    transform: translateY(10px) scale(.996);
-    filter: blur(2px);
-  }
-  42% {
-    opacity: .97;
-    filter: blur(.6px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes bausqo-route-wipe {
-  0% {
-    opacity: 0;
-    transform: translateX(-36vw) skewX(-12deg);
-  }
-  16% { opacity: 1; }
-  72% { opacity: .82; }
-  100% {
-    opacity: 0;
-    transform: translateX(180vw) skewX(-12deg);
-  }
-}
-
-@keyframes bausqo-route-progress {
-  0% {
-    opacity: 0;
-    transform: scaleX(.04);
-  }
-  16% { opacity: 1; }
-  62% { transform: scaleX(.78); }
-  100% {
-    opacity: 0;
-    transform: scaleX(1);
-  }
-}
 
 /* Buttons and links feel tactile before the route transition starts. */
 a[href], button {
@@ -418,13 +332,6 @@ button:focus-visible {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-route-content,
-  .bausqo-route-wipe::before,
-  .bausqo-route-progress {
-    animation: none !important;
-  }
-}
 
 
 /* Universal navigation control for every inner page. */
@@ -686,206 +593,6 @@ button:focus-visible {
 }
 
 
-/* Cinematic full-page navigation transition. The entire destination page appears as one scene. */
-.bausqo-route-stage {
-  perspective: 1400px;
-  overflow-x: clip;
-}
-
-.bausqo-route-content {
-  animation: bausqo-route-scene-enter .78s cubic-bezier(.16,.84,.25,1) both;
-  transform-origin: 50% 18%;
-  backface-visibility: hidden;
-  will-change: transform, opacity, filter;
-}
-
-.bausqo-route-cinematic {
-  position: fixed;
-  inset: 0;
-  z-index: 10020;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bausqo-route-curtain {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 56vw;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(45,212,191,.16), transparent 42%),
-    linear-gradient(135deg, rgba(12,36,42,.995), rgba(16,55,59,.985) 58%, rgba(18,69,69,.96));
-  box-shadow: 0 0 90px rgba(0,0,0,.24);
-  will-change: transform;
-}
-
-.bausqo-route-curtain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-  background-size: 38px 38px;
-  opacity: .38;
-}
-
-.bausqo-route-curtain-left {
-  left: -6vw;
-  transform-origin: left center;
-  animation: bausqo-curtain-left .82s cubic-bezier(.76,0,.24,1) both;
-}
-
-.bausqo-route-curtain-right {
-  right: -6vw;
-  transform-origin: right center;
-  animation: bausqo-curtain-right .82s cubic-bezier(.76,0,.24,1) both;
-}
-
-.bausqo-route-flash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(255,236,178,.48), transparent 15%),
-    radial-gradient(circle at 50% 50%, rgba(45,212,191,.24), transparent 38%);
-  mix-blend-mode: screen;
-  animation: bausqo-route-flash .72s ease-out both;
-}
-
-.bausqo-route-brand {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: white;
-  font-size: clamp(18px, 3vw, 28px);
-  font-weight: 900;
-  letter-spacing: .18em;
-  transform: translate(-50%, -50%);
-  text-shadow: 0 8px 30px rgba(0,0,0,.3);
-  animation: bausqo-route-brand-pop .72s cubic-bezier(.2,.8,.2,1) both;
-}
-
-.bausqo-route-brand-mark {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  border: 4px solid rgba(45,212,191,.96);
-  border-top-color: rgba(255,225,142,.98);
-  border-radius: 6px;
-  transform: rotate(45deg);
-  box-shadow:
-    0 0 18px rgba(45,212,191,.42),
-    0 0 26px rgba(255,218,124,.22);
-}
-
-.bausqo-route-wipe::before {
-  width: 76vw;
-  left: -48vw;
-  background:
-    linear-gradient(
-      100deg,
-      transparent 0%,
-      rgba(255,222,132,.08) 18%,
-      rgba(45,212,191,.26) 43%,
-      rgba(255,255,255,.54) 50%,
-      rgba(125,211,252,.24) 58%,
-      transparent 100%
-    );
-  filter: blur(10px);
-  animation-duration: .82s;
-}
-
-.bausqo-route-progress {
-  height: 2px;
-  background:
-    linear-gradient(90deg, transparent, rgba(255,222,132,.95) 22%, rgba(45,212,191,.98) 58%, rgba(125,211,252,.96) 82%, transparent);
-  animation-duration: .82s;
-}
-
-@keyframes bausqo-route-scene-enter {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 28px, -90px) scale(.965);
-    filter: blur(12px) saturate(.88);
-  }
-  24% {
-    opacity: .2;
-  }
-  46% {
-    opacity: .72;
-    transform: translate3d(0, 10px, -28px) scale(.986);
-    filter: blur(4px) saturate(.95);
-  }
-  72% {
-    opacity: 1;
-    transform: translate3d(0, -2px, 0) scale(1.003);
-    filter: blur(0) saturate(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0) saturate(1);
-  }
-}
-
-@keyframes bausqo-curtain-left {
-  0% { transform: translateX(0) skewX(-2deg); opacity: 1; }
-  22% { transform: translateX(3vw) skewX(-1deg); opacity: 1; }
-  100% { transform: translateX(-118%) skewX(-7deg); opacity: .98; }
-}
-
-@keyframes bausqo-curtain-right {
-  0% { transform: translateX(0) skewX(2deg); opacity: 1; }
-  22% { transform: translateX(-3vw) skewX(1deg); opacity: 1; }
-  100% { transform: translateX(118%) skewX(7deg); opacity: .98; }
-}
-
-@keyframes bausqo-route-flash {
-  0%, 16% { opacity: 0; transform: scale(.86); }
-  32% { opacity: .92; transform: scale(1); }
-  54% { opacity: .28; }
-  100% { opacity: 0; transform: scale(1.16); }
-}
-
-@keyframes bausqo-route-brand-pop {
-  0% { opacity: 0; transform: translate(-50%, -46%) scale(.82); filter: blur(8px); }
-  20% { opacity: 0; }
-  36% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); filter: blur(0); }
-  58% { opacity: .96; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -54%) scale(.96); filter: blur(3px); }
-}
-
-@media (max-width: 640px) {
-  .bausqo-route-curtain {
-    width: 62vw;
-  }
-
-  .bausqo-route-content {
-    animation-duration: .7s;
-  }
-
-  .bausqo-route-brand {
-    font-size: 17px;
-    letter-spacing: .14em;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-route-cinematic,
-  .bausqo-route-curtain,
-  .bausqo-route-flash,
-  .bausqo-route-brand,
-  .bausqo-route-content {
-    animation: none !important;
-  }
-
-  .bausqo-route-cinematic {
-    display: none !important;
-  }
-}
 
 
 /* Liquid light mobile navigation inspired by a moving neon tab rail. */
@@ -1021,8 +728,8 @@ button:focus-visible {
   padding-inline: 8px;
   transform: translateX(var(--nav-to-x));
   transform-origin: center;
-  will-change: transform, filter;
-  animation: bausqo-liquid-travel .72s cubic-bezier(.16,.84,.25,1) both;
+  will-change: auto;
+  animation: none;
 }
 
 .bausqo-liquid-light-core {
@@ -1070,26 +777,6 @@ button:focus-visible {
   opacity: .72;
 }
 
-@keyframes bausqo-liquid-travel {
-  0% {
-    transform: translateX(var(--nav-from-x)) scaleX(1);
-    filter: brightness(.9) saturate(.9);
-  }
-  24% {
-    transform: translateX(var(--nav-from-x)) scaleX(1.08);
-  }
-  56% {
-    transform: translateX(var(--nav-to-x)) scaleX(var(--nav-stretch));
-    filter: brightness(1.24) saturate(1.28);
-  }
-  78% {
-    transform: translateX(var(--nav-to-x)) scaleX(.9);
-  }
-  100% {
-    transform: translateX(var(--nav-to-x)) scaleX(1);
-    filter: brightness(1) saturate(1);
-  }
-}
 
 @media (max-width: 390px) {
   .bausqo-liquid-nav {
@@ -1118,149 +805,6 @@ button:focus-visible {
 }
 
 
-/* Minimal strong route transition: no curtains, just impact + light sweep. */
-.bausqo-route-content {
-  animation: bausqo-route-impact-enter .54s cubic-bezier(.16,.84,.25,1) both;
-  transform-origin: 50% 12%;
-}
-
-.bausqo-route-impact {
-  position: fixed;
-  inset: 0;
-  z-index: 10020;
-  pointer-events: none;
-  overflow: hidden;
-  background: rgba(5, 12, 18, 0);
-  animation: bausqo-impact-dim .5s ease-out both;
-}
-
-.bausqo-route-impact-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 56px;
-  height: 56px;
-  border: 2px solid rgba(45,212,191,.78);
-  border-radius: 999px;
-  transform: translate(-50%, -50%) scale(.28);
-  opacity: 0;
-  box-shadow:
-    0 0 22px rgba(45,212,191,.42),
-    0 0 56px rgba(125,211,252,.24);
-  animation: bausqo-impact-ring .5s cubic-bezier(.16,.84,.25,1) both;
-}
-
-.bausqo-route-impact-beam {
-  position: absolute;
-  top: -18vh;
-  bottom: -18vh;
-  left: -22vw;
-  width: 18vw;
-  min-width: 90px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,225,145,.08) 20%,
-      rgba(45,212,191,.55) 48%,
-      rgba(255,255,255,.92) 52%,
-      rgba(125,211,252,.38) 60%,
-      transparent
-    );
-  filter: blur(8px);
-  transform: translateX(-35vw) skewX(-12deg);
-  opacity: 0;
-  animation: bausqo-impact-beam .52s cubic-bezier(.16,.84,.25,1) both;
-}
-
-.bausqo-route-progress {
-  height: 2px;
-  animation-duration: .54s;
-  background: linear-gradient(90deg, transparent, rgba(45,212,191,.95), rgba(255,225,145,.95), rgba(125,211,252,.95), transparent);
-  box-shadow: 0 0 16px rgba(45,212,191,.34);
-}
-
-@keyframes bausqo-route-impact-enter {
-  0% {
-    opacity: .22;
-    transform: translate3d(0, 10px, -30px) scale(.985);
-    filter: blur(5px) saturate(.92);
-  }
-  42% {
-    opacity: .82;
-    transform: translate3d(0, 3px, -8px) scale(.995);
-    filter: blur(1.4px) saturate(.98);
-  }
-  72% {
-    opacity: 1;
-    transform: translate3d(0, -1px, 0) scale(1.002);
-    filter: blur(0) saturate(1.015);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0) scale(1);
-    filter: blur(0) saturate(1);
-  }
-}
-
-@keyframes bausqo-impact-dim {
-  0% { background: rgba(5,12,18,.16); }
-  38% { background: rgba(5,12,18,.06); }
-  100% { background: rgba(5,12,18,0); }
-}
-
-@keyframes bausqo-impact-ring {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(.28);
-  }
-  18% { opacity: .95; }
-  65% {
-    opacity: .34;
-    transform: translate(-50%, -50%) scale(7.6);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(12);
-  }
-}
-
-@keyframes bausqo-impact-beam {
-  0% {
-    opacity: 0;
-    transform: translateX(-35vw) skewX(-12deg);
-  }
-  18% { opacity: .82; }
-  74% { opacity: .58; }
-  100% {
-    opacity: 0;
-    transform: translateX(150vw) skewX(-12deg);
-  }
-}
-
-@media (max-width: 640px) {
-  .bausqo-route-impact-ring {
-    width: 42px;
-    height: 42px;
-  }
-
-  .bausqo-route-impact-beam {
-    width: 24vw;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-route-impact,
-  .bausqo-route-impact-ring,
-  .bausqo-route-impact-beam,
-  .bausqo-route-content {
-    animation: none !important;
-  }
-
-  .bausqo-route-impact {
-    display: none !important;
-  }
-}
 
 
 /* 60 FPS pass: keep moving layers on compositor-friendly transform/opacity only. */
@@ -1277,10 +821,6 @@ button:focus-visible {
   -webkit-backface-visibility: hidden;
 }
 
-.bausqo-route-content {
-  animation: bausqo-route-60fps-enter .46s cubic-bezier(.16,.84,.25,1) both;
-  will-change: transform, opacity;
-}
 
 .bausqo-route-impact-beam {
   filter: none;
@@ -1312,8 +852,8 @@ button:focus-visible {
 }
 
 .bausqo-liquid-light {
-  will-change: transform, opacity;
-  animation: bausqo-liquid-travel-60 .56s cubic-bezier(.16,.84,.25,1) both;
+  will-change: auto;
+  animation: none;
 }
 
 .bausqo-liquid-light-core::before {
@@ -1339,24 +879,6 @@ button:focus-visible {
   text-shadow: none;
 }
 
-@keyframes bausqo-route-60fps-enter {
-  0% {
-    opacity: .18;
-    transform: translate3d(0, 10px, 0) scale(.988);
-  }
-  48% {
-    opacity: .86;
-    transform: translate3d(0, 3px, 0) scale(.997);
-  }
-  76% {
-    opacity: 1;
-    transform: translate3d(0, -1px, 0) scale(1.001);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
 
 @media (max-width: 1023px) {
   body {
@@ -1606,144 +1128,6 @@ button:focus-visible {
     0 6px 14px rgba(15,23,42,.12);
 }
 
-@keyframes bausqo-liquid-travel-60 {
-  0% {
-    transform: translate3d(var(--nav-from-x),0,0) scaleX(1);
-    opacity: .68;
-  }
-  38% {
-    transform: translate3d(var(--nav-from-x),0,0) scaleX(1.08);
-    opacity: .9;
-  }
-  72% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(var(--nav-stretch));
-    opacity: .96;
-  }
-  88% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(.96);
-    opacity: .94;
-  }
-  100% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(1);
-    opacity: .92;
-  }
-}
-
-
-/* Water-like mobile nav motion: elastic, fluid, and compositor-friendly. */
-.bausqo-liquid-light {
-  transform-origin: var(--nav-origin);
-  animation: bausqo-liquid-water .62s cubic-bezier(.18,.9,.22,1) both;
-}
-
-.bausqo-liquid-light-core {
-  overflow: visible;
-  border-radius: 999px;
-  transform: translateZ(0);
-  animation: bausqo-liquid-shape .62s cubic-bezier(.18,.9,.22,1) both;
-}
-
-.bausqo-liquid-light-core::before {
-  inset: 50% auto auto 50%;
-  width: 18px;
-  height: 18px;
-  border: 1px solid color-mix(in srgb, var(--nav-accent) 34%, rgba(226,232,240,.45));
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--nav-accent) 12%, rgba(255,255,255,.12));
-  opacity: 0;
-  transform: translate(-50%,-50%) scale(.55);
-  animation: bausqo-liquid-droplet .62s cubic-bezier(.18,.9,.22,1) both;
-}
-
-.bausqo-liquid-light-core::after {
-  left: 50%;
-  bottom: -6px;
-  width: 34px;
-  height: 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--nav-accent) 18%, rgba(148,163,184,.18));
-  opacity: .26;
-  transform: translateX(-50%) scaleX(.72);
-  animation: bausqo-liquid-ripple .62s cubic-bezier(.18,.9,.22,1) both;
-}
-
-@keyframes bausqo-liquid-water {
-  0% {
-    transform: translate3d(var(--nav-from-x),0,0) scaleX(1) scaleY(1);
-    opacity: .72;
-  }
-  18% {
-    transform: translate3d(var(--nav-from-x),0,0) scaleX(1.10) scaleY(.96);
-    opacity: .88;
-  }
-  48% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(var(--nav-stretch)) scaleY(.88);
-    opacity: .98;
-  }
-  72% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(.93) scaleY(1.08);
-    opacity: .98;
-  }
-  88% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(1.035) scaleY(.985);
-    opacity: .95;
-  }
-  100% {
-    transform: translate3d(var(--nav-to-x),0,0) scaleX(1) scaleY(1);
-    opacity: .92;
-  }
-}
-
-@keyframes bausqo-liquid-shape {
-  0%   { border-radius: 18px; }
-  25%  { border-radius: 24px 14px 22px 16px; }
-  50%  { border-radius: 28px 12px 28px 12px; }
-  72%  { border-radius: 14px 24px 16px 22px; }
-  100% { border-radius: 18px; }
-}
-
-@keyframes bausqo-liquid-droplet {
-  0%, 20% {
-    opacity: 0;
-    transform: translate(-50%,-50%) scale(.45);
-  }
-  46% {
-    opacity: .36;
-    transform: translate(-50%,-50%) scale(.95);
-  }
-  68% {
-    opacity: .18;
-    transform: translate(-50%,-50%) scale(1.18);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%,-50%) scale(1.35);
-  }
-}
-
-@keyframes bausqo-liquid-ripple {
-  0% {
-    opacity: .12;
-    transform: translateX(-50%) scaleX(.55);
-  }
-  52% {
-    opacity: .34;
-    transform: translateX(-50%) scaleX(1.3);
-  }
-  100% {
-    opacity: .18;
-    transform: translateX(-50%) scaleX(.8);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-liquid-light,
-  .bausqo-liquid-light-core,
-  .bausqo-liquid-light-core::before,
-  .bausqo-liquid-light-core::after {
-    animation: none !important;
-  }
-}
 
 
 /* Section identity for top controls. */
@@ -2092,8 +1476,8 @@ button:focus-visible {
 }
 
 .bausqo-liquid-tab.is-active::after {
-  opacity: .48;
-  animation: bausqo-tab-shine 4.2s linear infinite;
+  opacity: 0;
+  animation: none;
 }
 
 @media (hover: hover) {
@@ -2152,9 +1536,8 @@ button:focus-visible {
       transparent 100%
     );
   opacity: 0;
-  transform: translate3d(-140%,0,0);
-  will-change: transform, opacity;
-  animation: bausqo-page-frame-shine 4.4s cubic-bezier(.2,.8,.2,1) infinite;
+  transform: none;
+  animation: none;
 }
 
 .bausqo-section-page-frame > :not(.bausqo-section-page-border):not(.bausqo-section-page-shine) {
@@ -2780,9 +2163,9 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
       color-mix(in srgb, var(--section-accent) 28%, rgba(255,255,255,.30)),
       transparent 68%
     );
-  filter: blur(18px);
-  opacity: .86;
-  animation: bausqo-premium-aura 3.8s ease-in-out infinite;
+  filter: none;
+  opacity: .55;
+  animation: none;
 }
 
 .bausqo-premium-card-sweep {
@@ -2806,8 +2189,9 @@ body:has([data-nonblocking="true"][data-state="open"]) .bausqo-section-header {
   box-shadow:
     0 0 7px rgba(255,255,255,.95),
     0 0 20px color-mix(in srgb, var(--section-accent) 78%, transparent),
-    0 0 38px color-mix(in srgb, var(--section-accent) 40%, transparent);
-  animation: bausqo-premium-sweep 3.7s cubic-bezier(.2,.8,.2,1) infinite;
+    0 0 18px color-mix(in srgb, var(--section-accent) 28%, transparent);
+  animation: none;
+  opacity: 0;
 }
 
 .bausqo-premium-page-badge {
@@ -3607,947 +2991,34 @@ a[href]:focus-visible {
   }
 }
 
-
-
-/* BAUSQO depth transition v26 — single clean system, 120Hz-friendly.
-   Only transform + opacity animate during navigation. */
-.bausqo-route-stage {
-  --scene-soft: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 14%, #ffffff);
-  --scene-faint: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 7%, #f8fafc);
-  position: relative;
-  min-height: 100dvh;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 48%, var(--scene-soft), transparent 46%),
-    linear-gradient(180deg, var(--scene-faint), #f8fafc 72%);
-}
-
-.bausqo-route-content {
-  position: relative;
-  z-index: 2;
-  min-height: 100dvh;
-  overflow-x: clip;
-  animation: none !important;
-  transform: none !important;
-  will-change: auto;
-}
-
-/* The real website moves as one surface. */
-.bausqo-route-page-slide {
-  min-height: 100dvh;
-  transform-origin: 50% 48%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  animation: bausqo-depth-enter 360ms cubic-bezier(.18,.86,.2,1) both;
-}
-
-@keyframes bausqo-depth-enter {
-  0% {
-    opacity: .68;
-    transform: translate3d(0,10px,0) scale(.90);
-  }
-  38% {
-    opacity: .84;
-    transform: translate3d(0,5px,0) scale(.945);
-  }
-  72% {
-    opacity: 1;
-    transform: translate3d(0,-1px,0) scale(1.004);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0) scale(1);
-  }
-}
-
-/* Lightweight depth scene behind the real page. */
-.bausqo-scene-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 1;
-  animation: bausqo-scene-fade 360ms cubic-bezier(.18,.86,.2,1) both;
-}
-
-@keyframes bausqo-scene-fade {
-  0% { opacity: 1; }
-  66% { opacity: .72; }
-  100% { opacity: 0; }
-}
-
-.bausqo-depth-cloud {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 112vmax;
-  height: 112vmax;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  will-change: transform, opacity;
-  background:
-    radial-gradient(circle at 28% 32%, rgba(255,255,255,.88) 0 7%, transparent 18%),
-    radial-gradient(circle at 70% 28%, var(--scene-soft) 0 9%, transparent 21%),
-    radial-gradient(circle at 64% 70%, rgba(255,255,255,.7) 0 9%, transparent 22%),
-    radial-gradient(circle at 34% 69%, var(--scene-faint) 0 11%, transparent 24%);
-}
-
-.bausqo-depth-cloud-1 {
-  animation: bausqo-cloud-depth 330ms 0ms cubic-bezier(.14,.82,.18,1) both;
-}
-.bausqo-depth-cloud-2 {
-  animation: bausqo-cloud-depth 330ms 34ms cubic-bezier(.14,.82,.18,1) both;
-}
-.bausqo-depth-cloud-3 {
-  animation: bausqo-cloud-depth 330ms 66ms cubic-bezier(.14,.82,.18,1) both;
-}
-.bausqo-depth-cloud-4 {
-  animation: bausqo-cloud-depth 330ms 98ms cubic-bezier(.14,.82,.18,1) both;
-}
-
-@keyframes bausqo-cloud-depth {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(.16);
-  }
-  20% {
-    opacity: .5;
-  }
-  58% {
-    opacity: .34;
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(1.18);
-  }
-}
-
-.bausqo-depth-focus {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 26vmin;
-  aspect-ratio: 1;
-  border: 2px solid color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 46%, #fff);
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: bausqo-depth-focus 310ms 28ms cubic-bezier(.14,.84,.18,1) both;
-}
-
-@keyframes bausqo-depth-focus {
-  0% {
-    opacity: .58;
-    transform: translate3d(-50%,-50%,0) scale(.42);
-  }
-  46% {
-    opacity: .5;
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(3.8);
-  }
-}
-
-/* Section personality without extra rendering cost. */
-.scene-search .bausqo-depth-focus {
-  border-style: dashed;
-}
-.scene-create .bausqo-depth-focus {
-  border-radius: 22%;
-}
-.scene-chat .bausqo-depth-focus {
-  border-radius: 38%;
-}
-.scene-profile .bausqo-depth-focus {
-  border-width: 3px;
-}
-
-/* Old scene decorations are not needed. */
-.bausqo-scene-orb,
-.bausqo-scene-floor {
-  display: none !important;
-}
-
-/* Keep inner UI still: only the complete site surface moves. */
-
-
-/* Mobile / iPhone: shorter travel for a high-refresh feel. */
-@media (max-width: 1023px) {
-  .bausqo-route-page-slide {
-    animation: bausqo-depth-enter-mobile 300ms cubic-bezier(.18,.86,.2,1) both;
-  }
-
-  @keyframes bausqo-depth-enter-mobile {
-    0% {
-      opacity: .74;
-      transform: translate3d(0,7px,0) scale(.92);
-    }
-    44% {
-      opacity: .9;
-      transform: translate3d(0,3px,0) scale(.965);
-    }
-    76% {
-      opacity: 1;
-      transform: translate3d(0,-.5px,0) scale(1.003);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3d(0,0,0) scale(1);
-    }
-  }
-
-  .bausqo-scene-backdrop {
-    animation-duration: 300ms;
-  }
-
-  .bausqo-depth-cloud {
-    width: 104vmax;
-    height: 104vmax;
-  }
-
-  .bausqo-depth-cloud-1 { animation-duration: 275ms; }
-  .bausqo-depth-cloud-2 { animation-duration: 275ms; animation-delay: 28ms; }
-  .bausqo-depth-cloud-3 { animation-duration: 275ms; animation-delay: 54ms; }
-  .bausqo-depth-cloud-4 { animation-duration: 275ms; animation-delay: 78ms; }
-
-  .bausqo-depth-focus {
-    animation-duration: 265ms;
-    width: 32vmin;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-scene-backdrop,
-  .bausqo-depth-cloud,
-  .bausqo-depth-focus {
-    display: none !important;
-  }
-
-  .bausqo-route-page-slide {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-/* Showroom transition v27 — modeled on the uploaded UI/UX showcase video. */
-.bausqo-route-stage {
-  --showcase-line: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 42%, #ffffff);
-  --showcase-soft: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 16%, #ffffff);
-  background:
-    linear-gradient(180deg, var(--showcase-soft) 0%, #f8fafc 44%, #f3f6f8 100%) !important;
-}
-
-.bausqo-scene-backdrop {
-  display: block !important;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 1;
-  animation: bausqo-showroom-fade 500ms cubic-bezier(.16,.86,.18,1) both !important;
-}
-
-@keyframes bausqo-showroom-fade {
-  0%, 48% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Architectural side pillars like the vertical showroom structures in the video. */
-.bausqo-showcase-pillar {
-  position: absolute;
-  top: 8%;
-  bottom: 18%;
-  width: 12%;
-  max-width: 120px;
-  border-radius: 28px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.9),
-      color-mix(in srgb, var(--bausqo-scene-accent) 12%, #eef2f7)
-    );
-  border: 1px solid rgba(255,255,255,.82);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.bausqo-showcase-pillar-left {
-  left: 8%;
-  animation: bausqo-pillar-left 430ms cubic-bezier(.18,.86,.2,1) both;
-}
-
-.bausqo-showcase-pillar-right {
-  right: 8%;
-  animation: bausqo-pillar-right 430ms cubic-bezier(.18,.86,.2,1) both;
-}
-
-@keyframes bausqo-pillar-left {
-  0% { opacity: 0; transform: translate3d(-26px,16px,0) scaleY(.9); }
-  24% { opacity: .9; }
-  72% { opacity: .72; transform: translate3d(0,0,0) scaleY(1); }
-  100% { opacity: 0; transform: translate3d(-8px,-4px,0) scaleY(1.03); }
-}
-
-@keyframes bausqo-pillar-right {
-  0% { opacity: 0; transform: translate3d(26px,16px,0) scaleY(.9); }
-  24% { opacity: .9; }
-  72% { opacity: .72; transform: translate3d(0,0,0) scaleY(1); }
-  100% { opacity: 0; transform: translate3d(8px,-4px,0) scaleY(1.03); }
-}
-
-/* Frame behind the real site makes it read as a floating browser/display. */
-.bausqo-showcase-frame {
-  position: absolute;
-  left: 50%;
-  top: 44%;
-  width: min(82vw, 1100px);
-  height: min(62vh, 680px);
-  transform: translate3d(-50%,-50%,0) scale(.78);
-  border-radius: 34px;
-  border: 2px solid rgba(255,255,255,.88);
-  outline: 1px solid color-mix(in srgb, var(--bausqo-scene-accent) 24%, rgba(148,163,184,.34));
-  background: rgba(255,255,255,.22);
-  opacity: 0;
-  animation: bausqo-showcase-frame 460ms cubic-bezier(.16,.86,.18,1) both;
-  will-change: transform, opacity;
-}
-
-@keyframes bausqo-showcase-frame {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(.72);
-  }
-  18% {
-    opacity: .96;
-  }
-  68% {
-    opacity: .72;
-    transform: translate3d(-50%,-50%,0) scale(.91);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(1.03);
-  }
-}
-
-/* Pedestal and ring under the floating website. */
-.bausqo-showcase-pedestal {
-  position: absolute;
-  left: 50%;
-  bottom: 7%;
-  width: min(54vw, 620px);
-  height: 74px;
-  border-radius: 50%;
-  transform: translate3d(-50%,0,0) scale(.72);
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.94),
-      color-mix(in srgb, var(--bausqo-scene-accent) 10%, #e9eef4)
-    );
-  border: 1px solid rgba(255,255,255,.9);
-  opacity: 0;
-  animation: bausqo-pedestal 480ms cubic-bezier(.16,.86,.18,1) both;
-  will-change: transform, opacity;
-}
-
-.bausqo-showcase-ring {
-  position: absolute;
-  left: 50%;
-  bottom: 8.6%;
-  width: min(46vw, 520px);
-  height: 34px;
-  border-radius: 50%;
-  transform: translate3d(-50%,0,0) scale(.64);
-  border: 3px solid var(--showcase-line);
-  opacity: 0;
-  animation: bausqo-showcase-ring 470ms 30ms cubic-bezier(.14,.84,.18,1) both;
-  will-change: transform, opacity;
-}
-
-@keyframes bausqo-pedestal {
-  0% { opacity: 0; transform: translate3d(-50%,18px,0) scale(.68); }
-  22% { opacity: .95; }
-  72% { opacity: .72; transform: translate3d(-50%,0,0) scale(1); }
-  100% { opacity: 0; transform: translate3d(-50%,-4px,0) scale(1.08); }
-}
-
-@keyframes bausqo-showcase-ring {
-  0% { opacity: 0; transform: translate3d(-50%,0,0) scale(.58); }
-  20% { opacity: .9; }
-  72% { opacity: .72; transform: translate3d(-50%,0,0) scale(1); }
-  100% { opacity: 0; transform: translate3d(-50%,0,0) scale(1.16); }
-}
-
-/* Thin vertical beam adds the showroom/camera-depth feeling without blur. */
-.bausqo-showcase-beam {
-  position: absolute;
-  left: 50%;
-  top: 8%;
-  width: 2px;
-  height: 70%;
-  transform: translate3d(-50%,0,0) scaleY(.55);
-  transform-origin: top center;
-  background:
-    linear-gradient(
-      180deg,
-      transparent,
-      var(--showcase-line) 22%,
-      rgba(255,255,255,.78) 50%,
-      transparent
-    );
-  opacity: 0;
-  animation: bausqo-showcase-beam 420ms cubic-bezier(.16,.86,.18,1) both;
-  will-change: transform, opacity;
-}
-
-@keyframes bausqo-showcase-beam {
-  0% { opacity: 0; transform: translate3d(-50%,0,0) scaleY(.42); }
-  26% { opacity: .7; }
-  74% { opacity: .36; transform: translate3d(-50%,0,0) scaleY(1); }
-  100% { opacity: 0; transform: translate3d(-50%,0,0) scaleY(1.08); }
-}
-
-/* The complete BAUSQO site becomes the floating screen, then expands back to full size. */
-.bausqo-route-page-slide {
-  position: relative;
-  z-index: 2;
-  min-height: 100dvh;
-  transform-origin: 50% 44%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  animation: bausqo-showcase-site 500ms cubic-bezier(.16,.86,.18,1) both !important;
-}
-
-@keyframes bausqo-showcase-site {
-  0% {
-    opacity: .9;
-    transform: translate3d(0,-1.5vh,0) scale(.78);
-  }
-  22% {
-    opacity: 1;
-    transform: translate3d(0,-1vh,0) scale(.82);
-  }
-  58% {
-    transform: translate3d(0,-.35vh,0) scale(.93);
-  }
-  80% {
-    transform: translate3d(0,0,0) scale(1.008);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0) scale(1);
-  }
-}
-
-/* Keep every inner card attached to the screen: no nested entrance animation. */
-
-
-/* Disable v26 clouds/focus; the showroom is now the only scene. */
-.bausqo-depth-cloud,
-.bausqo-depth-focus,
-.bausqo-scene-orb,
-.bausqo-scene-floor {
-  display: none !important;
-}
-
-/* Route personalities: only geometry/accent differs, motion stays consistent. */
-.scene-search .bausqo-showcase-ring {
-  border-style: dashed;
-}
-
-.scene-create .bausqo-showcase-frame {
-  outline-color: color-mix(in srgb, #f6c85f 42%, rgba(148,163,184,.24));
-}
-
-.scene-chat .bausqo-showcase-pillar {
-  border-radius: 44px;
-}
-
-.scene-profile .bausqo-showcase-ring {
-  border-width: 4px;
-}
-
-/* Mobile / iPhone: same principle, shorter travel and fewer large surfaces. */
-@media (max-width: 1023px) {
-  .bausqo-showcase-pillar {
-    top: 13%;
-    bottom: 22%;
-    width: 11%;
-    border-radius: 22px;
-  }
-
-  .bausqo-showcase-frame {
-    width: 88vw;
-    height: 58vh;
-    border-radius: 26px;
-  }
-
-  .bausqo-showcase-pedestal {
-    width: 62vw;
-    height: 48px;
-    bottom: 10%;
-  }
-
-  .bausqo-showcase-ring {
-    width: 54vw;
-    height: 24px;
-    bottom: 11%;
-    border-width: 2px;
-  }
-
-  .bausqo-showcase-beam {
-    height: 62%;
-  }
-
-  .bausqo-route-page-slide {
-    animation: bausqo-showcase-site-mobile 400ms cubic-bezier(.16,.86,.18,1) both !important;
-  }
-
-  @keyframes bausqo-showcase-site-mobile {
-    0% {
-      opacity: .94;
-      transform: translate3d(0,-8px,0) scale(.82);
-    }
-    28% {
-      opacity: 1;
-      transform: translate3d(0,-5px,0) scale(.86);
-    }
-    62% {
-      transform: translate3d(0,-2px,0) scale(.95);
-    }
-    82% {
-      transform: translate3d(0,0,0) scale(1.005);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3d(0,0,0) scale(1);
-    }
-  }
-
-  .bausqo-scene-backdrop {
-    animation-duration: 400ms !important;
-  }
-
-  .bausqo-showcase-pillar-left,
-  .bausqo-showcase-pillar-right,
-  .bausqo-showcase-frame,
-  .bausqo-showcase-pedestal,
-  .bausqo-showcase-ring,
-  .bausqo-showcase-beam {
-    animation-duration: 380ms !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-scene-backdrop,
-  .bausqo-showcase-pillar,
-  .bausqo-showcase-frame,
-  .bausqo-showcase-pedestal,
-  .bausqo-showcase-ring,
-  .bausqo-showcase-beam {
-    display: none !important;
-  }
-
-  .bausqo-route-page-slide {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-/* Reference-video choreography v28 — persistent floating website + route-specific scene. */
-
-/* Pressing any navigation link gives a tiny outgoing compression before route swap. */
-@media (pointer: coarse) {
-  body:has(a[href]:active) .bausqo-route-page-slide {
-    transform: translate3d(0,1px,0) scale(.974) !important;
-    opacity: .985 !important;
-    transition:
-      transform 78ms cubic-bezier(.2,.8,.2,1),
-      opacity 78ms linear !important;
-  }
-}
-
-/* New route appears first as the floating showcase screen, holds, then expands. */
-.bausqo-route-page-slide {
-  position: relative;
-  z-index: 2;
-  min-height: 100dvh;
-  transform-origin: 50% 44%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  animation: bausqo-reference-showcase 690ms cubic-bezier(.16,.86,.18,1) both !important;
-}
-
-@keyframes bausqo-reference-showcase {
-  0% {
-    opacity: .9;
-    transform: translate3d(0,-2vh,0) scale(.70);
-  }
-  18% {
-    opacity: 1;
-    transform: translate3d(0,-1.5vh,0) scale(.72);
-  }
-  42% {
-    transform: translate3d(0,-1.2vh,0) scale(.74);
-  }
-  62% {
-    transform: translate3d(0,-.6vh,0) scale(.82);
-  }
-  82% {
-    transform: translate3d(0,0,0) scale(1.012);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0,0,0) scale(1);
-  }
-}
-
-/* Floating-screen frame: visible only while route is small. */
-.bausqo-route-page-slide::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  border: 1px solid rgba(255,255,255,.8);
-  border-radius: 30px;
-  box-shadow:
-    0 24px 62px rgba(15,23,42,.13),
-    0 0 0 1px color-mix(in srgb, var(--bausqo-scene-accent) 18%, rgba(148,163,184,.12)) inset;
-  opacity: 0;
-  animation: bausqo-screen-frame-fade 690ms cubic-bezier(.16,.86,.18,1) both;
-}
-
-@keyframes bausqo-screen-frame-fade {
-  0% { opacity: .96; }
-  48% { opacity: .92; }
-  72% { opacity: .34; }
-  100% { opacity: 0; }
-}
-
-/* The stage stays visible during the floating phase. */
-.bausqo-scene-backdrop {
-  animation: bausqo-reference-stage 690ms cubic-bezier(.16,.86,.18,1) both !important;
-}
-
-@keyframes bausqo-reference-stage {
-  0%, 48% { opacity: 1; }
-  70% { opacity: .82; }
-  100% { opacity: 0; }
-}
-
-/* Extra stage geometry. */
-.bausqo-showcase-symbol,
-.bausqo-showcase-wing {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.bausqo-showcase-symbol {
-  left: 50%;
-  top: 24%;
-  width: 22vmin;
-  aspect-ratio: 1;
-  transform: translate3d(-50%,-50%,0) scale(.62);
-  border: 2px solid var(--showcase-line);
-  border-radius: 50%;
-  animation: bausqo-symbol-in 560ms 40ms cubic-bezier(.16,.86,.18,1) both;
-}
-
-@keyframes bausqo-symbol-in {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(.38);
-  }
-  28% { opacity: .82; }
-  72% {
-    opacity: .62;
-    transform: translate3d(-50%,-50%,0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%,-50%,0) scale(1.12);
-  }
-}
-
-.bausqo-showcase-wing {
-  top: 22%;
-  width: 18%;
-  max-width: 190px;
-  height: 44%;
-  border: 1px solid rgba(255,255,255,.76);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--bausqo-scene-accent) 8%, #ffffff),
-      color-mix(in srgb, var(--bausqo-scene-accent) 5%, #eef2f6)
-    );
-  animation: bausqo-wing-in 520ms cubic-bezier(.16,.86,.18,1) both;
-}
-
-.bausqo-showcase-wing-left {
-  left: 14%;
-  transform-origin: right center;
-}
-
-.bausqo-showcase-wing-right {
-  right: 14%;
-  transform-origin: left center;
-}
-
-@keyframes bausqo-wing-in {
-  0% {
-    opacity: 0;
-    transform: translate3d(0,18px,0) scale(.9);
-  }
-  24% { opacity: .9; }
-  70% {
-    opacity: .68;
-    transform: translate3d(0,0,0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(0,-4px,0) scale(1.03);
-  }
-}
-
-/* HOME — soft circular showroom. */
-.scene-home .bausqo-showcase-symbol {
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 16px color-mix(in srgb, var(--bausqo-scene-accent) 5%, transparent),
-    0 0 0 34px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
-}
-
-.scene-home .bausqo-showcase-wing {
-  border-radius: 50% 50% 18px 18px;
-}
-
-/* SEARCH — ring/portal like the aqua showcase in the reference. */
-.scene-search .bausqo-showcase-symbol {
-  border-width: 3px;
-  box-shadow:
-    0 0 0 14px color-mix(in srgb, var(--bausqo-scene-accent) 6%, transparent),
-    0 0 0 30px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
-}
-
-.scene-search .bausqo-showcase-wing {
-  top: 31%;
-  height: 30%;
-  border-radius: 999px 999px 20px 20px;
-}
-
-/* CREATE — geometric gate / product reveal. */
-.scene-create .bausqo-showcase-symbol {
-  border-radius: 18%;
-  transform: translate3d(-50%,-50%,0) rotate(45deg) scale(.62);
-}
-
-.scene-create .bausqo-showcase-wing {
-  width: 12%;
-  top: 16%;
-  height: 52%;
-  border-radius: 26px;
-}
-
-/* CHAT — two message panels around the central screen. */
-.scene-chat .bausqo-showcase-symbol {
-  width: 25vmin;
-  height: 14vmin;
-  aspect-ratio: auto;
-  border-radius: 999px;
-}
-
-.scene-chat .bausqo-showcase-wing {
-  width: 22%;
-  height: 23%;
-  top: 34%;
-  border-radius: 30px;
-}
-
-/* PROFILE — portrait halo / gallery stage. */
-.scene-profile .bausqo-showcase-symbol {
-  width: 24vmin;
-  border-width: 3px;
-  box-shadow:
-    0 0 0 12px color-mix(in srgb, var(--bausqo-scene-accent) 7%, transparent),
-    0 0 0 26px color-mix(in srgb, var(--bausqo-scene-accent) 4%, transparent);
-}
-
-.scene-profile .bausqo-showcase-wing {
-  top: 19%;
-  height: 48%;
-  border-radius: 48px 48px 18px 18px;
-}
-
-/* Stage platform stays under the floating route longer, matching the video. */
-.bausqo-showcase-pedestal,
-.bausqo-showcase-ring,
-.bausqo-showcase-frame,
-.bausqo-showcase-pillar,
-.bausqo-showcase-beam,
-.bausqo-showcase-symbol,
-.bausqo-showcase-wing {
-  animation-fill-mode: both !important;
-}
-
-/* Keep all real page internals fixed relative to the floating website. */
-.bausqo-route-page-slide .bausqo-page-motion-surface,
-.bausqo-route-page-slide .bausqo-premium-page-card,
-.bausqo-route-page-slide .bausqo-premium-page-content,
-.bausqo-route-page-slide .bausqo-public-premium-card,
-.bausqo-route-page-slide .bausqo-auth-card {
-  animation: none !important;
-  transform: none !important;
-}
-
-/* Phone tuning: same staging, less travel for 120Hz-friendly motion. */
-@media (max-width: 1023px) {
-  .bausqo-route-page-slide {
-    animation: bausqo-reference-showcase-mobile 560ms cubic-bezier(.16,.86,.18,1) both !important;
-  }
-
-  @keyframes bausqo-reference-showcase-mobile {
-    0% {
-      opacity: .94;
-      transform: translate3d(0,-8px,0) scale(.76);
-    }
-    22% {
-      opacity: 1;
-      transform: translate3d(0,-7px,0) scale(.78);
-    }
-    46% {
-      transform: translate3d(0,-5px,0) scale(.80);
-    }
-    66% {
-      transform: translate3d(0,-2px,0) scale(.88);
-    }
-    84% {
-      transform: translate3d(0,0,0) scale(1.008);
-    }
-    100% {
-      opacity: 1;
-      transform: translate3d(0,0,0) scale(1);
-    }
-  }
-
-  .bausqo-route-page-slide::after {
-    border-radius: 24px;
-    animation-duration: 560ms;
-    box-shadow:
-      0 12px 30px rgba(15,23,42,.09),
-      0 0 0 1px rgba(255,255,255,.64) inset;
-  }
-
-  .bausqo-scene-backdrop {
-    animation-duration: 560ms !important;
-  }
-
-  .bausqo-showcase-wing {
-    width: 14%;
-  }
-
-  .scene-chat .bausqo-showcase-wing {
-    width: 20%;
-  }
-
-  .bausqo-showcase-symbol {
-    top: 22%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bausqo-showcase-symbol,
-  .bausqo-showcase-wing {
-    display: none !important;
-  }
-
-  .bausqo-route-page-slide,
-  .bausqo-route-page-slide::after {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-/* Depth tunnel v29 — one page surface. Transform + opacity only. */
-.bausqo-page,
-.bausqo-route-content,
-.bausqo-route-page-slide,
-.bausqo-route-page-slide::before,
-.bausqo-route-page-slide::after,
-.bausqo-page-motion-surface,
-.bausqo-premium-page-card,
-.bausqo-premium-page-content,
-.bausqo-public-premium-card,
-.bausqo-auth-card,
-.bausqo-scene-backdrop,
-.bausqo-showcase-pillar,
-.bausqo-showcase-frame,
-.bausqo-showcase-pedestal,
-.bausqo-showcase-ring,
-.bausqo-showcase-beam,
-.bausqo-showcase-symbol,
-.bausqo-showcase-wing,
-.bausqo-depth-cloud,
-.bausqo-depth-focus {
-  animation: none !important;
-  filter: none !important;
-  will-change: auto !important;
-}
-
-.bausqo-scene-backdrop,
-.bausqo-showcase-pillar,
-.bausqo-showcase-frame,
-.bausqo-showcase-pedestal,
-.bausqo-showcase-ring,
-.bausqo-showcase-beam,
-.bausqo-showcase-symbol,
-.bausqo-showcase-wing,
-.bausqo-depth-cloud,
-.bausqo-depth-focus,
-.bausqo-route-page-slide::before,
-.bausqo-route-page-slide::after {
-  display: none !important;
-  content: none !important;
-  box-shadow: none !important;
-}
-
+/* One page transition. Transform, translate3d, scale, and opacity only. */
 .bausqo-route-stage {
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
   background: #f6f8fb;
-}
-
-.bausqo-route-content {
-  position: relative;
-  z-index: 2;
-  min-height: 100dvh;
-  transform: none !important;
+  isolation: isolate;
 }
 
 .bausqo-route-page-slide {
   position: relative;
   z-index: 2;
   min-height: 100dvh;
-  transform-origin: 50% 46%;
+  transform-origin: 50% 42%;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  animation: bausqo-depth-in 440ms cubic-bezier(.2, .8, .2, 1) both !important;
+  animation: bausqo-depth-in 420ms cubic-bezier(.2, .86, .18, 1) both;
+}
+
+.bausqo-route-page-slide .bausqo-page,
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card,
+.bausqo-route-page-slide .bausqo-section-page-shine,
+.bausqo-route-page-slide .bausqo-premium-card-aura,
+.bausqo-route-page-slide .bausqo-premium-card-sweep {
+  animation: none !important;
 }
 
 .bausqo-depth-veil {
@@ -4555,118 +3026,122 @@ a[href]:focus-visible {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 46%, color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 28%, transparent), transparent 42%);
+  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 22%, transparent), transparent 46%);
   opacity: 0;
-  transform: translate3d(0, 0, 0) scale(.72);
-  animation: bausqo-depth-space 440ms cubic-bezier(.2, .8, .2, 1) both;
+  transform: translate3d(0, 0, 0) scale(.8);
+  animation: bausqo-depth-space 380ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 @keyframes bausqo-depth-out {
-  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-  100% { opacity: .42; transform: translate3d(0, 10px, 0) scale(.9); }
+  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  to { opacity: .34; transform: translate3d(0, 8px, 0) scale(.9); }
 }
 
 @keyframes bausqo-depth-in {
-  0% { opacity: .55; transform: translate3d(0, 16px, 0) scale(.86); }
-  58% { opacity: 1; transform: translate3d(0, 2px, 0) scale(.985); }
+  0% { opacity: .72; transform: translate3d(0, 0, 0) scale(.9); }
   100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 }
 
 @keyframes bausqo-depth-space {
-  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.62); }
-  36% { opacity: .85; transform: translate3d(0, 0, 0) scale(1); }
-  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1.18); }
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.72); }
+  42% { opacity: .7; transform: translate3d(0, 0, 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1.12); }
+}
+
+@keyframes bausqo-nav-travel {
+  0% { transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1); }
+  46% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch, 1.16)); }
+  100% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1); }
 }
 
 @supports (view-transition-name: none) {
   .bausqo-route-page-slide {
     view-transition-name: bausqo-page;
-    animation: none !important;
+    animation: none;
   }
 
   ::view-transition-old(bausqo-page) {
-    animation: bausqo-depth-out 170ms cubic-bezier(.4, 0, 1, 1) both;
-    mix-blend-mode: normal;
+    animation: bausqo-depth-out 150ms cubic-bezier(.4, 0, 1, 1) both;
   }
 
   ::view-transition-new(bausqo-page) {
-    animation: bausqo-depth-in 320ms cubic-bezier(.16, .84, .2, 1) both;
+    animation: bausqo-depth-in 280ms cubic-bezier(.16, .84, .2, 1) both;
   }
 
   ::view-transition-group(bausqo-page) {
-    animation-duration: 420ms;
-    animation-timing-function: cubic-bezier(.2, .8, .2, 1);
-  }
-}
-
-@media (max-width: 1023px) {
-  .bausqo-route-page-slide {
-    animation-duration: 320ms !important;
-  }
-
-  .bausqo-depth-veil {
-    animation-duration: 300ms;
-  }
-
-  @keyframes bausqo-depth-in {
-    0% { opacity: .62; transform: translate3d(0, 10px, 0) scale(.9); }
-    62% { opacity: 1; transform: translate3d(0, 1px, 0) scale(.99); }
-    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-  }
-
-  @supports (view-transition-name: none) {
-    ::view-transition-old(bausqo-page) {
-      animation-duration: 140ms;
-    }
-
-    ::view-transition-new(bausqo-page) {
-      animation-duration: 260ms;
-    }
+    animation-duration: 400ms;
   }
 }
 
 .bausqo-liquid-nav {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  background: rgba(8, 14, 22, .94);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+  background:
+    linear-gradient(180deg, rgba(10, 16, 24, .96), rgba(7, 12, 18, .98)),
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--nav-accent, #49e58b) 18%, transparent), transparent 62%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
   contain: layout paint style;
 }
 
-.bausqo-liquid-wind,
-.bausqo-liquid-light-core::before,
-.bausqo-liquid-light-core::after,
-.bausqo-liquid-tab::before {
-  display: none !important;
-  animation: none !important;
-  filter: none !important;
-}
-
 .bausqo-liquid-light {
-  animation: bausqo-nav-travel 280ms cubic-bezier(.2, .85, .2, 1) both !important;
-  filter: none !important;
+  animation: bausqo-nav-travel 260ms cubic-bezier(.2, .85, .2, 1) both;
+  filter: none;
   will-change: transform;
+  transform-origin: var(--nav-origin, center);
 }
 
 .bausqo-liquid-light-core {
-  border: 1px solid color-mix(in srgb, var(--nav-accent) 70%, white);
-  background: color-mix(in srgb, var(--nav-accent) 16%, rgba(255, 255, 255, .04));
+  border: 1px solid color-mix(in srgb, var(--nav-accent, #fff) 62%, white);
+  background: color-mix(in srgb, var(--nav-accent, #fff) 18%, rgba(255, 255, 255, .05));
   box-shadow: none;
   filter: none;
+  animation: none;
+}
+
+.bausqo-liquid-light-core::before,
+.bausqo-liquid-light-core::after,
+.bausqo-liquid-tab::before,
+.bausqo-liquid-wind,
+.bausqo-wind-line,
+.bausqo-wind-transition {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+  content: none;
 }
 
 .bausqo-liquid-tab.is-active .bausqo-liquid-icon,
 .bausqo-liquid-tab.is-active .bausqo-liquid-label {
+  color: var(--tab-accent, var(--nav-accent));
   filter: none;
   text-shadow: none;
-  transition: transform 160ms cubic-bezier(.2, .8, .2, 1), color 160ms linear;
+  transition: color 140ms linear, transform 140ms cubic-bezier(.2, .8, .2, 1);
 }
 
-@keyframes bausqo-nav-travel {
-  0% { transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1); }
-  45% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch, 1.2)); }
-  100% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1); }
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide {
+    animation-duration: 300ms;
+  }
+
+  .bausqo-depth-veil {
+    animation-duration: 280ms;
+  }
+
+  @keyframes bausqo-depth-in {
+    0% { opacity: .78; transform: translate3d(0, 0, 0) scale(.93); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+
+  @keyframes bausqo-depth-out {
+    from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    to { opacity: .4; transform: translate3d(0, 4px, 0) scale(.93); }
+  }
+
+  @supports (view-transition-name: none) {
+    ::view-transition-old(bausqo-page) { animation-duration: 120ms; }
+    ::view-transition-new(bausqo-page) { animation-duration: 220ms; }
+    ::view-transition-group(bausqo-page) { animation-duration: 320ms; }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4680,8 +3155,5 @@ a[href]:focus-visible {
     opacity: 1 !important;
   }
 
-  .bausqo-depth-veil {
-    display: none !important;
-  }
+  .bausqo-depth-veil { display: none !important; }
 }
-
