@@ -3128,3 +3128,13 @@ a[href]:focus-visible {
     transition-duration: .001ms !important;
   }
 }
+
+
+/* Mobile navigation drawer: keep vertical scrolling native while allowing a horizontal swipe-to-close gesture. */
+@media (max-width: 1023px) {
+  .bausqo-side-card {
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
