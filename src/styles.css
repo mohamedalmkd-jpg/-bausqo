@@ -3886,3 +3886,339 @@ a[href]:focus-visible {
   }
 }
 
+/* Showroom transition v27 — modeled on the uploaded UI/UX showcase video. */
+.bausqo-route-stage {
+  --showcase-line: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 42%, #ffffff);
+  --showcase-soft: color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 16%, #ffffff);
+  background:
+    linear-gradient(180deg, var(--showcase-soft) 0%, #f8fafc 44%, #f3f6f8 100%) !important;
+}
+
+.bausqo-scene-backdrop {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  animation: bausqo-showroom-fade 500ms cubic-bezier(.16,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-showroom-fade {
+  0%, 48% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Architectural side pillars like the vertical showroom structures in the video. */
+.bausqo-showcase-pillar {
+  position: absolute;
+  top: 8%;
+  bottom: 18%;
+  width: 12%;
+  max-width: 120px;
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.9),
+      color-mix(in srgb, var(--bausqo-scene-accent) 12%, #eef2f7)
+    );
+  border: 1px solid rgba(255,255,255,.82);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.bausqo-showcase-pillar-left {
+  left: 8%;
+  animation: bausqo-pillar-left 430ms cubic-bezier(.18,.86,.2,1) both;
+}
+
+.bausqo-showcase-pillar-right {
+  right: 8%;
+  animation: bausqo-pillar-right 430ms cubic-bezier(.18,.86,.2,1) both;
+}
+
+@keyframes bausqo-pillar-left {
+  0% { opacity: 0; transform: translate3d(-26px,16px,0) scaleY(.9); }
+  24% { opacity: .9; }
+  72% { opacity: .72; transform: translate3d(0,0,0) scaleY(1); }
+  100% { opacity: 0; transform: translate3d(-8px,-4px,0) scaleY(1.03); }
+}
+
+@keyframes bausqo-pillar-right {
+  0% { opacity: 0; transform: translate3d(26px,16px,0) scaleY(.9); }
+  24% { opacity: .9; }
+  72% { opacity: .72; transform: translate3d(0,0,0) scaleY(1); }
+  100% { opacity: 0; transform: translate3d(8px,-4px,0) scaleY(1.03); }
+}
+
+/* Frame behind the real site makes it read as a floating browser/display. */
+.bausqo-showcase-frame {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: min(82vw, 1100px);
+  height: min(62vh, 680px);
+  transform: translate3d(-50%,-50%,0) scale(.78);
+  border-radius: 34px;
+  border: 2px solid rgba(255,255,255,.88);
+  outline: 1px solid color-mix(in srgb, var(--bausqo-scene-accent) 24%, rgba(148,163,184,.34));
+  background: rgba(255,255,255,.22);
+  opacity: 0;
+  animation: bausqo-showcase-frame 460ms cubic-bezier(.16,.86,.18,1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-showcase-frame {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(.72);
+  }
+  18% {
+    opacity: .96;
+  }
+  68% {
+    opacity: .72;
+    transform: translate3d(-50%,-50%,0) scale(.91);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(1.03);
+  }
+}
+
+/* Pedestal and ring under the floating website. */
+.bausqo-showcase-pedestal {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  width: min(54vw, 620px);
+  height: 74px;
+  border-radius: 50%;
+  transform: translate3d(-50%,0,0) scale(.72);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.94),
+      color-mix(in srgb, var(--bausqo-scene-accent) 10%, #e9eef4)
+    );
+  border: 1px solid rgba(255,255,255,.9);
+  opacity: 0;
+  animation: bausqo-pedestal 480ms cubic-bezier(.16,.86,.18,1) both;
+  will-change: transform, opacity;
+}
+
+.bausqo-showcase-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 8.6%;
+  width: min(46vw, 520px);
+  height: 34px;
+  border-radius: 50%;
+  transform: translate3d(-50%,0,0) scale(.64);
+  border: 3px solid var(--showcase-line);
+  opacity: 0;
+  animation: bausqo-showcase-ring 470ms 30ms cubic-bezier(.14,.84,.18,1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-pedestal {
+  0% { opacity: 0; transform: translate3d(-50%,18px,0) scale(.68); }
+  22% { opacity: .95; }
+  72% { opacity: .72; transform: translate3d(-50%,0,0) scale(1); }
+  100% { opacity: 0; transform: translate3d(-50%,-4px,0) scale(1.08); }
+}
+
+@keyframes bausqo-showcase-ring {
+  0% { opacity: 0; transform: translate3d(-50%,0,0) scale(.58); }
+  20% { opacity: .9; }
+  72% { opacity: .72; transform: translate3d(-50%,0,0) scale(1); }
+  100% { opacity: 0; transform: translate3d(-50%,0,0) scale(1.16); }
+}
+
+/* Thin vertical beam adds the showroom/camera-depth feeling without blur. */
+.bausqo-showcase-beam {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: 2px;
+  height: 70%;
+  transform: translate3d(-50%,0,0) scaleY(.55);
+  transform-origin: top center;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      var(--showcase-line) 22%,
+      rgba(255,255,255,.78) 50%,
+      transparent
+    );
+  opacity: 0;
+  animation: bausqo-showcase-beam 420ms cubic-bezier(.16,.86,.18,1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes bausqo-showcase-beam {
+  0% { opacity: 0; transform: translate3d(-50%,0,0) scaleY(.42); }
+  26% { opacity: .7; }
+  74% { opacity: .36; transform: translate3d(-50%,0,0) scaleY(1); }
+  100% { opacity: 0; transform: translate3d(-50%,0,0) scaleY(1.08); }
+}
+
+/* The complete BAUSQO site becomes the floating screen, then expands back to full size. */
+.bausqo-route-page-slide {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  transform-origin: 50% 44%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  animation: bausqo-showcase-site 500ms cubic-bezier(.16,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-showcase-site {
+  0% {
+    opacity: .9;
+    transform: translate3d(0,-1.5vh,0) scale(.78);
+  }
+  22% {
+    opacity: 1;
+    transform: translate3d(0,-1vh,0) scale(.82);
+  }
+  58% {
+    transform: translate3d(0,-.35vh,0) scale(.93);
+  }
+  80% {
+    transform: translate3d(0,0,0) scale(1.008);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Keep every inner card attached to the screen: no nested entrance animation. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Disable v26 clouds/focus; the showroom is now the only scene. */
+.bausqo-depth-cloud,
+.bausqo-depth-focus,
+.bausqo-scene-orb,
+.bausqo-scene-floor {
+  display: none !important;
+}
+
+/* Route personalities: only geometry/accent differs, motion stays consistent. */
+.scene-search .bausqo-showcase-ring {
+  border-style: dashed;
+}
+
+.scene-create .bausqo-showcase-frame {
+  outline-color: color-mix(in srgb, #f6c85f 42%, rgba(148,163,184,.24));
+}
+
+.scene-chat .bausqo-showcase-pillar {
+  border-radius: 44px;
+}
+
+.scene-profile .bausqo-showcase-ring {
+  border-width: 4px;
+}
+
+/* Mobile / iPhone: same principle, shorter travel and fewer large surfaces. */
+@media (max-width: 1023px) {
+  .bausqo-showcase-pillar {
+    top: 13%;
+    bottom: 22%;
+    width: 11%;
+    border-radius: 22px;
+  }
+
+  .bausqo-showcase-frame {
+    width: 88vw;
+    height: 58vh;
+    border-radius: 26px;
+  }
+
+  .bausqo-showcase-pedestal {
+    width: 62vw;
+    height: 48px;
+    bottom: 10%;
+  }
+
+  .bausqo-showcase-ring {
+    width: 54vw;
+    height: 24px;
+    bottom: 11%;
+    border-width: 2px;
+  }
+
+  .bausqo-showcase-beam {
+    height: 62%;
+  }
+
+  .bausqo-route-page-slide {
+    animation: bausqo-showcase-site-mobile 400ms cubic-bezier(.16,.86,.18,1) both !important;
+  }
+
+  @keyframes bausqo-showcase-site-mobile {
+    0% {
+      opacity: .94;
+      transform: translate3d(0,-8px,0) scale(.82);
+    }
+    28% {
+      opacity: 1;
+      transform: translate3d(0,-5px,0) scale(.86);
+    }
+    62% {
+      transform: translate3d(0,-2px,0) scale(.95);
+    }
+    82% {
+      transform: translate3d(0,0,0) scale(1.005);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-scene-backdrop {
+    animation-duration: 400ms !important;
+  }
+
+  .bausqo-showcase-pillar-left,
+  .bausqo-showcase-pillar-right,
+  .bausqo-showcase-frame,
+  .bausqo-showcase-pedestal,
+  .bausqo-showcase-ring,
+  .bausqo-showcase-beam {
+    animation-duration: 380ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-scene-backdrop,
+  .bausqo-showcase-pillar,
+  .bausqo-showcase-frame,
+  .bausqo-showcase-pedestal,
+  .bausqo-showcase-ring,
+  .bausqo-showcase-beam {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
