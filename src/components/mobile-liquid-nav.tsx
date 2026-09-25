@@ -45,8 +45,29 @@ export function MobileLiquidNav() {
   const routeActiveIndex = useMemo(() => routeIndex(pathname, redirect), [pathname, redirect]);
   const [activeIndex, setActiveIndex] = useState(routeActiveIndex);
   const [fromIndex, setFromIndex] = useState(routeActiveIndex);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const audioRef = useRef<AudioContext | null>(null);
   const pendingIndexRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const syncFromDocument = () => {
+      setMobileMenuOpen(document.documentElement.dataset.bausqoMobileMenu === "open");
+    };
+
+    const handleMobileMenu = (event: Event) => {
+      const detail = (event as CustomEvent<{ open?: boolean }>).detail;
+      setMobileMenuOpen(detail?.open === true);
+    };
+
+    syncFromDocument();
+    window.addEventListener("bausqo:mobile-menu", handleMobileMenu);
+
+    return () => {
+      window.removeEventListener("bausqo:mobile-menu", handleMobileMenu);
+    };
+  }, []);
 
   // Search is the most common next destination from Home, so warm it first.
   // The remaining tabs are prepared after the browser gets a quiet moment.
@@ -183,7 +204,12 @@ export function MobileLiquidNav() {
   }
 
   return (
-    <nav className="bausqo-liquid-nav lg:hidden" style={navStyle} aria-label="Mobile Hauptnavigation">
+    <nav
+      className={`bausqo-liquid-nav lg:hidden ${mobileMenuOpen ? "is-menu-suppressed" : ""}`}
+      style={navStyle}
+      aria-label="Mobile Hauptnavigation"
+      aria-hidden={mobileMenuOpen ? true : undefined}
+    >
       <span key={`${fromIndex}-${activeIndex}`} className="bausqo-liquid-light" aria-hidden="true">
         <span className="bausqo-liquid-light-core" />
       </span>
