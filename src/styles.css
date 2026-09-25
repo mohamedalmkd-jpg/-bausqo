@@ -4222,3 +4222,322 @@ a[href]:focus-visible {
   }
 }
 
+/* Reference-video choreography v28 — persistent floating website + route-specific scene. */
+
+/* Pressing any navigation link gives a tiny outgoing compression before route swap. */
+@media (pointer: coarse) {
+  body:has(a[href]:active) .bausqo-route-page-slide {
+    transform: translate3d(0,1px,0) scale(.974) !important;
+    opacity: .985 !important;
+    transition:
+      transform 78ms cubic-bezier(.2,.8,.2,1),
+      opacity 78ms linear !important;
+  }
+}
+
+/* New route appears first as the floating showcase screen, holds, then expands. */
+.bausqo-route-page-slide {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  transform-origin: 50% 44%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  animation: bausqo-reference-showcase 690ms cubic-bezier(.16,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-reference-showcase {
+  0% {
+    opacity: .9;
+    transform: translate3d(0,-2vh,0) scale(.70);
+  }
+  18% {
+    opacity: 1;
+    transform: translate3d(0,-1.5vh,0) scale(.72);
+  }
+  42% {
+    transform: translate3d(0,-1.2vh,0) scale(.74);
+  }
+  62% {
+    transform: translate3d(0,-.6vh,0) scale(.82);
+  }
+  82% {
+    transform: translate3d(0,0,0) scale(1.012);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Floating-screen frame: visible only while route is small. */
+.bausqo-route-page-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 30px;
+  box-shadow:
+    0 24px 62px rgba(15,23,42,.13),
+    0 0 0 1px color-mix(in srgb, var(--bausqo-scene-accent) 18%, rgba(148,163,184,.12)) inset;
+  opacity: 0;
+  animation: bausqo-screen-frame-fade 690ms cubic-bezier(.16,.86,.18,1) both;
+}
+
+@keyframes bausqo-screen-frame-fade {
+  0% { opacity: .96; }
+  48% { opacity: .92; }
+  72% { opacity: .34; }
+  100% { opacity: 0; }
+}
+
+/* The stage stays visible during the floating phase. */
+.bausqo-scene-backdrop {
+  animation: bausqo-reference-stage 690ms cubic-bezier(.16,.86,.18,1) both !important;
+}
+
+@keyframes bausqo-reference-stage {
+  0%, 48% { opacity: 1; }
+  70% { opacity: .82; }
+  100% { opacity: 0; }
+}
+
+/* Extra stage geometry. */
+.bausqo-showcase-symbol,
+.bausqo-showcase-wing {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.bausqo-showcase-symbol {
+  left: 50%;
+  top: 24%;
+  width: 22vmin;
+  aspect-ratio: 1;
+  transform: translate3d(-50%,-50%,0) scale(.62);
+  border: 2px solid var(--showcase-line);
+  border-radius: 50%;
+  animation: bausqo-symbol-in 560ms 40ms cubic-bezier(.16,.86,.18,1) both;
+}
+
+@keyframes bausqo-symbol-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(.38);
+  }
+  28% { opacity: .82; }
+  72% {
+    opacity: .62;
+    transform: translate3d(-50%,-50%,0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%,-50%,0) scale(1.12);
+  }
+}
+
+.bausqo-showcase-wing {
+  top: 22%;
+  width: 18%;
+  max-width: 190px;
+  height: 44%;
+  border: 1px solid rgba(255,255,255,.76);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bausqo-scene-accent) 8%, #ffffff),
+      color-mix(in srgb, var(--bausqo-scene-accent) 5%, #eef2f6)
+    );
+  animation: bausqo-wing-in 520ms cubic-bezier(.16,.86,.18,1) both;
+}
+
+.bausqo-showcase-wing-left {
+  left: 14%;
+  transform-origin: right center;
+}
+
+.bausqo-showcase-wing-right {
+  right: 14%;
+  transform-origin: left center;
+}
+
+@keyframes bausqo-wing-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(0,18px,0) scale(.9);
+  }
+  24% { opacity: .9; }
+  70% {
+    opacity: .68;
+    transform: translate3d(0,0,0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0,-4px,0) scale(1.03);
+  }
+}
+
+/* HOME — soft circular showroom. */
+.scene-home .bausqo-showcase-symbol {
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 16px color-mix(in srgb, var(--bausqo-scene-accent) 5%, transparent),
+    0 0 0 34px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
+}
+
+.scene-home .bausqo-showcase-wing {
+  border-radius: 50% 50% 18px 18px;
+}
+
+/* SEARCH — ring/portal like the aqua showcase in the reference. */
+.scene-search .bausqo-showcase-symbol {
+  border-width: 3px;
+  box-shadow:
+    0 0 0 14px color-mix(in srgb, var(--bausqo-scene-accent) 6%, transparent),
+    0 0 0 30px color-mix(in srgb, var(--bausqo-scene-accent) 3%, transparent);
+}
+
+.scene-search .bausqo-showcase-wing {
+  top: 31%;
+  height: 30%;
+  border-radius: 999px 999px 20px 20px;
+}
+
+/* CREATE — geometric gate / product reveal. */
+.scene-create .bausqo-showcase-symbol {
+  border-radius: 18%;
+  transform: translate3d(-50%,-50%,0) rotate(45deg) scale(.62);
+}
+
+.scene-create .bausqo-showcase-wing {
+  width: 12%;
+  top: 16%;
+  height: 52%;
+  border-radius: 26px;
+}
+
+/* CHAT — two message panels around the central screen. */
+.scene-chat .bausqo-showcase-symbol {
+  width: 25vmin;
+  height: 14vmin;
+  aspect-ratio: auto;
+  border-radius: 999px;
+}
+
+.scene-chat .bausqo-showcase-wing {
+  width: 22%;
+  height: 23%;
+  top: 34%;
+  border-radius: 30px;
+}
+
+/* PROFILE — portrait halo / gallery stage. */
+.scene-profile .bausqo-showcase-symbol {
+  width: 24vmin;
+  border-width: 3px;
+  box-shadow:
+    0 0 0 12px color-mix(in srgb, var(--bausqo-scene-accent) 7%, transparent),
+    0 0 0 26px color-mix(in srgb, var(--bausqo-scene-accent) 4%, transparent);
+}
+
+.scene-profile .bausqo-showcase-wing {
+  top: 19%;
+  height: 48%;
+  border-radius: 48px 48px 18px 18px;
+}
+
+/* Stage platform stays under the floating route longer, matching the video. */
+.bausqo-showcase-pedestal,
+.bausqo-showcase-ring,
+.bausqo-showcase-frame,
+.bausqo-showcase-pillar,
+.bausqo-showcase-beam,
+.bausqo-showcase-symbol,
+.bausqo-showcase-wing {
+  animation-fill-mode: both !important;
+}
+
+/* Keep all real page internals fixed relative to the floating website. */
+.bausqo-route-page-slide .bausqo-page-motion-surface,
+.bausqo-route-page-slide .bausqo-premium-page-card,
+.bausqo-route-page-slide .bausqo-premium-page-content,
+.bausqo-route-page-slide .bausqo-public-premium-card,
+.bausqo-route-page-slide .bausqo-auth-card {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Phone tuning: same staging, less travel for 120Hz-friendly motion. */
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide {
+    animation: bausqo-reference-showcase-mobile 560ms cubic-bezier(.16,.86,.18,1) both !important;
+  }
+
+  @keyframes bausqo-reference-showcase-mobile {
+    0% {
+      opacity: .94;
+      transform: translate3d(0,-8px,0) scale(.76);
+    }
+    22% {
+      opacity: 1;
+      transform: translate3d(0,-7px,0) scale(.78);
+    }
+    46% {
+      transform: translate3d(0,-5px,0) scale(.80);
+    }
+    66% {
+      transform: translate3d(0,-2px,0) scale(.88);
+    }
+    84% {
+      transform: translate3d(0,0,0) scale(1.008);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+    }
+  }
+
+  .bausqo-route-page-slide::after {
+    border-radius: 24px;
+    animation-duration: 560ms;
+    box-shadow:
+      0 12px 30px rgba(15,23,42,.09),
+      0 0 0 1px rgba(255,255,255,.64) inset;
+  }
+
+  .bausqo-scene-backdrop {
+    animation-duration: 560ms !important;
+  }
+
+  .bausqo-showcase-wing {
+    width: 14%;
+  }
+
+  .scene-chat .bausqo-showcase-wing {
+    width: 20%;
+  }
+
+  .bausqo-showcase-symbol {
+    top: 22%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-showcase-symbol,
+  .bausqo-showcase-wing {
+    display: none !important;
+  }
+
+  .bausqo-route-page-slide,
+  .bausqo-route-page-slide::after {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
