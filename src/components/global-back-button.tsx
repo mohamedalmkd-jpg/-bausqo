@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 export function GlobalBackButton() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
-  if (pathname === "/") return null;
 
   return (
     <button
@@ -16,7 +15,9 @@ export function GlobalBackButton() {
           window.history.back();
           return;
         }
-        window.location.assign("/");
+        if (pathname !== "/") {
+          window.location.assign("/");
+        }
       }}
       aria-label="Zurück"
     >
