@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   ArrowLeft,
   Bell,
@@ -102,6 +102,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { signOut, profile, user } = useAuth();
   const [plan, setPlan] = useState<MembershipPlan>("FREE");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [drawerDragX, setDrawerDragX] = useState(0);
+  const [drawerDragging, setDrawerDragging] = useState(false);
+  const drawerTouchStart = useRef<{ x: number; y: number } | null>(null);
+  const drawerAxis = useRef<"x" | "y" | null>(null);
   const accent = sectionAccent(pathname);
   const sectionName = sectionLabel(pathname);
   const sectionStyle = { "--section-accent": accent } as CSSProperties;
@@ -163,6 +167,51 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       return;
     }
     void navigate({ to: "/", replace: true });
+  }
+
+  function handleDrawerTouchStart(event: React.TouchEvent<HTMLElement>) {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    drawerTouchStart.current = { x: touch.clientX, y: touch.clientY };
+    drawerAxis.current = null;
+    setDrawerDragging(false);
+  }
+
+  function handleDrawerTouchMove(event: React.TouchEvent<HTMLElement>) {
+    const start = drawerTouchStart.current;
+    const touch = event.touches[0];
+    if (!start || !touch) return;
+
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+
+    if (!drawerAxis.current && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      drawerAxis.current = Math.abs(dx) > Math.abs(dy) * 1.15 ? "x" : "y";
+    }
+
+    if (drawerAxis.current !== "x" || dx <= 0) return;
+
+    setDrawerDragging(true);
+    setDrawerDragX(Math.min(dx, window.innerWidth * 0.92));
+  }
+
+  function handleDrawerTouchEnd() {
+    const shouldClose =
+      drawerAxis.current === "x" &&
+      drawerDragX >= Math.min(96, window.innerWidth * 0.22);
+
+    drawerTouchStart.current = null;
+    drawerAxis.current = null;
+    setDrawerDragging(false);
+
+    if (shouldClose) {
+      setMobileMenuOpen(false);
+      window.setTimeout(() => setDrawerDragX(0), 260);
+      return;
+    }
+
+    setDrawerDragX(0);
   }
 
   useEffect(() => {
@@ -307,6 +356,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               data-bausqo-mobile-menu="true"
               className="bausqo-side-card w-[94%] overflow-y-auto border-l-0 p-0 sm:max-w-md"
               side="right"
+              onTouchStart={handleDrawerTouchStart}
+              onTouchMove={handleDrawerTouchMove}
+              onTouchEnd={handleDrawerTouchEnd}
+              onTouchCancel={handleDrawerTouchEnd}
+              style={{
+                transform: drawerDragX > 0 ? `translate3d(${drawerDragX}px, 0, 0)` : undefined,
+                transition: drawerDragging ? "none" : undefined,
+              }}
             >
               <div className="bausqo-grid-dark relative overflow-hidden bg-brand-dark px-6 pb-8 pt-7 text-white">
                 <div className="bausqo-menu-orb absolute -right-16 -top-20 size-52 rounded-full bg-primary/16 blur-3xl" />
