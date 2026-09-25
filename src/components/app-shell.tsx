@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import {
+  ArrowLeft,
   Bell,
   Bookmark,
   BriefcaseBusiness,
@@ -100,6 +101,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { unreadCount } = useWorkspace();
   const { signOut, profile, user } = useAuth();
   const [plan, setPlan] = useState<MembershipPlan>("FREE");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const accent = sectionAccent(pathname);
   const sectionName = sectionLabel(pathname);
   const sectionStyle = { "--section-accent": accent } as CSSProperties;
@@ -153,6 +155,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await signOut();
     void navigate({ to: "/", replace: true });
   }
+
+  function handleBack() {
+    if (typeof window === "undefined") return;
+    if (window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+    void navigate({ to: "/", replace: true });
+  }
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    document.documentElement.dataset.bausqoMobileMenu = mobileMenuOpen ? "open" : "closed";
+
+    return () => {
+      delete document.documentElement.dataset.bausqoMobileMenu;
+    };
+  }, [mobileMenuOpen]);
 
   const navItem = ({ label, to, icon: Icon }: NavigationItem) => {
     const active = pathname === to;
@@ -267,7 +288,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           </Button>
 
-          <Sheet modal={false}>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} modal={false}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="bausqo-section-control rounded-xl bg-card lg:hidden" aria-label="Optionen öffnen">
                 <Grid3X3 className="size-4" />
@@ -313,7 +334,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </SheetClose>
               </nav>
 
-              <div className="border-t p-5">
+              <div className="grid gap-2 border-t p-5">
+                <SheetClose asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-11 w-full rounded-xl"
+                    onClick={handleBack}
+                  >
+                    <ArrowLeft className="size-4" />
+                    Zurück
+                  </Button>
+                </SheetClose>
+
                 <SheetClose asChild>
                   <Button variant="outline" className="h-11 w-full rounded-xl" onClick={() => void handleSignOut()}>
                     <LogOut className="size-4" />
