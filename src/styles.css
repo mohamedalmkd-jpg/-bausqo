@@ -4483,3 +4483,205 @@ a[href]:focus-visible {
   }
 }
 
+/* Depth tunnel v29 — one page surface. Transform + opacity only. */
+.bausqo-page,
+.bausqo-route-content,
+.bausqo-route-page-slide,
+.bausqo-route-page-slide::before,
+.bausqo-route-page-slide::after,
+.bausqo-page-motion-surface,
+.bausqo-premium-page-card,
+.bausqo-premium-page-content,
+.bausqo-public-premium-card,
+.bausqo-auth-card,
+.bausqo-scene-backdrop,
+.bausqo-showcase-pillar,
+.bausqo-showcase-frame,
+.bausqo-showcase-pedestal,
+.bausqo-showcase-ring,
+.bausqo-showcase-beam,
+.bausqo-showcase-symbol,
+.bausqo-showcase-wing,
+.bausqo-depth-cloud,
+.bausqo-depth-focus {
+  animation: none !important;
+  filter: none !important;
+  will-change: auto !important;
+}
+
+.bausqo-scene-backdrop,
+.bausqo-showcase-pillar,
+.bausqo-showcase-frame,
+.bausqo-showcase-pedestal,
+.bausqo-showcase-ring,
+.bausqo-showcase-beam,
+.bausqo-showcase-symbol,
+.bausqo-showcase-wing,
+.bausqo-depth-cloud,
+.bausqo-depth-focus,
+.bausqo-route-page-slide::before,
+.bausqo-route-page-slide::after {
+  display: none !important;
+  content: none !important;
+  box-shadow: none !important;
+}
+
+.bausqo-route-stage {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #f6f8fb;
+}
+
+.bausqo-route-content {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  transform: none !important;
+}
+
+.bausqo-route-page-slide {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  transform-origin: 50% 46%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  animation: bausqo-depth-in 440ms cubic-bezier(.2, .8, .2, 1) both !important;
+}
+
+.bausqo-depth-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 46%, color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 28%, transparent), transparent 42%);
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(.72);
+  animation: bausqo-depth-space 440ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes bausqo-depth-out {
+  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  100% { opacity: .42; transform: translate3d(0, 10px, 0) scale(.9); }
+}
+
+@keyframes bausqo-depth-in {
+  0% { opacity: .55; transform: translate3d(0, 16px, 0) scale(.86); }
+  58% { opacity: 1; transform: translate3d(0, 2px, 0) scale(.985); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes bausqo-depth-space {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.62); }
+  36% { opacity: .85; transform: translate3d(0, 0, 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1.18); }
+}
+
+@supports (view-transition-name: none) {
+  .bausqo-route-page-slide {
+    view-transition-name: bausqo-page;
+    animation: none !important;
+  }
+
+  ::view-transition-old(bausqo-page) {
+    animation: bausqo-depth-out 170ms cubic-bezier(.4, 0, 1, 1) both;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-new(bausqo-page) {
+    animation: bausqo-depth-in 320ms cubic-bezier(.16, .84, .2, 1) both;
+  }
+
+  ::view-transition-group(bausqo-page) {
+    animation-duration: 420ms;
+    animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+  }
+}
+
+@media (max-width: 1023px) {
+  .bausqo-route-page-slide {
+    animation-duration: 320ms !important;
+  }
+
+  .bausqo-depth-veil {
+    animation-duration: 300ms;
+  }
+
+  @keyframes bausqo-depth-in {
+    0% { opacity: .62; transform: translate3d(0, 10px, 0) scale(.9); }
+    62% { opacity: 1; transform: translate3d(0, 1px, 0) scale(.99); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+
+  @supports (view-transition-name: none) {
+    ::view-transition-old(bausqo-page) {
+      animation-duration: 140ms;
+    }
+
+    ::view-transition-new(bausqo-page) {
+      animation-duration: 260ms;
+    }
+  }
+}
+
+.bausqo-liquid-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(8, 14, 22, .94);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+  contain: layout paint style;
+}
+
+.bausqo-liquid-wind,
+.bausqo-liquid-light-core::before,
+.bausqo-liquid-light-core::after,
+.bausqo-liquid-tab::before {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+.bausqo-liquid-light {
+  animation: bausqo-nav-travel 280ms cubic-bezier(.2, .85, .2, 1) both !important;
+  filter: none !important;
+  will-change: transform;
+}
+
+.bausqo-liquid-light-core {
+  border: 1px solid color-mix(in srgb, var(--nav-accent) 70%, white);
+  background: color-mix(in srgb, var(--nav-accent) 16%, rgba(255, 255, 255, .04));
+  box-shadow: none;
+  filter: none;
+}
+
+.bausqo-liquid-tab.is-active .bausqo-liquid-icon,
+.bausqo-liquid-tab.is-active .bausqo-liquid-label {
+  filter: none;
+  text-shadow: none;
+  transition: transform 160ms cubic-bezier(.2, .8, .2, 1), color 160ms linear;
+}
+
+@keyframes bausqo-nav-travel {
+  0% { transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1); }
+  45% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch, 1.2)); }
+  100% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bausqo-route-page-slide,
+  .bausqo-depth-veil,
+  .bausqo-liquid-light,
+  ::view-transition-old(bausqo-page),
+  ::view-transition-new(bausqo-page) {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .bausqo-depth-veil {
+    display: none !important;
+  }
+}
+
