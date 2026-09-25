@@ -3089,3 +3089,33 @@ a[href]:focus-visible {
     opacity: 1 !important;
   }
 }
+
+
+/* Hide the persistent bottom navigation while the mobile options drawer is mounted.
+   Radix keeps the drawer mounted through its exit animation, so the nav only returns
+   after the drawer is fully gone and can never cover the Abmelden action. */
+@media (max-width: 1023px) {
+  .bausqo-liquid-nav {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity .14s ease,
+      transform .18s cubic-bezier(.2,.8,.2,1),
+      background-color .24s linear,
+      border-color .24s linear;
+  }
+
+  body:has([data-bausqo-mobile-menu="true"]) .bausqo-liquid-nav {
+    opacity: 0;
+    transform: translate3d(0, calc(100% + max(24px, env(safe-area-inset-bottom))), 0);
+    visibility: hidden;
+    pointer-events: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 1023px) {
+  .bausqo-liquid-nav {
+    transition-duration: .001ms !important;
+  }
+}
