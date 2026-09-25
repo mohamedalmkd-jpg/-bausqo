@@ -2991,22 +2991,21 @@ a[href]:focus-visible {
   }
 }
 
-/* One page transition. Transform, translate3d, scale, and opacity only. */
+/* Route content swaps in place. No full-page snapshot, scale, or overlay. */
 .bausqo-route-stage {
   position: relative;
   min-height: 100dvh;
-  overflow: hidden;
   background: #f6f8fb;
-  isolation: isolate;
 }
 
 .bausqo-route-page-slide {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   min-height: 100dvh;
-  transform-origin: 50% 42%;
-  backface-visibility: hidden;
-  animation: bausqo-depth-in 420ms cubic-bezier(.2, .86, .18, 1) both;
+  animation: none;
+  transform: none;
+  opacity: 1;
+  view-transition-name: none;
 }
 
 .bausqo-route-page-slide .bausqo-page,
@@ -3022,55 +3021,19 @@ a[href]:focus-visible {
 }
 
 .bausqo-depth-veil {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--bausqo-scene-accent, #49e58b) 22%, transparent), transparent 46%);
-  opacity: 0;
-  transform: translate3d(0, 0, 0) scale(.8);
-  animation: bausqo-depth-space 380ms cubic-bezier(.2, .8, .2, 1) both;
+  display: none;
 }
 
-@keyframes bausqo-depth-out {
-  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-  to { opacity: .34; transform: translate3d(0, 8px, 0) scale(.9); }
-}
-
-@keyframes bausqo-depth-in {
-  0% { opacity: .72; transform: translate3d(0, 0, 0) scale(.9); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes bausqo-depth-space {
-  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.72); }
-  42% { opacity: .7; transform: translate3d(0, 0, 0) scale(1); }
-  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1.12); }
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-group(root) {
+  animation: none;
 }
 
 @keyframes bausqo-nav-travel {
   0% { transform: translate3d(var(--nav-from-x), 0, 0) scaleX(1); }
   46% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(var(--nav-stretch, 1.16)); }
   100% { transform: translate3d(var(--nav-to-x), 0, 0) scaleX(1); }
-}
-
-@supports (view-transition-name: none) {
-  .bausqo-route-page-slide {
-    view-transition-name: bausqo-page;
-    animation: none;
-  }
-
-  ::view-transition-old(bausqo-page) {
-    animation: bausqo-depth-out 150ms cubic-bezier(.4, 0, 1, 1) both;
-  }
-
-  ::view-transition-new(bausqo-page) {
-    animation: bausqo-depth-in 280ms cubic-bezier(.16, .84, .2, 1) both;
-  }
-
-  ::view-transition-group(bausqo-page) {
-    animation-duration: 400ms;
-  }
 }
 
 .bausqo-liquid-nav {
@@ -3084,9 +3047,9 @@ a[href]:focus-visible {
 }
 
 .bausqo-liquid-light {
-  animation: bausqo-nav-travel 260ms cubic-bezier(.2, .85, .2, 1) both;
+  animation: bausqo-nav-travel 180ms cubic-bezier(.2, .85, .2, 1) both;
   filter: none;
-  will-change: transform;
+  will-change: auto;
   transform-origin: var(--nav-origin, center);
 }
 
@@ -3118,42 +3081,11 @@ a[href]:focus-visible {
   transition: color 140ms linear, transform 140ms cubic-bezier(.2, .8, .2, 1);
 }
 
-@media (max-width: 1023px) {
-  .bausqo-route-page-slide {
-    animation-duration: 300ms;
-  }
-
-  .bausqo-depth-veil {
-    animation-duration: 280ms;
-  }
-
-  @keyframes bausqo-depth-in {
-    0% { opacity: .78; transform: translate3d(0, 0, 0) scale(.93); }
-    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-  }
-
-  @keyframes bausqo-depth-out {
-    from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-    to { opacity: .4; transform: translate3d(0, 4px, 0) scale(.93); }
-  }
-
-  @supports (view-transition-name: none) {
-    ::view-transition-old(bausqo-page) { animation-duration: 120ms; }
-    ::view-transition-new(bausqo-page) { animation-duration: 220ms; }
-    ::view-transition-group(bausqo-page) { animation-duration: 320ms; }
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .bausqo-route-page-slide,
-  .bausqo-depth-veil,
-  .bausqo-liquid-light,
-  ::view-transition-old(bausqo-page),
-  ::view-transition-new(bausqo-page) {
+  .bausqo-liquid-light {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;
   }
-
-  .bausqo-depth-veil { display: none !important; }
 }
