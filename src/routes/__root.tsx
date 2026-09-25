@@ -128,10 +128,19 @@ function sceneAccent(pathname: string) {
   return "#49e58b";
 }
 
+function sceneKind(pathname: string) {
+  if (pathname.startsWith("/marketplace")) return "search";
+  if (pathname.startsWith("/auftrag/erstellen")) return "create";
+  if (pathname.startsWith("/nachrichten")) return "chat";
+  if (pathname.startsWith("/profil")) return "profile";
+  return "home";
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const sceneColor = sceneAccent(pathname);
+  const scene = sceneKind(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -139,10 +148,15 @@ function RootComponent() {
       <AuthProvider>
         <WorkspaceProvider>
           <div
-            className="bausqo-route-stage"
+            className={`bausqo-route-stage scene-${scene}`}
             style={{ "--bausqo-scene-accent": sceneColor } as React.CSSProperties}
           >
             <div key={`scene-${pathname}`} className="bausqo-scene-backdrop" aria-hidden="true">
+              <span className="bausqo-depth-cloud bausqo-depth-cloud-1" />
+              <span className="bausqo-depth-cloud bausqo-depth-cloud-2" />
+              <span className="bausqo-depth-cloud bausqo-depth-cloud-3" />
+              <span className="bausqo-depth-cloud bausqo-depth-cloud-4" />
+              <span className="bausqo-depth-focus" />
               <span className="bausqo-scene-orb bausqo-scene-orb-a" />
               <span className="bausqo-scene-orb bausqo-scene-orb-b" />
               <span className="bausqo-scene-floor" />
