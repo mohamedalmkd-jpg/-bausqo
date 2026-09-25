@@ -3627,6 +3627,9 @@ a[href]:focus-visible {
   z-index: 2;
   min-height: 100dvh;
   overflow-x: clip;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto;
 }
 
 /* The real website moves as one surface. */
@@ -3771,14 +3774,7 @@ a[href]:focus-visible {
 }
 
 /* Keep inner UI still: only the complete site surface moves. */
-.bausqo-route-page-slide .bausqo-page-motion-surface,
-.bausqo-route-page-slide .bausqo-premium-page-card,
-.bausqo-route-page-slide .bausqo-premium-page-content,
-.bausqo-route-page-slide .bausqo-public-premium-card,
-.bausqo-route-page-slide .bausqo-auth-card {
-  animation: none !important;
-  transform: none !important;
-}
+
 
 /* Mobile / iPhone: shorter travel for a high-refresh feel. */
 @media (max-width: 1023px) {
@@ -4053,14 +4049,7 @@ a[href]:focus-visible {
 }
 
 /* Keep every inner card attached to the screen: no nested entrance animation. */
-.bausqo-route-page-slide .bausqo-page-motion-surface,
-.bausqo-route-page-slide .bausqo-premium-page-card,
-.bausqo-route-page-slide .bausqo-premium-page-content,
-.bausqo-route-page-slide .bausqo-public-premium-card,
-.bausqo-route-page-slide .bausqo-auth-card {
-  animation: none !important;
-  transform: none !important;
-}
+
 
 /* Disable v26 clouds/focus; the showroom is now the only scene. */
 .bausqo-depth-cloud,
